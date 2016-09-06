@@ -1,5 +1,5 @@
 <?php
-namespace EDIGen;
+namespace EDI\Generator;
 
 class Vermas extends Message
 {

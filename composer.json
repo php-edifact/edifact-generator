@@ -3,6 +3,7 @@
     "description": "Tools in PHP for UN/EDIFACT",
     "keywords": ["EDI", "EDIFACT", "message", "generator"],
     "homepage": "https://github.com/PHPEdifact/edifact-generator",
+    "license": "LGPL-3.0+",
     "autoload": {
         "psr-4": {
             "EDI\\Generator\\": "src/Generator/"

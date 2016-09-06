@@ -1,5 +1,5 @@
 <?php
-namespace EDIGen\Vermas;
+namespace EDI\Generator\Vermas;
 
 class Container
 {
@@ -81,7 +81,7 @@ class Container
         if ($date === null) {
             $date = date('YmdHi');
         }
-        $this->weighDate = \EDIGen\Message::dtmSegment(798, $date);
+        $this->weighDate = \EDI\Generator\Message::dtmSegment(798, $date);
         return $this;
     }
  
