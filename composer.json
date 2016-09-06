@@ -1,0 +1,11 @@
+{
+    "name": "PHPEdifact/edifact-generator",
+    "description": "Tools in PHP for UN/EDIFACT",
+    "keywords": ["EDI", "EDIFACT", "message", "generator"],
+    "homepage": "https://github.com/PHPEdifact/edifact-generator",
+    "autoload": {
+        "psr-4": {
+            "EDI\\Generator\\": "src/Generator/"
+        }
+    }
+}
