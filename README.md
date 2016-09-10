@@ -21,7 +21,7 @@ $c = (new EDI\Generator\Vermas\Container())
     ->setWeighDate()
     ->setWeighMethod('SM1', 'DEFAULT')
     ->setShipper('MY COMPANY')
-    ->setSpcContact('RP', 'JOHN DOE', 'JOHN@EXAMPLE.COM', 'EM');
+    ->setSpcContact('RP', 'JOHN DOE', 'EM', 'JOHN@EXAMPLE.COM');
 
 $v = $v->addContainer($c);
 
