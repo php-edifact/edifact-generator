@@ -59,7 +59,7 @@ class Vermas extends Message
     public function compose($msgStatus = 5)
     {
         $this->messageContent = [
-            ['BGM', 'XXX', $this->messageID, $msgStatus]
+            ['BGM', '749', $this->messageID, $msgStatus]
         ];
 
         /* message creation date and time */
