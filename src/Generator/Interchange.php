@@ -28,7 +28,7 @@ class Interchange
         $this->sender=$sender;
         $this->receiver=$receiver;
         if ($date === null) {
-            $this->date = date('Ymd');
+            $this->date = date('ymd');
         } else {
             $this->date = $date;
         }

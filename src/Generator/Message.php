@@ -9,13 +9,18 @@ class Message
     protected $messageType;
     protected $composed;
 
-    public function __construct($identifier, $version, $release, $controllingAgency, $messageID, $association = null)
+    public function __construct($identifier, $version, $release, $controllingAgency, $messageID = null, $association = null)
     {
         $this->messageType = [$identifier, $version, $release, $controllingAgency];
         if ($association !== null) {
             $this->messageType[] = $association;
         }
-        $this->messageID = $messageID;
+
+        if ($messageID === null) {
+            $this->messageID = 'M'.uniqid();
+        } else {
+            $this->messageID = $messageID;
+        }
     }
 
     public function compose($msgStatus = null)
