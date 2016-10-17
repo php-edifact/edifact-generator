@@ -5,8 +5,8 @@ class Vermas extends Message
 {
     private $dtmSend;
 
-    private $messageSender;
-    private $messageSenderInformation;
+    private $messageSender = '';
+    private $messageSenderInformation = '';
 
     private $containers;
 
