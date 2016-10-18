@@ -84,7 +84,7 @@ class Container
         $this->weighDate = \EDI\Generator\Message::dtmSegment(798, $date);
         return $this;
     }
- 
+
     /*
      * $spcShipper = SOLAS verified gross mass responsible party
      */
@@ -100,11 +100,13 @@ class Container
      * $comData: free text
      * $comType: DE 3155
      */
-    public function setSpcContact($cntType, $cntTitle, $comType, $comData)
+    public function setSpcContact($cntType, $cntTitle, $comType = null, $comData = null)
     {
         $this->spcContact = [];
         $this->spcContact[] = ['CTA', $cntType, ['', $cntTitle]];
-        $this->spcContact[] = ['COM', [$comData, $comType]];
+        if ($comType !== null) {
+            $this->spcContact[] = ['COM', [$comData, $comType]];
+        }
         return $this;
     }
 
@@ -135,7 +137,10 @@ class Container
         }
         if ($this->spcContact !== null) {
             $composed[] = $this->spcContact[0];
-            $composed[] = $this->spcContact[1];
+            if (isset($this->spcContact[1])) {
+                $composed[] = $this->spcContact[1];
+            }
+
         }
         return $composed;
     }
