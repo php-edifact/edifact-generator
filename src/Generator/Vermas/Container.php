@@ -21,15 +21,18 @@ class Container
     /*
      * $size = 22G1, 42G1, etc
      */
-    public function setContainer($number, $size)
+    public function setContainer($number, $size, $fixedFields = false)
     {
         $this->cntr = ['EQD', 'CN', $number, [$size, '6346', '306']]; // 306 = smdg, 6436 = ISO spec
+        if ($fixedFields) {
+            $this->cntr = ['EQD', 'CN', $number, [$size, '6346', '306'], '', '', 5];
+        }
         return $this;
     }
 
     /*
      *
-    */
+     */
     public function setBooking($booking, $sequence = null)
     {
         $bkg = [];
@@ -90,7 +93,7 @@ class Container
      */
     public function setShipper($spcShipper)
     {
-        $this->shipper = ['NAD', 'SPC', '', $spcShipper];
+        $this->shipper = ['NAD', 'SPC', '', '', $spcShipper];
         return $this;
     }
 
