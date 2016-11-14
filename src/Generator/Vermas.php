@@ -5,6 +5,7 @@ class Vermas extends Message
 {
     private $dtmSend;
 
+    private $messageLine = '';
     private $messageSender = '';
     private $messageSenderInformation = '';
 
@@ -28,6 +29,16 @@ class Vermas extends Message
         $this->dtmSend = $this->dtmSegment(137, $dtm);
         return $this;
     }
+
+    /*
+     * $line: Master Liner Codes List
+     */
+    public function setCarrier($line)
+    {
+        $this->messageLine = ['NAD', 'CA', [$line, 'LINES', 306]];
+        return $this;
+    }
+
 
     /*
      * $cntFunctionCode: DE 3139
@@ -64,6 +75,11 @@ class Vermas extends Message
 
         /* message creation date and time */
         $this->messageContent[] = $this->dtmSend;
+
+        /* carrier line */
+        if ($this->messageLine !== '') {
+            $this->messageContent[] = $this->messageLine;
+        }
 
         /* sender information */
         if ($this->messageSender !== '') {
