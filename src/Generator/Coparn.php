@@ -29,7 +29,7 @@ class Coparn extends Message
     {
         parent::__construct($identifier, $version, $release, $controllingAgency, $messageID, $association);
 
-        $this->dtmSend = $this->dtmSegment(137, date('YmdHi'));
+        $this->dtmSend = self::dtmSegment(137, date('YmdHi'));
 
         $this->containers = [];
     }
@@ -50,7 +50,7 @@ class Coparn extends Message
      */
     public function setDTMMessageSendingTime($dtm)
     {
-        $this->dtmSend = $this->dtmSegment(137, $dtm);
+        $this->dtmSend = self::dtmSegment(137, $dtm);
         return $this;
     }
 
@@ -58,10 +58,10 @@ class Coparn extends Message
      * Date of the message submission
      *
      */
-    public function setBooking($booking, $seq)
+    public function setBooking($booking, $sequence)
     {
-        $this->booking = ['RFF', 'BN', $booking];
-        $this->bookingSequence = ['RFF', 'SQ', $seq];
+        $this->booking = self::rffSegment('BN', $booking);
+        $this->bookingSequence = self::rffSegment('SQ', $sequence);
         return $this;
     }
 
@@ -71,7 +71,7 @@ class Coparn extends Message
      */
     public function setRFFOrder($atx)
     {
-        $this->rffAcceptOrder = ['RFF', 'ATX', $atx];
+        $this->rffAcceptOrder = self::rffSegment('ATX', $atx);
         return $this;
     }
 
@@ -82,7 +82,7 @@ class Coparn extends Message
     public function setVessel($extVoyage, $line, $vslName, $callsign)
     {
         $this->vessel = ['TDT', 20, $extVoyage, '', '', [$line, 172, 20], '', '', [$callsign, 146, 11, $vslName]];
-        $this->callsign = ['RFF', 'VM', $callsign];
+        $this->callsign = self::rffSegment('VM', $callsign);
         return $this;
     }
 
@@ -92,7 +92,7 @@ class Coparn extends Message
      */
     public function setETA($dtm)
     {
-        $this->eta = $this->dtmSegment(132, $dtm);
+        $this->eta = self::dtmSegment(132, $dtm);
         return $this;
     }
 
@@ -102,7 +102,7 @@ class Coparn extends Message
      */
     public function setETD($dtm)
     {
-        $this->etd = $this->dtmSegment(133, $dtm);
+        $this->etd = self::dtmSegment(133, $dtm);
         return $this;
     }
 
@@ -162,7 +162,7 @@ class Coparn extends Message
     public function setVGM($weight, $weightTime)
     {
         $this->weight = ['MEA', 'AAE', 'VGM', ['KGM', $weight]];
-        $this->weightTime = $this->dtmSegment(798, $weightTime);
+        $this->weightTime = self::dtmSegment(798, $weightTime);
         return $this;
     }
 
@@ -219,10 +219,10 @@ class Coparn extends Message
         return $this;
     }
 
-    public function compose($msgStatus = 5)
+    public function compose($msgStatus = 5, $documentCode = 126)
     {
         $this->messageContent = [
-            ['BGM', '126', $this->messageID, $msgStatus, 'AB']
+            ['BGM', $documentCode, $this->messageID, $msgStatus, 'AB']
         ];
 
         $this->messageContent[] = $this->dtmSend;

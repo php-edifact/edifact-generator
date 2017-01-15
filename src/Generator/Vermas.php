@@ -15,7 +15,7 @@ class Vermas extends Message
     {
         parent::__construct($identifier, $version, $release, $controllingAgency, $messageID, $association);
 
-        $this->dtmSend = $this->dtmSegment(137, date('YmdHi'));
+        $this->dtmSend = self::dtmSegment(137, date('YmdHi'));
 
         $this->containers = [];
     }
@@ -26,7 +26,7 @@ class Vermas extends Message
      */
     public function setDTMMessageSendingTime($dtm)
     {
-        $this->dtmSend = $this->dtmSegment(137, $dtm);
+        $this->dtmSend = self::dtmSegment(137, $dtm);
         return $this;
     }
 
@@ -67,10 +67,10 @@ class Vermas extends Message
         return $this;
     }
 
-    public function compose($msgStatus = 5)
+    public function compose($msgStatus = 5, $documentCode = 749)
     {
         $this->messageContent = [
-            ['BGM', '749', $this->messageID, $msgStatus]
+            ['BGM', $documentCode, $this->messageID, $msgStatus]
         ];
 
         /* message creation date and time */

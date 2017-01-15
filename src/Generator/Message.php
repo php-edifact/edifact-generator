@@ -28,7 +28,6 @@ class Message
         $temp=[];
         $temp[]=['UNH', $this->messageID, $this->messageType];
 
-        //$temp=array_merge($temp, $this->messageContent);
         foreach ($this->messageContent as $i) {
             $temp[] = $i;
         }
@@ -49,8 +48,18 @@ class Message
      * $type = 7 (actual date time), 132 (estimated date time), 137 (message date time), 798 (weight date time)
      * $format = 203 (CCYYMMDDHHII)
      */
-    static function dtmSegment($type, $dtmString, $format = 203)
+    public static function dtmSegment($type, $dtmString, $format = 203)
     {
         return ['DTM', [$type, $dtmString, $format]];
+    }
+
+    /*
+     * RFF segment
+     * $functionCode = DE 1153
+     * $identifier = max 35 alphanumeric chars
+     */
+    public static function rffSegment($functionCode, $identifier)
+    {
+        return ['RFF', $functionCode, $identifier];
     }
 }

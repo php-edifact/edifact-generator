@@ -36,9 +36,9 @@ class Container
     public function setBooking($booking, $sequence = null)
     {
         $bkg = [];
-        $bkg[]= ['RFF', ['BN', $booking]]; // RFF codes DE 1153
+        $bkg[]= \EDI\Generator\Message::rffSegment('BN', $booking);
         if ($sequence !== null) {
-            $bkg[]= ['RFF', ['SQ', $sequence]];
+            $bkg[]= \EDI\Generator\Message::rffSegment('SQ', $sequence);
         }
         $this->bkg = $bkg;
         return $this;

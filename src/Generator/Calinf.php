@@ -15,7 +15,7 @@ class Calinf extends Message
     {
         parent::__construct($identifier, $version, $release, $controllingAgency, $messageID, $association);
 
-        $this->dtmSend = $this->dtmSegment(137, date('YmdHi'));
+        $this->dtmSend = self::dtmSegment(137, date('YmdHi'));
 
         $this->containers = [];
     }
@@ -26,7 +26,7 @@ class Calinf extends Message
      */
     public function setDTMMessageSendingTime($dtm)
     {
-        $this->dtmSend = $this->dtmSegment(137, $dtm);
+        $this->dtmSend = self::dtmSegment(137, $dtm);
         return $this;
     }
 
@@ -57,7 +57,7 @@ class Calinf extends Message
     public function setVessel($extVoyage, $line, $imoNumber, $vslName, $callsign)
     {
         $this->vessel = ['TDT', 20, $extVoyage, '', '', [$line, 172, 20], '', '', [$imoNumber, 146, 54, $vslName]];
-        $this->callsign = ['RFF', 'VM', $callsign];
+        $this->callsign = self::rffSegment('VM', $callsign);
         return $this;
     }
 
@@ -67,7 +67,7 @@ class Calinf extends Message
      */
     public function setEta($dtm)
     {
-        $this->eta = $this->dtmSegment(132, $dtm);
+        $this->eta = self::dtmSegment(132, $dtm);
         return $this;
     }
 
@@ -77,14 +77,14 @@ class Calinf extends Message
      */
     public function setEtd($dtm)
     {
-        $this->etd = $this->dtmSegment(133, $dtm);
+        $this->etd = self::dtmSegment(133, $dtm);
         return $this;
     }
 
-    public function compose($msgStatus = 5)
+    public function compose($msgStatus = 5, $documentCode = 96)
     {
         $this->messageContent = [
-            ['BGM', '96', $this->messageID, $msgStatus]
+            ['BGM', $documentCode, $this->messageID, $msgStatus]
         ];
 
         $this->messageContent[] = $this->dtmSend;

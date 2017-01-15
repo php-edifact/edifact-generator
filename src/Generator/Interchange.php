@@ -57,9 +57,11 @@ class Interchange
         $temp = [];
         $temp[] = ['UNB', ['UNOA','2'], $this->sender, $this->receiver, [$this->date, $this->time], $this->interchangeCode];
         foreach ($this->messages as $msg) {
-            $temp = array_merge($temp, $msg->getComposed());
+            foreach ($msg->getComposed() as $i) {
+                $temp[] = $i;
+            }
         }
-        $temp[] = ['UNZ',count($this->messages),$this->interchangeCode];
+        $temp[] = ['UNZ', count($this->messages), $this->interchangeCode];
         $this->composed = $temp;
 
         return $this;
