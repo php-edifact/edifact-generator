@@ -60,6 +60,6 @@ class Message
      */
     public static function rffSegment($functionCode, $identifier)
     {
-        return ['RFF', $functionCode, $identifier];
+        return ['RFF', [$functionCode, $identifier]];
     }
 }
