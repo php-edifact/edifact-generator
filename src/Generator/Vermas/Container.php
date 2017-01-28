@@ -19,13 +19,13 @@ class Container
     }
 
     /*
-     * $size = 22G1, 42G1, etc
+     * $size = 22G1, 42G1, etc; 306 = smdg, 6436 = ISO spec
      */
     public function setContainer($number, $size, $fixedFields = false)
     {
-        $this->cntr = ['EQD', 'CN', $number, [$size, '6346', '306']]; // 306 = smdg, 6436 = ISO spec
+        $this->cntr = \EDI\Generator\Message::eqdSegment('CN', $number, [$size, '6346', '306']);
         if ($fixedFields) {
-            $this->cntr = ['EQD', 'CN', $number, [$size, '6346', '306'], '', '', 5];
+            $this->cntr = \EDI\Generator\Message::eqdSegment('CN', $number, [$size, '6346', '306'], '', '', 5);
         }
         return $this;
     }

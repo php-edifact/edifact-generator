@@ -62,4 +62,49 @@ class Message
     {
         return ['RFF', [$functionCode, $identifier]];
     }
+
+    /*
+     * LOC segment
+     * $qualifier = DE 3227
+     * $firstLoc = preferred [locode, 139, 6]
+     * $secondaryLoc = preferred [locode, 139, 6] (if needed)
+     */
+    public static function locSegment($qualifier, $firstLoc, $secondaryLoc = null)
+    {
+        $loc = ['LOC', $qualifier, $firstLoc];
+        if ($secondaryLoc !== null) {
+            $loc[] = $secondaryLoc;
+        }
+        return $loc;
+    }
+
+    /*
+     * EQD segment
+     * $eqpType = DE 8053 (for a container CN)
+     * $eqpIdentification = for a container [A-Z]{3}U\d{7}
+     * $dimension = [XXXX, 102, 5]
+     * $supplier = DE 8077, but usually empty
+     * $statusCode = DE 8249
+     * $fullEmptyIndicatorCode = DE 8169
+     */
+    public static function eqdSegment($eqpType, $eqpIdentification, $dimension, $supplier, $statusCode, $fullEmptyIndicatorCode)
+    {
+        return ['EQD', $eqpType, $eqpIdentification, $dimension, $supplier, $statusCode, $fullEmptyIndicatorCode];
+    }
+
+    /*
+     * TDT segment
+     * $stageQualifier = DE 8051
+     * $journeyIdentifier = max 17 alphanumeric chars
+     * $modeOfTransport = DE 8067 (not used)
+     * $transportMeans = DE 8179 (not used)
+     * $carrier
+     * $transitDirection = DE 8101 (not used)
+     * $$excessTransportation = DE 8457 (not used)
+     * $transportationIdentification
+     */
+    public static function tdtSegment($stageQualifier, $journeyIdentifier, $modeOfTransport, $transportMeans, $carrier, $transitDirection, $excessTransportation, $transportationIdentification)
+    {
+        return ['TDT', $stageQualifier, $journeyIdentifier, $modeOfTransport, $transportMeans, $carrier, $transitDirection, $excessTransportation, $transportationIdentification];
+    }
 }

@@ -81,7 +81,7 @@ class Coparn extends Message
      */
     public function setVessel($extVoyage, $line, $vslName, $callsign)
     {
-        $this->vessel = ['TDT', 20, $extVoyage, '', '', [$line, 172, 20], '', '', [$callsign, 146, 11, $vslName]];
+        $this->vessel = self::tdtSegment(20, $extVoyage, '', '', [$line, 172, 20], '', '', [$callsign, 146, 11, $vslName]);
         $this->callsign = self::rffSegment('VM', $callsign);
         return $this;
     }
@@ -112,7 +112,7 @@ class Coparn extends Message
      */
     public function setPOL($loc)
     {
-        $this->pol = ['LOC', 9, [$loc, 139, 6]];
+        $this->pol = self::locSegment(9, [$loc, 139, 6]);
         return $this;
     }
 
@@ -122,7 +122,7 @@ class Coparn extends Message
      */
     public function setPOD($loc)
     {
-        $this->pod = ['LOC', 11, [$loc, 139, 6]];
+        $this->pod = self::locSegment(11, [$loc, 139, 6]);
         return $this;
     }
 
@@ -132,7 +132,7 @@ class Coparn extends Message
      */
     public function setFND($loc)
     {
-        $this->fnd = ['LOC', 7, [$loc, 139, 6]];
+        $this->fnd = self::locSegment(7, [$loc, 139, 6]);
         return $this;
     }
 
@@ -141,7 +141,7 @@ class Coparn extends Message
      */
     public function setContainer($number, $size)
     {
-        $this->cntr = ['EQD', 'CN', $number, [$size, '102', '5'], '', 2, 5];
+        $this->cntr = self::eqdSegment('CN', $number, [$size, '102', '5'], '', 2, 5);
         return $this;
     }
 
