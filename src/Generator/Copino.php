@@ -87,7 +87,7 @@ class Copino extends Message
      */
     public function setPort($locode, $terminal)
     {
-        $this->port = self::locSegment(7, [$locode, 139, 6], [$terminal, 72, 306]);
+        $this->port = self::locSegment(88, [$locode, 139, 6], [$terminal, 72, 306]);
         return $this;
     }
 

@@ -48,3 +48,57 @@ $p = $p->addMessage($copino)->getComposed();
 
 echo (new EDI\Encoder($p, false))->get();
 ```
+
+==COPARN==
+One container per message. This example shows a full acceptance order sent to the terminal (documentType = 126).
+
+```php
+$inc = (new EDI\Generator\Interchange('ME', 'YOU'));
+$v = (new EDI\Generator\Coparn('COPARN', 'D', '00B', 'UN', null, 'SMDG20'));
+
+$v->setBooking('400123456', '0001')
+  ->setRFFOrder('TEMPORDER');
+$v->setVessel('0002W', 'COS', 'NOE VESSEL', 'XNOE');
+$v->setETA('201701210000')
+    ->setETD('201701210000')
+    ->setPOL('ITGOA')->setPOD('HKHKG')->setFND('HKHKG')->setCarrier('COS');
+
+$v->setContainer('CBHU1234567', '22G1');
+
+$v->setVGM('11495.14', '201701210000');
+$v->setTemperature('14.3');
+$v->setDangerous(3, 1366);
+$v->setOverDimensions(0, 0, 0, 0, 7.5);
+
+$v->setCargoCategory('GENERAL CARGO');
+$v = $v->compose(9);
+$inc = $inc->addMessage($v)->getComposed();
+
+$incText = (new EDI\Encoder($inc, false))->get();
+```
+
+==CODECO==
+Multiple containers per message. Each message can be for gate in or for gate out.
+
+```php
+$inc = (new EDI\Generator\Interchange('ME', 'YOU'));
+$v = (new EDI\Generator\Codeco('CODECO', 'D', '95B', 'UN', null));
+
+$v->setSenderAndReceiver('ITPIALOMA', 'COSCOS');
+$v->setCarrier('COS');
+
+$c = (new EDI\Generator\Codeco\Container());
+$c->setContainer('CBHU1234567', '22G1', 2, 5);
+$c->setBooking('4006531400');
+$c->setEffectiveDate('201701020800');
+$c->setSeal('1234567', 'CA');
+$c->setModeOfTransport(3, 31);
+$c->setWeight('G', 15400);
+
+$v = $v->addContainer($c);
+
+$v = $v->compose(9);
+$inc = $inc->addMessage($v)->getComposed();
+
+$incText = (new EDI\Encoder($inc, false))->get();
+```

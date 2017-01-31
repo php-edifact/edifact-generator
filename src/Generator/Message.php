@@ -107,4 +107,9 @@ class Message
     {
         return ['TDT', $stageQualifier, $journeyIdentifier, $modeOfTransport, $transportMeans, $carrier, $transitDirection, $excessTransportation, $transportationIdentification];
     }
+
+    public static function tdtShortSegment($stageQualifier, $journeyIdentifier, $modeOfTransport, $transportMeans)
+    {
+        return ['TDT', $stageQualifier, $journeyIdentifier, $modeOfTransport, $transportMeans];
+    }
 }
