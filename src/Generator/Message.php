@@ -87,9 +87,19 @@ class Message
      * $statusCode = DE 8249
      * $fullEmptyIndicatorCode = DE 8169
      */
-    public static function eqdSegment($eqpType, $eqpIdentification, $dimension, $supplier, $statusCode, $fullEmptyIndicatorCode)
+    public static function eqdSegment($eqpType, $eqpIdentification, $dimension, $supplier = null, $statusCode = null, $fullEmptyIndicatorCode = null)
     {
-        return ['EQD', $eqpType, $eqpIdentification, $dimension, $supplier, $statusCode, $fullEmptyIndicatorCode];
+        $eqd = ['EQD', $eqpType, $eqpIdentification, $dimension];
+        if ($supplier !== null) {
+            $eqd[] = $supplier;
+        }
+        if ($statusCode !== null) {
+            $eqd[] = $statusCode;
+        }
+        if ($fullEmptyIndicatorCode !== null) {
+            $eqd[] = $fullEmptyIndicatorCode;
+        }
+        return $eqd;
     }
 
     /*
