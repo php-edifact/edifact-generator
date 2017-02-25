@@ -84,7 +84,7 @@ class Container
      */
     public function setLocation($locode)
     {
-        $this->destination = self::locSegment(165, [$locode, 139, 6]);
+        $this->destination = \EDI\Generator\Message::locSegment(165, [$locode, 139, 6]);
         return $this;
     }
 

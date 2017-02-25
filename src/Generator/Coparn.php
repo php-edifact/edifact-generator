@@ -258,10 +258,10 @@ class Coparn extends Message
         if ($this->temperature !== null) {
             $this->messageContent[] = $this->temperature;
         }
+        $this->messageContent[] = $this->cargo;
         if ($this->dangerous !== null) {
             $this->messageContent[] = $this->dangerous;
         }
-        $this->messageContent[] = $this->cargo;
         $this->messageContent[] = ['TDT', 1, '', 3];
         $this->messageContent[] = ['CNT', [16, 1]];
         parent::compose();

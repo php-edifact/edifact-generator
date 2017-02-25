@@ -102,3 +102,35 @@ $inc = $inc->addMessage($v)->getComposed();
 
 $incText = (new EDI\Encoder($inc, false))->get();
 ```
+
+==COPRAR==
+Multiple containers per message. Load or discharge order
+
+```php
+$p = (new EDI\Generator\Interchange('ME', 'YOU'));
+
+$v = (new EDI\Generator\Coprar('MID12345'));
+$v->setVessel('0002W', 'COS', 'NOE VESSEL', 'XNOE');
+$v->setPort(9, 'ITGOA');
+$v->setETA('201701210000')
+    ->setETD('201701210000');
+$v->setCarrier('COS');
+
+$c= (new EDI\Generator\Coprar\Container());
+$c->setContainer('CBHU1234567', '22G1', 2, 5);
+$c->setBooking('4006531400');
+$c->setPOD('HKHKG')->setFND('HKHKG');
+
+$c->setVGM('11495.14', '201701210000');
+$c->setTemperature('14.3');
+$c->setDangerous(3, 1366);
+$c->setOverDimensions(0, 0, 0, 0, 7.5);
+
+$c->setCargoCategory('GENERAL CARGO');
+
+$v = $v->addContainer($c);
+
+$v = $v->compose(5, 45);
+
+$p = $p->addMessage($v)->getComposed();
+```
