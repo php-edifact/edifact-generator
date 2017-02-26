@@ -25,7 +25,7 @@ class Coparn extends Message
     private $temperature;
     private $dimensions;
 
-    public function __construct($identifier, $version, $release, $controllingAgency, $messageID, $association = null)
+    public function __construct($messageID = null, $identifier = 'COPARN', $version = 'D', $release = '00B', $controllingAgency = 'UN', $association = 'SMDG20')
     {
         parent::__construct($identifier, $version, $release, $controllingAgency, $messageID, $association);
 

@@ -11,7 +11,7 @@ class Calinf extends Message
     private $etd;
     private $callsign;
 
-    public function __construct($identifier, $version, $release, $controllingAgency, $messageID, $association = null)
+    public function __construct($messageID = null, $identifier = 'CALINF', $version = 'D', $release = '00B', $controllingAgency = 'UN', $association = 'SMDG20')
     {
         parent::__construct($identifier, $version, $release, $controllingAgency, $messageID, $association);
 

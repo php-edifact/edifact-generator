@@ -4,7 +4,7 @@ Supports one or more containers per message.
 ```php
 $p = (new EDI\Generator\Interchange('ME', 'YOU'));
 
-$v = (new EDI\Generator\Vermas('VERMAS', 'D', '16A', 'UN', '111', 'SMDG10'))
+$v = (new EDI\Generator\Vermas())
     ->setMessageSender('IC', '', 'JOHN DOE')
     ->setMessageSenderInformation('EM', 'TEST@EXAMPLE.COM');
 
@@ -32,7 +32,7 @@ Only one container per message.
 
 ```php
 $p = (new EDI\Generator\Interchange('ME', 'YOU'));
-$copino = (new \EDI\Generator\Copino('COPINO', 'D', '95B', 'UN', null, 'ITG13'))
+$copino = (new \EDI\Generator\Copino())
 ->setSenderAndReceiver('ME', 'YOU')
 ->setDTM('201204260000')
 ->setTransporter('12000051161000025', 8, '', 'TRUCKER CORP.', 'XA212345', 'JOHN DOE')
@@ -54,7 +54,7 @@ One container per message. This example shows a full acceptance order sent to th
 
 ```php
 $inc = (new EDI\Generator\Interchange('ME', 'YOU'));
-$v = (new EDI\Generator\Coparn('COPARN', 'D', '00B', 'UN', null, 'SMDG20'));
+$v = (new EDI\Generator\Coparn());
 
 $v->setBooking('400123456', '0001')
   ->setRFFOrder('TEMPORDER');
@@ -82,7 +82,7 @@ Multiple containers per message. Each message can be for gate in or for gate out
 
 ```php
 $inc = (new EDI\Generator\Interchange('ME', 'YOU'));
-$v = (new EDI\Generator\Codeco('CODECO', 'D', '95B', 'UN', null));
+$v = (new EDI\Generator\Codeco());
 
 $v->setSenderAndReceiver('ITPIALOMA', 'COSCOS');
 $v->setCarrier('COS');
@@ -109,7 +109,7 @@ Multiple containers per message. Load or discharge order
 ```php
 $p = (new EDI\Generator\Interchange('ME', 'YOU'));
 
-$v = (new EDI\Generator\Coprar('MID12345'));
+$v = (new EDI\Generator\Coprar());
 $v->setVessel('0002W', 'COS', 'NOE VESSEL', 'XNOE');
 $v->setPort(9, 'ITGOA');
 $v->setETA('201701210000')

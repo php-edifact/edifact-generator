@@ -11,7 +11,7 @@ class Vermas extends Message
 
     private $containers;
 
-    public function __construct($identifier, $version, $release, $controllingAgency, $messageID, $association = null)
+    public function __construct($messageID = null, $identifier = 'VERMAS', $version = 'D', $release = '16A', $controllingAgency = 'UN', $association = 'SMDG10')
     {
         parent::__construct($identifier, $version, $release, $controllingAgency, $messageID, $association);
 

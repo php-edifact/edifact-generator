@@ -13,7 +13,7 @@ class Copino extends Message
     private $cntr;
     private $measures;
 
-    public function __construct($identifier, $version, $release, $controllingAgency, $messageID, $association = null)
+    public function __construct($messageID = null, $identifier = 'COPINO', $version = 'D', $release = '95B', $controllingAgency = 'UN', $association = 'ITG13')
     {
         parent::__construct($identifier, $version, $release, $controllingAgency, $messageID, $association);
 

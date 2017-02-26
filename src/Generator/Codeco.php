@@ -9,7 +9,7 @@ class Codeco extends Message
 
     private $containers;
 
-    public function __construct($identifier, $version, $release, $controllingAgency, $messageID, $association = null)
+    public function __construct($messageID = null, $identifier = 'CODECO', $version = 'D', $release = 'D95B', $controllingAgency = 'UN', $association = null)
     {
         parent::__construct($identifier, $version, $release, $controllingAgency, $messageID, $association);
 
