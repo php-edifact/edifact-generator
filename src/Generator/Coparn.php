@@ -186,9 +186,9 @@ class Coparn extends Message
         return $this;
     }
 
-    public function setDangerous($hazardCode, $hazardClass)
+    public function setDangerous($hazardClass, $hazardCode)
     {
-        $this->dangerous = ['DGS', 'IMD', $hazardCode, $hazardClass];
+        $this->dangerous = ['DGS', 'IMD', $hazardClass, $hazardCode];
         return $this;
     }
 
