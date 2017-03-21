@@ -50,9 +50,15 @@ class Codeco extends Message
             ['BGM', $documentCode, $this->messageID, $msgStatus]
         ];
 
-        $this->messageContent[] = $this->sender;
-        $this->messageContent[] = $this->receiver;
-        $this->messageContent[] = $this->messageCF;
+        if ($this->sender !== null) {
+            $this->messageContent[] = $this->sender;
+        }
+        if ($this->receiver !== null) {
+            $this->messageContent[] = $this->receiver;
+        }
+        if ($this->messageCF !== null) {
+            $this->messageContent[] = $this->messageCF;
+        }
 
         foreach ($this->containers as $cntr) {
             $content = $cntr->compose();
