@@ -121,7 +121,9 @@ class Container
         }
         if ($this->bkg !== null) {
             $composed[] = $this->bkg[0];
-            $composed[] = $this->bkg[1];
+            if (isset($this->bkg[1])) {
+                $composed[] = $this->bkg[1];
+            }
         }
         if ($this->seal !== null) {
             $composed[] = $this->seal;
