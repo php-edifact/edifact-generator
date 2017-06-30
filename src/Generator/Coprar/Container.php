@@ -124,9 +124,22 @@ class Container
         return $this;
     }
 
-    public function setDangerous($hazardCode, $hazardClass)
+    /*
+     * DEPRECATED
+     */
+    public function setDangerous($hazardClass, $hazardCode)
     {
-        $this->dangerous = ['DGS', 'IMD', $hazardCode, $hazardClass];
+        $this->addDangerous($hazardClass, $hazardCode);
+        return $this;
+    }
+
+    public function addDangerous($hazardClass, $hazardCode)
+    {
+        if ($this->dangerous === null) {
+            $this->dangerous = [];
+        }
+
+        $this->dangerous[] = ['DGS', 'IMD', $hazardClass, $hazardCode];
         return $this;
     }
 
@@ -198,7 +211,9 @@ class Container
             $composed[] = $this->cargo;
         }
         if ($this->dangerous !== null) {
-            $composed[] = $this->dangerous;
+            foreach ($this->dangerous as $segment) {
+                $composed[] = $segment;
+            }
         }
         $composed[] = $this->containerOperator;
 

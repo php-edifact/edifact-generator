@@ -186,9 +186,22 @@ class Coparn extends Message
         return $this;
     }
 
+    /*
+     * DEPRECATED
+     */
     public function setDangerous($hazardClass, $hazardCode)
     {
-        $this->dangerous = ['DGS', 'IMD', $hazardClass, $hazardCode];
+        $this->addDangerous($hazardClass, $hazardCode);
+        return $this;
+    }
+
+    public function addDangerous($hazardClass, $hazardCode)
+    {
+        if ($this->dangerous === null) {
+            $this->dangerous = [];
+        }
+
+        $this->dangerous[] = ['DGS', 'IMD', $hazardClass, $hazardCode];
         return $this;
     }
 
@@ -260,7 +273,9 @@ class Coparn extends Message
         }
         $this->messageContent[] = $this->cargo;
         if ($this->dangerous !== null) {
-            $this->messageContent[] = $this->dangerous;
+            foreach ($this->dangerous as $segment) {
+                $this->messageContent[] = $segment;
+            }
         }
         $this->messageContent[] = ['TDT', 1, '', 3];
         $this->messageContent[] = ['CNT', [16, 1]];
