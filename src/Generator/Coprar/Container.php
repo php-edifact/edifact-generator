@@ -6,12 +6,17 @@ class Container
 
     private $cntr;
     private $bkg;
+    private $pol;
     private $pod;
     private $fnd;
     private $weight;
+    private $weightTime;
+    private $seal;
+    private $cargo;
     private $dangerous;
     private $temperature;
     private $dimensions;
+    private $containerOperator;
 
     public function __construct()
     {
@@ -44,6 +49,16 @@ class Container
     public function setBillOfLading($bl)
     {
         $this->bkg = \EDI\Generator\Message::rffSegment('BM', $bl);
+        return $this;
+    }
+
+    /*
+     * Port of Discharge
+     *
+     */
+    public function setPOL($loc)
+    {
+        $this->pol = \EDI\Generator\Message::locSegment(9, [$loc, 139, 6]);
         return $this;
     }
 
@@ -89,6 +104,17 @@ class Container
     }
 
     /*
+     * $seal = free text
+     * $sealIssuer = DE 9303
+     */
+    public function setSeal($seal, $sealIssuer)
+    {
+        $this->seal = ['SEL', [$seal, $sealIssuer]];
+        return $this;
+    }
+
+
+    /*
      * Cargo category
      *
      */
@@ -131,6 +157,15 @@ class Container
         return $this;
     }
 
+    /*
+     * $line: Master Liner Codes List
+     */
+    public function setContainerOperator($line)
+    {
+        $this->containerOperator = ['NAD', 'CF', [$line, 160, 20]];
+        return $this;
+    }
+
     public function compose()
     {
         $composed = [$this->cntr];
@@ -140,9 +175,17 @@ class Container
         if ($this->weightTime !== null) {
             $composed[] = $this->weightTime;
         }
-        $composed[] = $this->pod;
+        if ($this->pol !== null) {
+            $composed[] = $this->pol;
+        }
+        if ($this->pod !== null) {
+            $composed[] = $this->pod;
+        }
         $composed[] = $this->fnd;
         $composed[] = $this->weight;
+        if ($this->seal !== null) {
+            $composed[] = $this->seal;
+        }
         if ($this->dimensions !== null) {
             foreach ($this->dimensions as $segment) {
                 $composed[] = $segment;
@@ -151,10 +194,14 @@ class Container
         if ($this->temperature !== null) {
             $composed[] = $this->temperature;
         }
-        $composed[] = $this->cargo;
+        if ($this->cargo !== null) {
+            $composed[] = $this->cargo;
+        }
         if ($this->dangerous !== null) {
             $composed[] = $this->dangerous;
         }
+        $composed[] = $this->containerOperator;
+
         return $composed;
     }
 }
