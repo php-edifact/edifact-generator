@@ -17,7 +17,7 @@ class Message
         }
 
         if ($messageID === null) {
-            $this->messageID = 'M'.uniqid();
+            $this->messageID = 'M'.strtoupper(uniqid());
         } else {
             $this->messageID = $messageID;
         }

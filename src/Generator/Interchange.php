@@ -20,7 +20,7 @@ class Interchange
         $this->messages = [];
 
         if ($interchangeCode === null) {
-            $this->interchangeCode = 'I'.uniqid();
+            $this->interchangeCode = 'I'.strtoupper(uniqid());
         } else {
             $this->interchangeCode = $interchangeCode;
         }
