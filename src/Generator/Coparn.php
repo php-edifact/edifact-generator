@@ -195,13 +195,21 @@ class Coparn extends Message
         return $this;
     }
 
-    public function addDangerous($hazardClass, $hazardCode)
+    public function addDangerous($hazardClass, $hazardCode, $flashpoint = null, $packingGroup = null)
     {
         if ($this->dangerous === null) {
             $this->dangerous = [];
         }
 
-        $this->dangerous[] = ['DGS', 'IMD', $hazardClass, $hazardCode];
+        $dgs = ['DGS', 'IMD', $hazardClass, $hazardCode];
+        if ($flashpoint !== null) {
+            $dgs[] = [$flashpoint, 'CEL'];
+            if ($packingGroup !== null) {
+                $dgs[] = [$packingGroup, 'CEL'];
+            }
+        }
+        
+        $this->dangerous[] = $dgs;
         return $this;
     }
 
