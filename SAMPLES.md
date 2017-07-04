@@ -1,6 +1,6 @@
-==VERMAS==
-Supports one or more containers per message.
-
+VERMAS
+------
+Verified gross mass transmission. Supports one or more containers per message.
 ```php
 $p = (new EDI\Generator\Interchange('ME', 'YOU'));
 
@@ -26,10 +26,9 @@ $p = $p->addMessage($v)->getComposed();
 
 echo (new EDI\Encoder($p, false))->get();
 ```
-
-==COPINO==
-Only one container per message.
-
+COPINO
+------
+Transportation order. Only one container per message.
 ```php
 $p = (new EDI\Generator\Interchange('ME', 'YOU'));
 $copino = (new \EDI\Generator\Copino())
@@ -48,10 +47,9 @@ $p = $p->addMessage($copino)->getComposed();
 
 echo (new EDI\Encoder($p, false))->get();
 ```
-
-==COPARN==
-One container per message. This example shows a full acceptance order sent to the terminal (documentType = 126).
-
+COPARN
+------
+Container announcement. One container per message. This example shows a full acceptance order sent to the terminal (documentType = 126).
 ```php
 $inc = (new EDI\Generator\Interchange('ME', 'YOU'));
 $v = (new EDI\Generator\Coparn());
@@ -76,10 +74,9 @@ $inc = $inc->addMessage($v)->getComposed();
 
 $incText = (new EDI\Encoder($inc, false))->get();
 ```
-
-==CODECO==
-Multiple containers per message. Each message can be for gate in or for gate out.
-
+CODECO
+------
+Container move report. Multiple containers per message. Each message can be for gate in or for gate out.
 ```php
 $inc = (new EDI\Generator\Interchange('ME', 'YOU'));
 $v = (new EDI\Generator\Codeco());
@@ -102,10 +99,9 @@ $inc = $inc->addMessage($v)->getComposed();
 
 $incText = (new EDI\Encoder($inc, false))->get();
 ```
-
-==COPRAR==
-Multiple containers per message. Load or discharge order
-
+COPRAR
+------
+Container load or discharge order.  Multiple containers per message. The example is a loading order.
 ```php
 $p = (new EDI\Generator\Interchange('ME', 'YOU'));
 
@@ -127,10 +123,40 @@ $c->setDangerous(3, 1366);
 $c->setOverDimensions(0, 0, 0, 0, 7.5);
 
 $c->setCargoCategory('GENERAL CARGO');
+$c->setContainerOperator('COS');
 
 $v = $v->addContainer($c);
 
 $v = $v->compose(5, 45);
 
-$p = $p->addMessage($v)->getComposed();
+$inc = $p->addMessage($v)->getComposed();
+$incText = (new EDI\Encoder($inc, false))->get();
+```
+WESTIM
+------
+Container MNR message (ISO EDI, not UN/EDIFACT). One container per message.
+```php
+$p = (new EDI\Generator\Interchange('IT888XXXX', 'CARRIER'));
+
+$v = (new EDI\Generator\Westim('ESTNUMBER'));
+
+$v->setTransactionDate('170702')->setCurrency('EUR')->setLabourRate('100.00');
+$v->setPartners('IT888XXXX', 'CARRIER');
+$v->setContainer('CBHU', '1234567', '4510');
+$v->setFullEmpty('E');
+
+$d = (new EDI\Generator\Westim\Damage());
+$d->setDamage('01', 'IXXX', 'TFA', 'DB', 'SK');
+$d->setWork('SC', '', '0', '1', '', '1');
+$d->setCost('0', '82.63', 'O', '18.00');
+$v->addDamage($d);
+
+$v->setCostTotals('O', '4.5', '82.63', '0', '0', '87.13');
+
+$v->setTotalMessageAmounts('87.13');
+
+$v = $v->compose();
+
+$inc = $p->addMessage($v)->getComposed();
+$incText = (new EDI\Encoder($inc, false))->get();
 ```

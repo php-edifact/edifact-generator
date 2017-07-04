@@ -9,9 +9,18 @@ class Message
     protected $messageType;
     protected $composed;
 
-    public function __construct($identifier, $version, $release, $controllingAgency, $messageID = null, $association = null)
+    public function __construct($identifier, $version, $release = null, $controllingAgency = null, $messageID = null, $association = null)
     {
-        $this->messageType = [$identifier, $version, $release, $controllingAgency];
+        $this->messageType = [$identifier, $version];
+
+        if ($release !== null) {
+            $this->messageType[] = $release;
+        }
+
+        if ($release !== null) {
+            $this->messageType[] = $controllingAgency;
+        }
+
         if ($association !== null) {
             $this->messageType[] = $association;
         }
