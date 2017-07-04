@@ -10,6 +10,7 @@ class Container
     private $measures;
     private $weighDate;
     private $weighMethod;
+    private $spcWpa;
     private $shipper;
     private $spcContact;
 
@@ -88,12 +89,26 @@ class Container
         return $this;
     }
 
+
     /*
      * $spcShipper = SOLAS verified gross mass responsible party
      */
-    public function setShipper($spcShipper)
+    public function setWeighingStationId($spcWpa)
+    {
+        $this->spcWpa = ['NAD', 'WPA', $spcWpa];
+        return $this;
+    }
+
+    /*
+     * $spcShipper = SOLAS verified gross mass responsible party
+     */
+    public function setShipper($spcShipper, $spcCity = null)
     {
         $this->shipper = ['NAD', 'SPC', '', '', $spcShipper];
+        if ($spcCity !== null) {
+            $this->shipper[] = '';
+            $this->shipper[] = $spcCity;
+        }
         return $this;
     }
 
@@ -136,6 +151,9 @@ class Container
         }
         if ($this->weighMethod !== null) {
             $composed[] = $this->weighMethod;
+        }
+        if ($this->spcWpa !== null) {
+            $composed[] = $this->spcWpa;
         }
         if ($this->shipper !== null) {
             $composed[] = $this->shipper;

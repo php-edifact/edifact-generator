@@ -8,6 +8,7 @@ class Vermas extends Message
     private $messageLine = '';
     private $messageSender = '';
     private $messageSenderInformation = '';
+    private $messageSenderCompany = ['NAD', 'TB'];
 
     private $containers;
 
@@ -39,6 +40,16 @@ class Vermas extends Message
         return $this;
     }
 
+    /*
+     * $cntFunctionCode: DE 3139
+     * $cntIdentifier: free text
+     * $cntName: free text
+     */
+    public function setMessageSenderCompany($companyName)
+    {
+        $this->messageSenderCompany = ['NAD', 'TB',  $companyName];
+        return $this;
+    }
 
     /*
      * $cntFunctionCode: DE 3139
@@ -75,6 +86,8 @@ class Vermas extends Message
 
         /* message creation date and time */
         $this->messageContent[] = $this->dtmSend;
+
+        $this->messageContent[] = $this->messageSenderCompany;
 
         /* carrier line */
         if ($this->messageLine !== '') {
