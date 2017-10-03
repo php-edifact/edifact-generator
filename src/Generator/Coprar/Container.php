@@ -141,9 +141,12 @@ class Container
 
         $dgs = ['DGS', 'IMD', $hazardClass, $hazardCode];
         if ($flashpoint !== null) {
-            $dgs[] = [$flashpoint, 'CEL'];
+            if ($flashpoint != '') {
+                $flashpoint = [$flashpoint, 'CEL'];
+            }
+            $dgs[] = $flashpoint;
             if ($packingGroup !== null) {
-                $dgs[] = [$packingGroup, 'CEL'];
+                $dgs[] = $packingGroup;
             }
         }
         
