@@ -1,15 +1,29 @@
 <?php
+
 namespace EDI\Generator;
 
-class Message
+/**
+ * Class Message
+ * @package EDI\Generator
+ */
+class Message extends Base
 {
+    /** @var string */
     protected $messageID;
-    protected $messageContent;
-
+    /** @var array string */
     protected $messageType;
-    protected $composed;
 
-    public function __construct($identifier, $version, $release = null, $controllingAgency = null, $messageID = null, $association = null)
+    /**
+     * Message constructor.
+     * @param $identifier
+     * @param $version
+     * @param null $release
+     * @param null $controllingAgency
+     * @param null $messageID
+     * @param null $association
+     */
+    public function __construct($identifier, $version, $release = null, $controllingAgency = null,
+                                $messageID = null, $association = null)
     {
         $this->messageType = [$identifier, $version];
 
@@ -26,33 +40,37 @@ class Message
         }
 
         if ($messageID === null) {
-            $this->messageID = 'M'.strtoupper(uniqid());
+            $this->messageID = 'M' . strtoupper(uniqid());
         } else {
             $this->messageID = $messageID;
         }
     }
 
+    /**
+     * @param null $msgStatus
+     * @return $this
+     * @throws EdifactException
+     */
     public function compose($msgStatus = null)
     {
-        $temp=[];
-        $temp[]=['UNH', $this->messageID, $this->messageType];
+        $temp = [];
+        $temp[] = ['UNH', $this->messageID, $this->messageType];
 
+        if (count($this->messageContent) == 0){
+            throw new EdifactException('no content available for message');
+        }
         foreach ($this->messageContent as $i) {
             $temp[] = $i;
         }
 
-        $temp[]=['UNT', (2 + count($this->messageContent)), $this->messageID];
+        $temp[] = ['UNT', (2 + count($this->messageContent)), $this->messageID];
 
         $this->composed = $temp;
         return $this;
     }
 
-    public function getComposed()
-    {
-        return $this->composed;
-    }
 
-    /*
+    /**
      * DTM segment
      * $type = 7 (actual date time), 132 (estimated date time), 137 (message date time), 798 (weight date time)
      * $format = 203 (CCYYMMDDHHII)
@@ -62,7 +80,7 @@ class Message
         return ['DTM', [$type, $dtmString, $format]];
     }
 
-    /*
+    /**
      * RFF segment
      * $functionCode = DE 1153
      * $identifier = max 35 alphanumeric chars
@@ -72,7 +90,7 @@ class Message
         return ['RFF', [$functionCode, $identifier]];
     }
 
-    /*
+    /**
      * LOC segment
      * $qualifier = DE 3227
      * $firstLoc = preferred [locode, 139, 6]
@@ -87,7 +105,7 @@ class Message
         return $loc;
     }
 
-    /*
+    /**
      * EQD segment
      * $eqpType = DE 8053 (for a container CN)
      * $eqpIdentification = for a container [A-Z]{3}U\d{7}
@@ -111,7 +129,7 @@ class Message
         return $eqd;
     }
 
-    /*
+    /**
      * TDT segment
      * $stageQualifier = DE 8051
      * $journeyIdentifier = max 17 alphanumeric chars
@@ -127,6 +145,13 @@ class Message
         return ['TDT', $stageQualifier, $journeyIdentifier, $modeOfTransport, $transportMeans, $carrier, $transitDirection, $excessTransportation, $transportationIdentification];
     }
 
+    /**
+     * @param $stageQualifier
+     * @param $journeyIdentifier
+     * @param $modeOfTransport
+     * @param $transportMeans
+     * @return array
+     */
     public static function tdtShortSegment($stageQualifier, $journeyIdentifier, $modeOfTransport, $transportMeans)
     {
         return ['TDT', $stageQualifier, $journeyIdentifier, $modeOfTransport, $transportMeans];
