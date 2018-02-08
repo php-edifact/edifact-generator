@@ -7,6 +7,7 @@
  */
 
 namespace EDI\Generator;
+
 use EDI\Generator\Traits\ContactPerson;
 use EDI\Generator\Traits\NameAndAddress;
 
@@ -17,7 +18,8 @@ use EDI\Generator\Traits\NameAndAddress;
  */
 class Ordrsp extends Message
 {
-    use ContactPerson, NameAndAddress;
+    use ContactPerson,
+        NameAndAddress;
 
     /** @var array */
     protected $orderConfirmationNumber;
@@ -27,12 +29,25 @@ class Ordrsp extends Message
     protected $deliveryDate;
     /** @var array */
     protected $orderNumber;
-
     /** @var array */
     protected $positionSeparator;
-
     /** @var array */
     protected $items = [];
+    /** @var array  */
+    protected $composeKeys = [
+        'orderConfirmationNumber',
+        'orderConfirmationDate',
+        'deliveryDate',
+        'orderNumber',
+        'manufacturerAddress',
+        'wholesalerAddress',
+        'deliveryAddress',
+        'contactPerson',
+        'mailAddress',
+        'phoneNumber',
+        'faxNumber',
+        'positionSeparator',
+    ];
 
     /**
      * Ordrsp constructor.
@@ -43,10 +58,23 @@ class Ordrsp extends Message
      * @param string $controllingAgency
      * @param string $association
      */
-    public function __construct($messageId = null, $identifier = 'ORDRSP', $version = 'D', $release = '96B',
-                                $controllingAgency = 'UN', $association = 'ITEK35')
+    public function __construct(
+        $messageId = null,
+        $identifier = 'ORDRSP',
+        $version = 'D',
+        $release = '96B',
+        $controllingAgency = 'UN',
+        $association = 'ITEK35'
+    )
     {
-        parent::__construct($identifier, $version, $release, $controllingAgency, $messageId, $association);
+        parent::__construct(
+            $identifier,
+            $version,
+            $release,
+            $controllingAgency,
+            $messageId,
+            $association
+        );
     }
 
     /**
@@ -56,23 +84,7 @@ class Ordrsp extends Message
      */
     public function compose($msgStatus = null)
     {
-        $this->composeByKeys([
-            'orderConfirmationNumber',
-            'orderConfirmationDate',
-            'deliveryDate',
-            'orderNumber',
-            'manufacturerAddress',
-            'wholesalerAddress',
-            'deliveryAddress',
-            'contactPerson',
-            'mailAddress',
-            'phoneNumber',
-            'faxNumber',
-
-
-
-            'positionSeparator',
-        ]);
+        $this->composeByKeys();
 
         foreach ($this->items as $item) {
             $composed = $item->compose();
@@ -177,9 +189,6 @@ class Ordrsp extends Message
         $this->positionSeparator = ['UNS', 'S'];
         return $this;
     }
-
-
-
 
 
 }

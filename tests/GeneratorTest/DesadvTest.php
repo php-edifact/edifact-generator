@@ -51,7 +51,7 @@ final class DesadvTest extends TestCase
      */
     public function testDeliverNoteNumberException()
     {
-        $this->expectExceptionMessage('document type not allowed here');
+        $this->expectExceptionMessage('value: XXX is not in allowed values:  [22E, 270, 351] in EDI\Generator\Desadv->setDeliveryNoteNumber');
         (new Desadv())
             ->setDeliveryNoteNumber('XXX', 'LS123456789');
 
@@ -133,6 +133,25 @@ final class DesadvTest extends TestCase
 
     public function testNameAndAddress()
     {
+        $this->assertEquals(
+            'NAD+SU+partnerId::9++name1:name2:name3+street+city++zipCode+DE\'',
+            (new Encoder([
+                (new Desadv())->addNameAndAddress(
+                    'name1',
+                    'name2',
+                    'name3',
+                    'street',
+                    'zipCode',
+                    'city',
+                    'DE',
+                    '9',
+                    'SU',
+                    'partnerId'
+                )]))->get()
+        );
+
+
+
         $desadv = (new Desadv())
             ->setManufacturerAddress(
                 'Name 1',
@@ -225,9 +244,9 @@ final class DesadvTest extends TestCase
                     '8290123'
                 )
                 ->setQuantity('3')
-            ->setOrderNumber('MyOrderNumber');
+                ->setOrderNumberWholesaler('MyOrderNumber')
+            ;
             $desadv->addItem($item);
-
             $desadv->compose();
 
             $encoder = new Encoder($interchange->addMessage($desadv)->getComposed(), true);
@@ -244,7 +263,7 @@ final class DesadvTest extends TestCase
             $this->assertContains('COM+', $message);
 
         } catch (EdifactException $e) {
-
+            fwrite(STDOUT, "\n\nDESADV\n" . $e->getMessage());
         }
     }
 

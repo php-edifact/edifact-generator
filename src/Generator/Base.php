@@ -11,6 +11,7 @@ namespace EDI\Generator;
 /**
  * Class Base
  * @package EDI\Generator
+ * @property array $composeKeys
  */
 class Base
 {
@@ -23,21 +24,36 @@ class Base
     /** @var string */
     protected $receiver;
 
+    /** @var string  */
+//    protected $managingOrganisation = '89';
+
+    /**
+     * @param $keyName
+     */
+    public function addKeyToCompose($keyName)
+    {
+        array_push($this->composeKeys, $keyName);
+    }
+
     /**
      * compose message by keys givven in an ordered array
      * @param array $keys
      * @return array
      * @throws EdifactException
      */
-    public function composeByKeys($keys)
+    public function composeByKeys($keys = null)
     {
+        if (is_null($keys)) {
+            $keys = $this->composeKeys;
+        }
         foreach ($keys as $key) {
             if (property_exists($this, $key)) {
                 if (!is_null($this->{$key})) {
                     $this->messageContent[] = $this->{$key};
                 }
             } else {
-                throw new EdifactException('key ' . $key . ' not found for composeByKeys');
+                throw new EdifactException('key: ' . $key . ' not found for composeByKeys in ' . get_class($this) . '->' .
+                    debug_backtrace()[1]['function']);
             }
         }
 
@@ -116,6 +132,23 @@ class Base
         return ['DTM', $type, EdifactDate::get($dateString)];
     }
 
+    /**
+     * @param $documentNumber
+     * @param $type
+     * @return array
+     */
+    public static function addBGMSegment($documentNumber, $type)
+    {
+        return [
+            'BGM',
+            [
+                $type,
+                '',
+                '89',
+            ],
+            $documentNumber
+        ];
+    }
 
     /**
      * Crop String to max char length
@@ -126,6 +159,42 @@ class Base
     protected static function maxChars($string, $length = 35)
     {
         return mb_substr($string, 0, $length);
+    }
+
+    /**
+     *
+     * @param $value
+     * @param $array
+     * @param null $errorMessage
+     * @throws EdifactException
+     */
+    protected function isAllowed($value, $array, $errorMessage = null)
+    {
+        if (is_null($errorMessage)) {
+            $errorMessage = 'value: ' . $value . ' is not in allowed values: ' .
+                ' [' . implode(', ', $array) . '] in ' . get_class($this) . '->' .
+                debug_backtrace()[1]['function'];
+        }
+        if (!in_array($value, $array)) {
+            throw new EdifactException($errorMessage);
+        }
+    }
+
+
+    /**
+     * @param $qualifier
+     * @param $value
+     * @return array
+     */
+    public static function addMOASegment($qualifier, $value){
+        return [
+            'MOA',
+            [
+                '',
+                $qualifier,
+                EdiFactNumber::convert($value)
+            ]
+        ];
     }
 
 }

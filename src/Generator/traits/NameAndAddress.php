@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Sascha
- * Date: 23.01.2018
- * Time: 16:24
- */
 
 namespace EDI\Generator\Traits;
 
@@ -35,7 +29,7 @@ trait NameAndAddress
      * @url http://www.unece.org/trade/untdid/d96b/trsd/trsdnad.htm
      * @return array
      */
-    protected function addNameAndAddress(
+    public function addNameAndAddress(
         $name1,
         $name2,
         $name3,

@@ -17,6 +17,7 @@ class EdifactDateTest extends TestCase
 
     /**
      * date format test
+     * @throws \EDI\Generator\EdifactException
      */
     public function testDateFormat()
     {
@@ -28,6 +29,7 @@ class EdifactDateTest extends TestCase
 
     /**
      * date format test
+     * @throws \EDI\Generator\EdifactException
      */
     public function testDateTimeFormat()
     {

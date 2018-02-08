@@ -1,14 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Sascha
- * Date: 23.01.2018
- * Time: 16:21
- */
 
 namespace EDI\Generator\Traits;
 
-
+/**
+ * Trait ContactPerson
+ * @package EDI\Generator\Traits
+ */
 trait ContactPerson
 {
     /** @var array */

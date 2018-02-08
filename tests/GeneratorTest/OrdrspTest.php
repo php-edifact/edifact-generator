@@ -80,7 +80,7 @@ class OrdrspTest extends TestCase
         $encoder->setUNA(":+,? '");
 
         $message = str_replace("'", "'\n", $encoder->get());
-        fwrite(STDOUT, "\n\nORDRSP\n" . $message);
+//        fwrite(STDOUT, "\n\nORDRSP\n" . $message);
 
         $this->assertContains('UNT+14', $message);
     }

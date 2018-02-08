@@ -6,13 +6,13 @@
  * Time: 08:44
  */
 
-namespace EDI\Generator\Desadv;
+namespace EDI\Generator\Orders;
 
 use EDI\Generator\Base;
 
 /**
  * Class Item
- * @package EDI\Generator\Desadv
+ * @package EDI\Generator\Ordrsp
  */
 class Item extends Base
 {

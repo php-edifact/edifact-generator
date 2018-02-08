@@ -56,7 +56,7 @@ class Message extends Base
         $temp = [];
         $temp[] = ['UNH', $this->messageID, $this->messageType];
 
-        if (count($this->messageContent) == 0){
+        if (count($this->messageContent) == 0) {
             throw new EdifactException('no content available for message');
         }
         foreach ($this->messageContent as $i) {
@@ -142,7 +142,17 @@ class Message extends Base
      */
     public static function tdtSegment($stageQualifier, $journeyIdentifier, $modeOfTransport, $transportMeans, $carrier, $transitDirection, $excessTransportation, $transportationIdentification)
     {
-        return ['TDT', $stageQualifier, $journeyIdentifier, $modeOfTransport, $transportMeans, $carrier, $transitDirection, $excessTransportation, $transportationIdentification];
+        return [
+            'TDT',
+            $stageQualifier,
+            $journeyIdentifier,
+            $modeOfTransport,
+            $transportMeans,
+            $carrier,
+            $transitDirection,
+            $excessTransportation,
+            $transportationIdentification
+        ];
     }
 
     /**
@@ -154,6 +164,37 @@ class Message extends Base
      */
     public static function tdtShortSegment($stageQualifier, $journeyIdentifier, $modeOfTransport, $transportMeans)
     {
-        return ['TDT', $stageQualifier, $journeyIdentifier, $modeOfTransport, $transportMeans];
+        return [
+            'TDT',
+            $stageQualifier,
+            $journeyIdentifier,
+            $modeOfTransport,
+            $transportMeans];
     }
+
+    /**
+     * @param string $text
+     * @param string $qualifier
+     * @param string $reference
+     * @return array
+     */
+    public static function addFTXSegment($text, $qualifier, $reference = '')
+    {
+        $textLines = str_split($text, 70);
+        if (count($textLines) > 5) {
+            $textLines = array_slice($textLines, 0, 5);
+        }
+        return [
+            'FTX',
+            $qualifier,
+            '',
+            [
+                $reference,
+                '89',
+            ],
+            $textLines,
+
+        ];
+    }
+
 }
