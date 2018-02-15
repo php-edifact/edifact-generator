@@ -49,7 +49,7 @@ class DesadvItemTest extends TestCase
         $this->assertEquals([
             'QTY',
             '12',
-            '1',
+            '1,000',
             'PCE',
         ], $item->getQuantity());
     }

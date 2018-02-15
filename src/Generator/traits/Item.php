@@ -1,6 +1,7 @@
 <?php
 
 namespace EDI\Generator\Traits;
+use EDI\Generator\EdiFactNumber;
 
 
 /**
@@ -94,25 +95,25 @@ trait Item
                 'PCE', 'PR', 'SET', 'TNE']
         );
 
-        $this->quantity = ['QTY', '12', $quantity, $unit];
+        $this->quantity = ['QTY', '12', EdiFactNumber::convert($quantity, 3), $unit];
         return $this;
     }
 
 
     /**
      * @param $description
+     * @param string $type
      * @param string $organisation
      * @return array
      */
-    public static function addIMDSegment($description, $organisation = '')
+    public static function addIMDSegment($description, $type = 'ZU', $organisation = '')
     {
-
         return [
             'IMD',
             '',
             '',
             [
-                'ZU',
+               $type,
                 '',
                 $organisation,
                 substr($description, 0, 35),
@@ -127,7 +128,7 @@ trait Item
      */
     public function setAdditionalText($text)
     {
-        $this->splitTexts('additionalText', $text, 320, 40);
+        $this->splitTexts('additionalText', $text, 320, 40, 'ZU');
 
         return $this;
     }
@@ -147,7 +148,7 @@ trait Item
      */
     public function setSpecificationText($text)
     {
-        $this->splitTexts('specificationText', $text, 80, 40);
+        $this->splitTexts('specificationText', $text, 80, 40, 'SP');
 
         return $this;
     }
@@ -193,15 +194,16 @@ trait Item
      * @param $text
      * @param $maxLength
      * @param $lineLength
+     * @param string $type
      * @return $this
      */
-    private function splitTexts($varName, $text, $maxLength, $lineLength)
+    private function splitTexts($varName, $text, $maxLength, $lineLength, $type = 'ZU')
     {
         $this->{$varName} = str_split(mb_substr($text, 0, $maxLength), $lineLength);
         $nr = 0;
         foreach ($this->{$varName} as $line) {
             $property = $varName . $nr++;
-            $this->{$property} = self::addIMDSegment($line);
+            $this->{$property} = self::addIMDSegment($line, $type);
             $this->addKeyToCompose($property);
         }
 
@@ -310,7 +312,7 @@ trait Item
     }
 
     /**
-     * @param array $deliveryNotePosition
+     * @param string|integer $deliveryNotePosition
      * @return Item
      */
     public function setDeliveryNotePosition($deliveryNotePosition)
