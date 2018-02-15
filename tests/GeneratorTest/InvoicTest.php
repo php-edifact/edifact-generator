@@ -135,7 +135,7 @@ final class InvoicTest extends TestCase
             $encoder = new Encoder($interchange->addMessage($invoice)->getComposed(), true);
             $encoder->setUNA(":+,? '");
             $message = str_replace("'", "'\n", $encoder->get());
-            fwrite(STDOUT, "\n\nINVOICE\n" . $message);
+//            fwrite(STDOUT, "\n\nINVOICE\n" . $message);
 
             $this->assertContains('UNT+40', $message);
 
