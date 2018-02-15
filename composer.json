@@ -1,26 +1,27 @@
 {
-    "name": "php-edifact/edifact-generator",
-    "description": "EDIFACT message generators",
-    "keywords": [
-        "EDI",
-        "EDIFACT",
-        "message",
-        "generator"
-    ],
-    "homepage": "https://github.com/php-edifact/edifact-generator",
-    "license": "LGPL-3.0+",
-    "autoload": {
-        "psr-4": {
-            "EDI\\Generator\\": "src/Generator/"
-        },
-        "classmap": [
-            "src/"
-        ]
+  "name": "duesentrieb26/edifact-generator",
+  "description": "EDIFACT message generators",
+  "keywords": [
+    "EDI",
+    "EDIFACT",
+    "message",
+    "generator"
+  ],
+  "homepage": "https://github.com/duesentrieb26/edifact-generator",
+  "license": "LGPL-3.0+",
+  "autoload": {
+    "psr-4": {
+      "EDI\\Generator\\": "src/Generator/"
     },
-    "require": {
-        "sabas/edifact": "dev-master"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "6.1.*"
-    }
+    "classmap": [
+      "src/"
+    ]
+  },
+  "require": {
+    "sabas/edifact": "dev-master"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "6.1.*"
+  },
+  "minimum-stability": "dev"
 }
