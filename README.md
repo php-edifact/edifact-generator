@@ -9,7 +9,6 @@ See [SAMPLES.md](SAMPLES.md) for code examples using this library.
 
 
 
-
 Generator for ediFACT messages
 =
 
