@@ -60,6 +60,7 @@ class Invoic extends Message
         'manufacturerAddress',
         'wholesalerAddress',
         'deliveryAddress',
+        'invoiceAddress',
         'contactPerson',
         'mailAddress',
         'phoneNumber',
@@ -178,7 +179,7 @@ class Invoic extends Message
     }
 
     /**
-     * @param array $invoiceDate
+     * @param string $invoiceDate
      * @return Invoic
      * @throws EdifactException
      */
@@ -275,7 +276,7 @@ class Invoic extends Message
      */
     public function setVatNumber($vatNumber)
     {
-        $this->vatNumber = self::addRFFSegment('VA', $vatNumber);
+        $this->vatNumber = self::addRFFSegment('VA', str_replace(' ', '', $vatNumber));
         return $this;
     }
 

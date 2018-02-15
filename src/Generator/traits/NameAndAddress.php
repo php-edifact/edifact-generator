@@ -14,6 +14,8 @@ trait NameAndAddress
     protected $wholesalerAddress;
     /** @var array */
     protected $deliveryAddress;
+    /** @var array */
+    protected $invoiceAddress;
 
     /**
      * @param string $name1
@@ -180,6 +182,33 @@ trait NameAndAddress
             $countryCode,
             $managingOrganisation,
             'ST');;
+        return $this;
+    }
+
+    /**
+     * @param $name1
+     * @param string $name2
+     * @param string $name3
+     * @param string $street
+     * @param string $zipcode
+     * @param string $city
+     * @param string $countryCode
+     * @param string $managingOrganisation
+     * @return $this
+     */
+    public function setInvoiceAddress($name1, $name2 = '', $name3 = '', $street = '', $zipcode = '',
+                                      $city = '', $countryCode = 'DE', $managingOrganisation = 'ZZZ')
+    {
+        $this->invoiceAddress = $this->addNameAndAddress(
+            $name1,
+            $name2,
+            $name3,
+            $street,
+            $zipcode,
+            $city,
+            $countryCode,
+            $managingOrganisation,
+            'IV');
         return $this;
     }
 

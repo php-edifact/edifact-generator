@@ -1,38 +1,3 @@
-The classes provided by this package give a fluent interface which simplifies the encoding of an EDI (mainly UN/EDIFACT) message.
-
-The resulting array can be encoded in a valid message with EDI\Encoder class provided by [https://github.com/PHPEdifact/edifact](https://github.com/PHPEdifact/edifact).
-
-Each message type extends a generic Message class which provides common helpers.
-
-See [SAMPLES.md](SAMPLES.md) for code examples using this library.
-
-
-
-
-Generator for ediFACT messages
-=
-
-Message types
--
-
-- DESADV
-- ORDERS
-- ORDRSP
-- INVOIC
-- CALINF
-- CODECO
-- COPARN
-- COPINO
-- COPRAR
-- VERMAS
-- WESTIM
-
-
-Messages can be generated in object style
-
-
-
-```
 <?php
 
 use EDI\Encoder;
@@ -115,6 +80,3 @@ $encoder = new Encoder($interchange->addMessage($invoice)->getComposed(), true);
 $encoder->setUNA(":+,? '");
 
 $message = $encoder->get();
-
-            
-```
