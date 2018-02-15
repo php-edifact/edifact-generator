@@ -7,8 +7,27 @@ Each message type extends a generic Message class which provides common helpers.
 See [SAMPLES.md](SAMPLES.md) for code examples using this library.
 
 
+
+
+
 Generator for ediFACT messages
 =
+
+Message types
+-
+
+- DESADV
+- ORDERS
+- ORDRSP
+- INVOIC
+- CALINF
+- CODECO
+- COPARN
+- COPINO
+- COPRAR
+- VERMAS
+- WESTIM
+
 
 Messages can be generated in object style
 
