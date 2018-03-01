@@ -1,6 +1,7 @@
 {
   "name": "duesentrieb26/edifact-generator",
   "description": "EDIFACT message generators",
+  "type": "library",
   "keywords": [
     "EDI",
     "EDIFACT",

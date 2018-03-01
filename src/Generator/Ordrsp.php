@@ -32,6 +32,19 @@ class Ordrsp extends Message
     /** @var array */
     protected $positionSeparator;
     /** @var array */
+    protected $orderInstruction;
+    /** @var array */
+    protected $additionalReferenceNumber;
+    /** @var array */
+    protected $transportDocumentNumber;
+    /** @var array */
+    protected $projectNumber;
+    /** @var array */
+    protected $beneficiaryReference;
+    /** @var array */
+    protected $beneficiaryReference2;
+
+    /** @var array */
     protected $items = [];
     /** @var array  */
     protected $composeKeys = [
@@ -39,6 +52,12 @@ class Ordrsp extends Message
         'orderConfirmationDate',
         'deliveryDate',
         'orderNumber',
+        'orderInstruction',
+        'additionalReferenceNumber',
+        'transportDocumentNumber',
+        'beneficiaryReference',
+        'beneficiaryReference2',
+        'orderInstruction',
         'manufacturerAddress',
         'wholesalerAddress',
         'deliveryAddress',
@@ -198,6 +217,119 @@ class Ordrsp extends Message
         $this->positionSeparator = ['UNS', 'S'];
         return $this;
     }
+
+    /**
+     * @return array
+     */
+    public function getOrderInstruction()
+    {
+        return $this->orderInstruction;
+    }
+
+    /**
+     * @param string $orderInstruction
+     * @return Ordrsp
+     */
+    public function setOrderInstruction($orderInstruction)
+    {
+        $this->orderInstruction = self::addFTXSegment($orderInstruction, 'ORI');
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAdditionalReferenceNumber()
+    {
+        return $this->additionalReferenceNumber;
+    }
+
+    /**
+     * @param string $additionalReferenceNumber
+     * @return Ordrsp
+     */
+    public function setAdditionalReferenceNumber($additionalReferenceNumber)
+    {
+        $this->additionalReferenceNumber = self::addRFFSegment('ACD', $additionalReferenceNumber);
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getTransportDocumentNumber()
+    {
+        return $this->transportDocumentNumber;
+    }
+
+    /**
+     * @param string $transportDocumentNumber
+     * @return Ordrsp
+     */
+    public function setTransportDocumentNumber($transportDocumentNumber)
+    {
+        $this->transportDocumentNumber = self::addRFFSegment('AAS', $transportDocumentNumber);
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getProjectNumber()
+    {
+        return $this->projectNumber;
+    }
+
+    /**
+     * @param string $projectNumber
+     * @return Ordrsp
+     */
+    public function setProjectNumber($projectNumber)
+    {
+        $this->projectNumber = self::addRFFSegment('AEP', $projectNumber);
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getBeneficiaryReference()
+    {
+        return $this->beneficiaryReference;
+    }
+
+    /**
+     * @param string $beneficiaryReference
+     * @return Ordrsp
+     */
+    public function setBeneficiaryReference($beneficiaryReference)
+    {
+        $this->beneficiaryReference = self::addRFFSegment('AFO', $beneficiaryReference);
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getBeneficiaryReference2()
+    {
+        return $this->beneficiaryReference2;
+    }
+
+    /**
+     * @param string $beneficiaryReference2
+     * @return Ordrsp
+     */
+    public function setBeneficiaryReference2($beneficiaryReference2)
+    {
+        $this->beneficiaryReference2 = self::addRFFSegment('AFP', $beneficiaryReference2);
+        return $this;
+    }
+
+
+
+
+
 
 
 }
