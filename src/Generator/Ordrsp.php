@@ -77,6 +77,15 @@ class Ordrsp extends Message
         );
     }
 
+
+    /**
+     * @param $item Item
+     */
+    public function addItem($item)
+    {
+        $this->items[] = $item;
+    }
+
     /**
      * @param null $msgStatus
      * @return $this
