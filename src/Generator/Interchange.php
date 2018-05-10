@@ -11,6 +11,7 @@ class Interchange
     private $receiver;
     private $date;
     private $time;
+    private $charset;
 
     private $messages;
     private $composed;
@@ -37,6 +38,19 @@ class Interchange
         } else {
             $this->time = $time;
         }
+
+        $this->charset = ['UNOA', 2];
+    }
+
+    /*
+     * Change the default character set
+     * $identifier Syntax identifier
+     * $version Syntax version
+     */
+    public function setCharset($identifier, $version)
+    {
+        $this->charset = [$identifier, $version];
+        return $this;
     }
 
     /*
@@ -55,7 +69,7 @@ class Interchange
     public function compose()
     {
         $temp = [];
-        $temp[] = ['UNB', ['UNOA','2'], $this->sender, $this->receiver, [$this->date, $this->time], $this->interchangeCode];
+        $temp[] = ['UNB', $this->charset, $this->sender, $this->receiver, [$this->date, $this->time], $this->interchangeCode];
         foreach ($this->messages as $msg) {
             foreach ($msg->getComposed() as $i) {
                 $temp[] = $i;

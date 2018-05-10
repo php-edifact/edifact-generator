@@ -163,7 +163,6 @@ class Container
             if (isset($this->spcContact[1])) {
                 $composed[] = $this->spcContact[1];
             }
-
         }
         return $composed;
     }

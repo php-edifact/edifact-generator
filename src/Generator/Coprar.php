@@ -77,6 +77,12 @@ class Coprar extends Message
         return $this;
     }
 
+    public function addContainerSegments($container)
+    {
+        $this->containers[] = $container;
+        return $this;
+    }
+
     /*
      * $documentCode = 43 (discharge), 45 (loading)
      * $msgStatus = 9 (original), 5 (replacement)
@@ -95,7 +101,10 @@ class Coprar extends Message
         $this->messageContent[] = $this->messageCA;
 
         foreach ($this->containers as $cntr) {
-            $content = $cntr->compose();
+            $content = $cntr;
+            if (is_a($cntr, 'EDI\Generator\Coprar\Container')) {
+                $content = $cntr->compose();
+            }
             foreach ($content as $segment) {
                 $this->messageContent[] = $segment;
             }
