@@ -23,6 +23,7 @@ class Coparn extends Message
     private $weightTime;
     private $dangerous;
     private $temperature;
+    private $cargo;
     private $dimensions;
 
     public function __construct($messageID = null, $identifier = 'COPARN', $version = 'D', $release = '00B', $controllingAgency = 'UN', $association = 'SMDG20')
@@ -282,7 +283,9 @@ class Coparn extends Message
         if ($this->temperature !== null) {
             $this->messageContent[] = $this->temperature;
         }
-        $this->messageContent[] = $this->cargo;
+        if ($this->cargo !== null) {
+            $this->messageContent[] = $this->cargo;
+        }
         if ($this->dangerous !== null) {
             foreach ($this->dangerous as $segment) {
                 $this->messageContent[] = $segment;
