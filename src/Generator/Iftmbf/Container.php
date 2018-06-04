@@ -7,6 +7,7 @@ class Container
     private $cntr;
     private $weight;
     private $weightEq;
+    private $shipContact;
 
     public function __construct($goodsID)
     {
@@ -106,10 +107,13 @@ class Container
             ['EQN', 1],
             $this->weightEq
         ];
-        if ($this->shipContact !== null) {
-            $composed[] = $this->shipContact[0];
-            if (isset($this->shipContact[1])) {
-                $composed[] = $this->shipContact[1];
+        if ($this->shipFrom !== null) {
+            $composed[] = $this->shipFrom;           
+            if ($this->shipContact !== null) {
+                $composed[] = $this->shipContact[0];
+                if (isset($this->shipContact[1])) {
+                    $composed[] = $this->shipContact[1];
+                }
             }
         }
         return $composed;
