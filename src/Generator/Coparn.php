@@ -20,6 +20,8 @@ class Coparn extends Message
     private $cntr;
     private $cntrAmount;
     private $weight;
+    private $ventilation;
+    private $humidity;
     private $weightTime;
     private $dangerous;
     private $temperature;
@@ -223,6 +225,18 @@ class Coparn extends Message
         return $this;
     }
 
+    public function setVentilation($ventilation)
+    {
+        $this->ventilation = ['MEA', 'AAE', 'AAS', ['CBM', $ventilation]];
+        return $this;
+    }
+
+    public function setHumidity($humidity)
+    {
+        $this->humidity = ['MEA', 'AAE', 'AAO', ['PCT', $humidity]];
+        return $this;
+    }
+
     public function setOverDimensions($front = '', $back = '', $right = '', $left = '', $height = '')
     {
         $this->dim = [];
@@ -275,6 +289,14 @@ class Coparn extends Message
         $this->messageContent[] = $this->pol;
         $this->messageContent[] = $this->pod;
         $this->messageContent[] = $this->weight;
+
+        if ($this->ventilation !== null) {
+            $this->messageContent[] = $this->ventilation;
+        }
+        if ($this->humidity !== null) {
+            $this->messageContent[] = $this->humidity;
+        }
+
         if ($this->dimensions !== null) {
             foreach ($this->dimensions as $segment) {
                 $this->messageContent[] = $segment;
