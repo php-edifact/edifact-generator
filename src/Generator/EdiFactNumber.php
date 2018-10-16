@@ -31,4 +31,5 @@ class EdiFactNumber
 
         return number_format($value, $decimals, $format, '');
     }
+
 }

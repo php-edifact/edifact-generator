@@ -130,7 +130,11 @@ class Interchange
             }
         }
 
-        $temp[] = ['UNZ', count($this->messages), $this->interchangeCode];
+        $temp[] = [
+            'UNZ',
+            count($this->messages),
+            $this->interchangeCode
+        ];
         $this->composed = $temp;
 
         return $this;

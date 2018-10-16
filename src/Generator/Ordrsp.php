@@ -121,6 +121,7 @@ class Ordrsp extends Message
             }
         }
 
+        $this->messageContent[] = ['UNS', 'S'];
         parent::compose();
         return $this;
     }

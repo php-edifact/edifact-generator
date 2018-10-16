@@ -108,10 +108,14 @@ class Base
     /**
      * @param string, $functionCode
      * @param $identifier
-     * @return array
+     * @return array|bool
      */
     protected function addRFFSegment($functionCode, $identifier)
     {
+        if (empty($identifier)) {
+            return false;
+        }
+
         return [
             'RFF',
             [
@@ -129,7 +133,14 @@ class Base
      */
     protected function addDTMSegment($dateString, $type)
     {
-        return ['DTM', $type, EdifactDate::get($dateString)];
+        return [
+            'DTM',
+            [
+                $type,
+                EdifactDate::get($dateString),
+                102
+            ]
+        ];
     }
 
     /**
@@ -158,6 +169,9 @@ class Base
      */
     protected static function maxChars($string, $length = 35)
     {
+        if (empty($string)){
+            return;
+        }
         return mb_substr($string, 0, $length);
     }
 

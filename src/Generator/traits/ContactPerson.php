@@ -32,7 +32,15 @@ trait ContactPerson
      */
     public function setContactPerson($contactPerson, $section = '')
     {
-        $this->contactPerson = ['CTA', $section, $contactPerson];
+        $this->contactPerson = [
+            'CTA',
+            $section,
+            [
+                $section,
+                $contactPerson,
+            ],
+        ];
+
         return $this;
     }
 
