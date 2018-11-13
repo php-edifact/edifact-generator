@@ -35,6 +35,9 @@ class EdifactDate
      */
     public static function get($string, $format = self::DATE)
     {
+        if (empty($string)){
+          return "";
+        }
         switch ($format) {
             case self::DATE:
                 $dateFormat = self::DATE_FORMAT;
