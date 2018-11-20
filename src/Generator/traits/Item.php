@@ -53,11 +53,11 @@ trait Item {
         = [
             'position',
             'quantity',
+            'deliveryNoteDate',
             'orderNumberWholesaler',
             'orderDate',
             'orderPosition',
             'deliveryNoteNumber',
-            'deliveryNoteDate',
             'deliveryNotePosition',
         ];
 
