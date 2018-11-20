@@ -180,7 +180,7 @@ class Ordrsp extends Message
      */
     public function setDeliveryDate($deliveryDate)
     {
-        $this->deliveryDate = $this->addDTMSegment($deliveryDate, '2');;
+        $this->deliveryDate = $this->addDTMSegment($deliveryDate, '2');
         return $this;
     }
 

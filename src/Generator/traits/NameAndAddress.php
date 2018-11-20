@@ -184,12 +184,14 @@ trait NameAndAddress
    * @param string $city
    * @param string $countryCode
    * @param string $managingOrganisation
+   * @param string $sender
    *
    * @return $this
    */
   public function setDeliveryAddress($name1, $name2 = '', $name3 = '',
     $street = '', $zipcode = '',
-    $city = '', $countryCode = 'DE', $managingOrganisation = 'ZZZ'
+    $city = '', $countryCode = 'DE', $managingOrganisation = 'ZZZ',
+    $sender = null
   ) {
     $this->deliveryAddress = $this->addNameAndAddress(
       $name1,
@@ -200,8 +202,9 @@ trait NameAndAddress
       $city,
       $countryCode,
       $managingOrganisation,
-      'ST'
-    );;
+      'ST',
+      $sender
+    );
     return $this;
   }
 

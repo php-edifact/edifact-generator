@@ -240,7 +240,7 @@ class Invoic extends Message
      */
     public function setExcludingVatText($excludingVatText)
     {
-        $this->excludingVatText = self::addFTXSegment($excludingVatText, 'OSI', 'ROU');;
+        $this->excludingVatText = self::addFTXSegment($excludingVatText, 'OSI', 'ROU');
         return $this;
     }
 

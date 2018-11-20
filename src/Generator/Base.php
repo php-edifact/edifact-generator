@@ -49,7 +49,12 @@ class Base
         foreach ($keys as $key) {
             if (property_exists($this, $key)) {
                 if (!is_null($this->{$key})) {
-                    $this->messageContent[] = $this->{$key};
+                  $value = $this->{$key};
+                  if ($value){
+                    $this->messageContent[] = $value;
+                  } else {
+                    throw new EdifactException("key ".$key . " returns no array structure");
+                  }
                 }
             } else {
                 throw new EdifactException('key: ' . $key . ' not found for composeByKeys in ' . get_class($this) . '->' .

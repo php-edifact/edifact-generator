@@ -60,7 +60,7 @@ class OrdersTest extends TestCase
                 )
                 ->setQuantity('3')
                 ->setOrderNumberWholesaler('MyOrderNumber')
-                ->setAdditionalText('this is an additional text information for article');;
+                ->setAdditionalText('this is an additional text information for article');
             $orders->addItem($item);
             $orders->compose();
 
