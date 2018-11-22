@@ -160,3 +160,11 @@ $v = $v->compose();
 $inc = $p->addMessage($v)->getComposed();
 $incText = (new EDI\Encoder($inc, false))->get();
 ```
+
+COHAOR
+------
+Container special handling order message
+
+```
+@todo
+```
