@@ -1,18 +1,20 @@
 <?php
 
-namespace EDI\Generator\Cohaor;
+namespace EDI\Generator\Segment;
+
+use EDI\Generator\Segment;
 
 /**
  * Measurements.
  *
  * @see https://service.unece.org/trade/untdid/d17b/trsd/trsdmea.htm
  */
-class Measurements
+class Measurements extends Segment
 {
-    private $sMeasurementPurposeCodeQualifier = '';
-    private $aMeasurementDetails = [];
-    private $aValueRange = [];
-    private $sSurfaceOrLayerCode = '';
+    protected $sMeasurementPurposeCodeQualifier = '';
+    protected $aMeasurementDetails = [];
+    protected $aValueRange = [];
+    protected $sSurfaceOrLayerCode = '';
 
     /**
      * Set Measurement Purpose Code Qualifier.
@@ -118,9 +120,9 @@ class Measurements
     /**
      * Compose.
      *
-     * @return array $aComposed
+     * @return self $this
      */
-    public function compose(): array
+    public function compose(): self
     {
         $aComposed = ['MEA'];
 
@@ -136,6 +138,8 @@ class Measurements
         // Surface Or Layer Code
         $aComposed[] = $this->sSurfaceOrLayerCode;
 
-        return $aComposed;
+        $this->setComposed($aComposed);
+
+        return $this;
     }
 }

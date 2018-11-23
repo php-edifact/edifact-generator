@@ -1,19 +1,21 @@
 <?php
 
-namespace EDI\Generator\Cohaor;
+namespace EDI\Generator\Segment;
+
+use EDI\Generator\Segment;
 
 /**
  * Reference.
  *
  * @see https://service.unece.org/trade/untdid/d17b/trsd/trsddtm.htm
  */
-class Reference
+class Reference extends Segment
 {
-    private $sReferenceCodeQualifier = '';
-    private $sReferenceIdentifier = '';
-    private $sDocumentLineIdentifier = '';
-    private $sVersionIdentifier = '';
-    private $sRevisionIdentifier = '';
+    protected $sReferenceCodeQualifier = '';
+    protected $sReferenceIdentifier = '';
+    protected $sDocumentLineIdentifier = '';
+    protected $sVersionIdentifier = '';
+    protected $sRevisionIdentifier = '';
 
     /**
      * Set Reference Code Qualifier.
@@ -83,9 +85,9 @@ class Reference
     /**
      * Compose.
      *
-     * @return array $aComposed
+     * @return self $this
      */
-    public function compose(): array
+    public function compose(): self
     {
         $aComposed = ['RFF'];
 
@@ -104,6 +106,8 @@ class Reference
         // Revision Identifier
         $aComposed[] = $this->sRevisionIdentifier;
 
-        return $aComposed;
+        $this->setComposed($aComposed);
+
+        return $this;
     }
 }

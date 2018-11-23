@@ -1,16 +1,18 @@
 <?php
 
-namespace EDI\Generator\Cohaor;
+namespace EDI\Generator\Segment;
+
+use EDI\Generator\Segment;
 
 /**
  * Temperature.
  *
  * @see https://service.unece.org/trade/untdid/d17b/trsd/trsdtmp.htm
  */
-class Temperature
+class Temperature extends Segment
 {
-    private $sTemperatureTypeCodeQualifier = '';
-    private $aTemperatureSetting = [];
+    protected $sTemperatureTypeCodeQualifier = '';
+    protected $aTemperatureSetting = [];
 
     /**
      * Set Temperature Type Code Qualifier.
@@ -51,9 +53,9 @@ class Temperature
     /**
      * Compose.
      *
-     * @return array $aComposed
+     * @return self $this
      */
-    public function compose(): array
+    public function compose(): self
     {
         $aComposed = ['TMP'];
 
@@ -63,6 +65,8 @@ class Temperature
         // Temperature Settings
         $aComposed[] = $this->aTemperatureSetting;
 
-        return $aComposed;
+        $this->setComposed($aComposed);
+
+        return $this;
     }
 }

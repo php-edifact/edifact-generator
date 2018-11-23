@@ -1,20 +1,22 @@
 <?php
 
-namespace EDI\Generator\Cohaor;
+namespace EDI\Generator\Segment;
+
+use EDI\Generator\Segment;
 
 /**
  * Free Text.
  *
  * @see https://service.unece.org/trade/untdid/d17b/trsd/trsdftx.htm
  */
-class FreeText
+class FreeText extends Segment
 {
-    private $sTextSubjectCodeQualifier = '';
-    private $sFreeTextFunctionCode = '';
-    private $aTextReference = [];
-    private $aTextLiteral = [];
-    private $sLanguageNameCode = '';
-    private $sFreeTextFormatCode = '';
+    protected $sTextSubjectCodeQualifier = '';
+    protected $sFreeTextFunctionCode = '';
+    protected $aTextReference = [];
+    protected $aTextLiteral = [];
+    protected $sLanguageNameCode = '';
+    protected $sFreeTextFormatCode = '';
 
     /**
      * Set Text Subject Code Qualifier.
@@ -115,9 +117,9 @@ class FreeText
     /**
      * Compose.
      *
-     * @return array $aComposed
+     * @return self $this
      */
-    public function compose(): array
+    public function compose(): self
     {
         $aComposed = ['FTX'];
 
@@ -139,6 +141,8 @@ class FreeText
         // Free Text Format Code
         $aComposed[] = $this->sFreeTextFormatCode;
 
-        return $aComposed;
+        $this->setComposed($aComposed);
+
+        return $this;
     }
 }

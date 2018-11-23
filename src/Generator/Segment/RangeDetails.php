@@ -1,18 +1,20 @@
 <?php
 
-namespace EDI\Generator\Cohaor;
+namespace EDI\Generator\Segment;
+
+use EDI\Generator\Segment;
 
 /**
  * Range Details.
  *
  * @see https://service.unece.org/trade/untdid/d17b/trsd/trsdrng.htm
  */
-class RangeDetails
+class RangeDetails extends Segment
 {
-    private $sRangeTypeCodeQualifier = '';
-    private $sMeasurementUnitCode ='';
-    private $sRangeMinimumQuantity = '';
-    private $sRangeMaximumQuantity = '';
+    protected $sRangeTypeCodeQualifier = '';
+    protected $sMeasurementUnitCode ='';
+    protected $sRangeMinimumQuantity = '';
+    protected $sRangeMaximumQuantity = '';
 
     /**
      * Set Range Type Code Qualifier.
@@ -69,9 +71,9 @@ class RangeDetails
     /**
      * Compose.
      *
-     * @return array $aComposed
+     * @return self $this
      */
-    public function compose(): array
+    public function compose(): self
     {
         $aComposed = ['RNG'];
 
@@ -87,6 +89,8 @@ class RangeDetails
         // Range Maximum Quantity
         $aComposed[] = $this->sRangeMaximumQuantity;
 
-        return $aComposed;
+        $this->setComposed($aComposed);
+
+        return $this;
     }
 }

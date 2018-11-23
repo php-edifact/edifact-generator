@@ -1,20 +1,23 @@
 <?php
-namespace EDI\Generator\Cohaor;
+
+namespace EDI\Generator\Segment;
+
+use EDI\Generator\Segment;
 
 /**
  * Equipment Details.
  *
  * @see https://service.unece.org/trade/untdid/d17b/trsd/trsdeqd.htm
  */
-class EquipmentDetails
+class EquipmentDetails extends Segment
 {
-    private $sEquipmentTypeCodeQualifier = '';
-    private $aEquipmentIdentification = [];
-    private $aEquipmentSizeAndType = [];
-    private $sEquipmentSupplierCode = '';
-    private $sEquipmentStatusCode = '';
-    private $sFullOrEmptyIndicatorCode = '';
-    private $sMarkingInstructionsCode = '';
+    protected $sEquipmentTypeCodeQualifier = '';
+    protected $aEquipmentIdentification = [];
+    protected $aEquipmentSizeAndType = [];
+    protected $sEquipmentSupplierCode = '';
+    protected $sEquipmentStatusCode = '';
+    protected $sFullOrEmptyIndicatorCode = '';
+    protected $sMarkingInstructionsCode = '';
 
     /**
      * Set Equipment Type CodeQualifier.
@@ -23,7 +26,7 @@ class EquipmentDetails
      *
      * @return self $this
      */
-    public function setEquipmentTypeCodeQualifier(string $sEquipmentTypeCodeQualifier) : self
+    public function setEquipmentTypeCodeQualifier(string $sEquipmentTypeCodeQualifier): self
     {
         $this->sEquipmentTypeCodeQualifier = $sEquipmentTypeCodeQualifier;
         return $this;
@@ -39,8 +42,12 @@ class EquipmentDetails
      *
      * @return self $this
      */
-    public function setEquipmentIdentification(string $sEquipmentIdentifier = '', string $sCodeListIdentificationCode = '', string $sCodeListResponsibleAgencyCode = '', string $sCountryIdentifier = '') : self
-    {
+    public function setEquipmentIdentification(
+        string $sEquipmentIdentifier = '',
+        string $sCodeListIdentificationCode = '',
+        string $sCodeListResponsibleAgencyCode = '',
+        string $sCountryIdentifier = ''
+    ): self {
         $aEquipmentIdentification = [];
 
         // Equipment Identifier
@@ -70,8 +77,12 @@ class EquipmentDetails
      *
      * @return self $this
      */
-    public function setEquipmentSizeAndType(string $sEquipmentSizeAndTypeDescriptionCode = '', string $sCodeListIdentificationCode = null, string $sCodeListResponsibleAgencyCode = null, string $sEquipmentSizeAndTypeDescription = '')
-    {
+    public function setEquipmentSizeAndType(
+        string $sEquipmentSizeAndTypeDescriptionCode = '',
+        string $sCodeListIdentificationCode = null,
+        string $sCodeListResponsibleAgencyCode = null,
+        string $sEquipmentSizeAndTypeDescription = ''
+    ) {
         $aEquipmentSizeAndType = [];
 
         // Equipment Size and Type Description Code
@@ -98,7 +109,7 @@ class EquipmentDetails
      *
      * @return self $this
      */
-    public function setEquipmentSupplierCode(string $sEquipmentSupplierCode) : self
+    public function setEquipmentSupplierCode(string $sEquipmentSupplierCode): self
     {
         $this->sEquipmentSupplierCode = $sEquipmentSupplierCode;
         return $this;
@@ -111,7 +122,7 @@ class EquipmentDetails
      *
      * @return self $this
      */
-    public function setEquipmentStatusCode(string $sEquipmentStatusCode) : self
+    public function setEquipmentStatusCode(string $sEquipmentStatusCode): self
     {
         $this->sEquipmentStatusCode = $sEquipmentStatusCode;
         return $this;
@@ -124,7 +135,7 @@ class EquipmentDetails
      *
      * @return self $this
      */
-    public function setFullOrEmptyIndicatorCode(string $sFullOrEmptyIndicatorCode) : self
+    public function setFullOrEmptyIndicatorCode(string $sFullOrEmptyIndicatorCode): self
     {
         $this->sFullOrEmptyIndicatorCode = $sFullOrEmptyIndicatorCode;
         return $this;
@@ -137,7 +148,7 @@ class EquipmentDetails
      *
      * @return self $this
      */
-    public function setMarkingInstructionsCode(string $sMarkingInstructionsCode) : self
+    public function setMarkingInstructionsCode(string $sMarkingInstructionsCode): self
     {
         $this->sMarkingInstructionsCode = $sMarkingInstructionsCode;
         return $this;
@@ -146,9 +157,9 @@ class EquipmentDetails
     /**
      * Compose.
      *
-     * @return array $aComposed
+     * @return self $this
      */
-    public function compose() : array
+    public function compose(): self
     {
         $aComposed = ['EQD'];
 
@@ -173,6 +184,8 @@ class EquipmentDetails
         // Marking Instructions Code
         $aComposed[] = $this->sMarkingInstructionsCode;
 
-        return $aComposed;
+        $this->setComposed($aComposed);
+
+        return $this;
     }
 }

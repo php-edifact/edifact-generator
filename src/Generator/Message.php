@@ -32,24 +32,72 @@ class Message
         }
     }
 
-    public function compose($msgStatus = null)
+    /**
+     * Get Composed.
+     *
+     * @return array $this->aComposed
+     */
+    public function getComposed(): array
     {
-        $temp=[];
-        $temp[]=['UNH', $this->messageID, $this->messageType];
+        return $this->aComposed;
+    }
+
+    /**
+     * Set Composed.
+     *
+     * @param array $aComposed
+     */
+    public function setComposed(array $aComposed): void
+    {
+        $this->aComposed = $aComposed;
+    }
+
+    /**
+     * Compose.
+     *
+     * @param mixed $sMessageFunctionCode (1225)
+     * @param mixed $sDocumentNameCode (1001)
+     * @param mixed $sDocumentIdentifier (1004)
+     *
+     * @return self $this
+     */
+    public function compose(?string $sMessageFunctionCode, ?string $sDocumentNameCode, ?string $sDocumentIdentifier): self
+    {
+        $aComposed = [];
+
+        // Message Header
+        $aComposed[] = ['UNH', $this->messageID, $this->messageType];
+
+        // Segments
 
         foreach ($this->messageContent as $i) {
-            $temp[] = $i;
+            $aComposed[] = $i;
         }
 
-        $temp[]=['UNT', (2 + count($this->messageContent)), $this->messageID];
+        // Message Trailer
+        $aComposed[] = ['UNT', (2 + count($this->messageContent)), $this->messageID];
 
-        $this->composed = $temp;
+        // Reduce
+        $aComposed = $this->reduce($aComposed);
+
+        $this->setComposed($aComposed);
+
         return $this;
     }
 
-    public function getComposed()
+    /**
+     * Reduce.
+     * @comment Trailing data elements and their leading separators are omitted to reduce message size.
+     *
+     * @param array $aComposed
+     *
+     * @return array $aComposed
+     */
+    public function reduce(array $aComposed): array
     {
-        return $this->composed;
+        // @todo
+
+        return $aComposed;
     }
 
     /*

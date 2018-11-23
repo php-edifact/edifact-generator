@@ -1,19 +1,21 @@
 <?php
 
-namespace EDI\Generator\Cohaor;
+namespace EDI\Generator\Segment;
+
+use EDI\Generator\Segment;
 
 /**
  * Name And Address.
  *
  * @see https://service.unece.org/trade/untdid/d17b/trsd/trsdnad.htm
  */
-class NameAndAddress
+class NameAndAddress extends Segment
 {
-    private $sPartyFunctionCodeQualifier = '';
-    private $aPartyIdentificationDetails = [];
-    private $aNameAndAddress = [];
-    private $sCityName = '';
-    private $sCountryIdentifier = '';
+    protected $sPartyFunctionCodeQualifier = '';
+    protected $aPartyIdentificationDetails = [];
+    protected $aNameAndAddress = [];
+    protected $sCityName = '';
+    protected $sCountryIdentifier = '';
 
     /**
      * Set Party Function Code Qualifier.
@@ -115,9 +117,9 @@ class NameAndAddress
     /**
      * Compose.
      *
-     * @return array $aComposed
+     * @return self $this
      */
-    public function compose(): array
+    public function compose(): self
     {
         $aComposed = ['NAD'];
 
@@ -148,6 +150,8 @@ class NameAndAddress
         // Country Identifier
         $aComposed[] = $this->sCountryIdentifier;
 
-        return $aComposed;
+        $this->setComposed($aComposed);
+
+        return $this;
     }
 }

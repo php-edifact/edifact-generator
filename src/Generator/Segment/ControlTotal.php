@@ -1,17 +1,19 @@
 <?php
 
-namespace EDI\Generator\Cohaor;
+namespace EDI\Generator\Segment;
+
+use EDI\Generator\Segment;
 
 /**
  * Control Total.
  *
  * @see https://service.unece.org/trade/untdid/d17b/trsd/trsdcnt.htm
  */
-class ControlTotal
+class ControlTotal extends Segment
 {
-    private $sControlTotalTypeCodeQualifier = '';
-    private $sControlTotalQuantity = '';
-    private $sMeasurementUnitCode = '';
+    protected $sControlTotalTypeCodeQualifier = '';
+    protected $sControlTotalQuantity = '';
+    protected $sMeasurementUnitCode = '';
 
     /**
      * Set Control Total Type Code Qualifier.
@@ -55,9 +57,9 @@ class ControlTotal
     /**
      * Compose.
      *
-     * @return array $aComposed
+     * @return self $this
      */
-    public function compose(): array
+    public function compose(): self
     {
         $aComposed = ['CNT'];
 
@@ -70,6 +72,8 @@ class ControlTotal
         // Measurement Unit Code
         $aComposed[] = $this->sMeasurementUnitCode;
 
-        return $aComposed;
+        $this->setComposed($aComposed);
+
+        return $this;
     }
 }

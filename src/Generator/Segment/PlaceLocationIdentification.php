@@ -1,19 +1,21 @@
 <?php
 
-namespace EDI\Generator\Cohaor;
+namespace EDI\Generator\Segment;
+
+use EDI\Generator\Segment;
 
 /**
  * Place Location Identification.
  *
  * @see https://service.unece.org/trade/untdid/d17b/trsd/trsdloc.htm
  */
-class PlaceLocationIdentification
+class PlaceLocationIdentification extends Segment
 {
-    private $sLocationFunctionCodeQualifier = '';
-    private $aLocationIdentification = [];
-    private $aRelatedLocationOneIdentification = [];
-    private $aRelatedLocationTwoIdentification = [];
-    private $sRelationCode = '';
+    protected $sLocationFunctionCodeQualifier = '';
+    protected $aLocationIdentification = [];
+    protected $aRelatedLocationOneIdentification = [];
+    protected $aRelatedLocationTwoIdentification = [];
+    protected $sRelationCode = '';
 
     /**
      * Set Location Function Code Qualifier.
@@ -149,9 +151,9 @@ class PlaceLocationIdentification
     /**
      * Compose.
      *
-     * @return array $aComposed
+     * @return self $this
      */
-    public function compose(): array
+    public function compose(): self
     {
         $aComposed = ['LOC'];
 
@@ -170,6 +172,8 @@ class PlaceLocationIdentification
         // Relation Code
         $aComposed[] = $this->sRelationCode;
 
-        return $aComposed;
+        $this->setComposed($aComposed);
+
+        return $this;
     }
 }

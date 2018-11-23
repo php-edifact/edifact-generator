@@ -1,16 +1,19 @@
 <?php
-namespace EDI\Generator\Cohaor;
+
+namespace EDI\Generator\Segment;
+
+use EDI\Generator\Segment;
 
 /**
  * Date Time Period.
  *
  * @see https://service.unece.org/trade/untdid/d17b/trsd/trsddtm.htm
  */
-class DateTimePeriod
+class DateTimePeriod extends Segment
 {
-    private $sDateOrTimeOrPeriodFunctionCodeQualifier = '';
-    private $sDateOrTimeOrPeriodText = '';
-    private $sDateOrTimeOrPeriodFormatCode = '';
+    protected $sDateOrTimeOrPeriodFunctionCodeQualifier = '';
+    protected $sDateOrTimeOrPeriodText = '';
+    protected $sDateOrTimeOrPeriodFormatCode = '';
 
     /**
      * Set Date Or Time Or Period Function Code Qualifier.
@@ -19,7 +22,7 @@ class DateTimePeriod
      *
      * @return self $this
      */
-    public function setDateOrTimeOrPeriodFunctionCodeQualifier(string $sDateOrTimeOrPeriodFunctionCodeQualifier) : self
+    public function setDateOrTimeOrPeriodFunctionCodeQualifier(string $sDateOrTimeOrPeriodFunctionCodeQualifier): self
     {
         $this->sDateOrTimeOrPeriodFunctionCodeQualifier = $sDateOrTimeOrPeriodFunctionCodeQualifier;
         return $this;
@@ -32,7 +35,7 @@ class DateTimePeriod
      *
      * @return self $this
      */
-    public function setDateOrTimeOrPeriodText(string $sDateOrTimeOrPeriodText) : self
+    public function setDateOrTimeOrPeriodText(string $sDateOrTimeOrPeriodText): self
     {
         $this->sDateOrTimeOrPeriodText = $sDateOrTimeOrPeriodText;
         return $this;
@@ -45,7 +48,7 @@ class DateTimePeriod
      *
      * @return self $this
      */
-    public function setDateOrTimeOrPeriodFormatCode(string $sDateOrTimeOrPeriodFormatCode) : self
+    public function setDateOrTimeOrPeriodFormatCode(string $sDateOrTimeOrPeriodFormatCode): self
     {
         $this->sDateOrTimeOrPeriodFormatCode = $sDateOrTimeOrPeriodFormatCode;
         return $this;
@@ -54,9 +57,9 @@ class DateTimePeriod
     /**
      * Compose.
      *
-     * @return array $aComposed
+     * @return self $this
      */
-    public function compose() : array
+    public function compose(): self
     {
         $aComposed = ['EQD'];
 
@@ -69,6 +72,8 @@ class DateTimePeriod
         // Date Or Time Or Period Format Code
         $aComposed[] = $this->sDateOrTimeOrPeriodFormatCode;
 
-        return $aComposed;
+        $this->setComposed($aComposed);
+
+        return $this;
     }
 }

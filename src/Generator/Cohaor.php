@@ -4,7 +4,7 @@ namespace EDI\Generator;
 
 class Cohaor extends Message
 {
-    private $aSegmentGroups = [];
+    protected $aSegmentGroups = [];
 
     /**
      * Construct.
@@ -45,21 +45,21 @@ class Cohaor extends Message
     /**
      * Compose.
      *
-     * @param int $iMessageFunctionCode (1225)
-     * @param int $iDocumentNameCode (1001)
+     * @param mixed $sMessageFunctionCode (1225)
+     * @param mixed $sDocumentNameCode (1001)
      * @param mixed $sDocumentIdentifier (1004)
      *
-     * @return self $this
+     * @return parent::compose()
      */
-    public function compose($iMessageFunctionCode = 9, $iDocumentNameCode = 292, $sDocumentIdentifier = null): self
+    public function compose(?string $sMessageFunctionCode, ?string $sDocumentNameCode, ?string $sDocumentIdentifier): parent
     {
         // BGM - Beginning of message
 
         $this->messageContent = [
-            ['BGM', $iDocumentNameCode, $sDocumentIdentifier, $iMessageFunctionCode]
+            ['BGM', $sDocumentNameCode, $sDocumentIdentifier, $sMessageFunctionCode]
         ];
 
-        // SEGMENT GROUP 1 .. 11
+        // Segment Groups
 
         if (count($this->aSegmentGroups) > 0) {
             foreach ($this->aSegmentGroups as $iSegmentGroupNumber => $aSegmentGroup) {
@@ -71,8 +71,7 @@ class Cohaor extends Message
             }
         }
 
-        parent::compose();
-
-        return $this;
+        return parent::compose($sMessageFunctionCode, $sDocumentNameCode, $sDocumentIdentifier);
     }
 }
+
