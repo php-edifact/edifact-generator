@@ -7,15 +7,17 @@ use EDI\Generator\Segment;
 /**
  * Reference.
  *
- * @see https://service.unece.org/trade/untdid/d17b/trsd/trsddtm.htm
+ * @see https://service.unece.org/trade/untdid/d17b/trsd/trsdrff.htm
  */
 class Reference extends Segment
 {
-    protected $sReferenceCodeQualifier = '';
-    protected $sReferenceIdentifier = '';
-    protected $sDocumentLineIdentifier = '';
-    protected $sVersionIdentifier = '';
-    protected $sRevisionIdentifier = '';
+    const segment = 'RFF';
+
+    protected $sReferenceCodeQualifier;
+    protected $sReferenceIdentifier;
+    protected $sDocumentLineIdentifier;
+    protected $sVersionIdentifier;
+    protected $sRevisionIdentifier;
 
     /**
      * Set Reference Code Qualifier.
@@ -89,22 +91,38 @@ class Reference extends Segment
      */
     public function compose(): self
     {
-        $aComposed = ['RFF'];
+        $aComposed[] = self::segment;
 
         // Reference Code Qualifier
-        $aComposed[] = $this->sReferenceCodeQualifier;
+        $aReference[] = $this->sReferenceCodeQualifier;
 
         // Reference Identifier
-        $aComposed[] = $this->sReferenceIdentifier;
+
+        if ($this->sReferenceIdentifier !== null) {
+            $aReference[] = $this->sReferenceIdentifier;
+        }
 
         // Document Line Identifier
-        $aComposed[] = $this->sDocumentLineIdentifier;
+
+        if ($this->sDocumentLineIdentifier !== null) {
+            $aReference[] = $this->sDocumentLineIdentifier;
+        }
 
         // Version Identifier
-        $aComposed[] = $this->sVersionIdentifier;
+
+        if ($this->sVersionIdentifier !== null) {
+            $aReference[] = $this->sVersionIdentifier;
+        }
 
         // Revision Identifier
-        $aComposed[] = $this->sRevisionIdentifier;
+
+        if ($this->sRevisionIdentifier !== null) {
+            $aReference[] = $this->sRevisionIdentifier;
+        }
+
+        if (count($aReference) > 0) {
+            $aComposed[] = $aReference;
+        }
 
         $this->setComposed($aComposed);
 

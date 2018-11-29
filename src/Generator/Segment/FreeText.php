@@ -11,12 +11,14 @@ use EDI\Generator\Segment;
  */
 class FreeText extends Segment
 {
-    protected $sTextSubjectCodeQualifier = '';
-    protected $sFreeTextFunctionCode = '';
+    const segment = 'FTX';
+
+    protected $sTextSubjectCodeQualifier;
+    protected $sFreeTextFunctionCode;
     protected $aTextReference = [];
     protected $aTextLiteral = [];
-    protected $sLanguageNameCode = '';
-    protected $sFreeTextFormatCode = '';
+    protected $sLanguageNameCode;
+    protected $sFreeTextFormatCode;
 
     /**
      * Set Text Subject Code Qualifier.
@@ -48,15 +50,15 @@ class FreeText extends Segment
      * Set Text Reference.
      *
      * @param string $sFreeTextDescriptionCode (4441)
-     * @param string $sCodeListIdentificationCode (1131)
-     * @param string $sCodeListResponsibleAgencyCode (3055)
+     * @param mixed $sCodeListIdentificationCode (1131)
+     * @param mixed $sCodeListResponsibleAgencyCode (3055)
      *
      * @return self $this
      */
     public function setTextReference(
         string $sFreeTextDescriptionCode = '',
-        string $sCodeListIdentificationCode = '',
-        string $sCodeListResponsibleAgencyCode = ''
+        ?string $sCodeListIdentificationCode = null,
+        ?string $sCodeListResponsibleAgencyCode = null
     ): self {
         $aTextReference = [];
 
@@ -64,10 +66,16 @@ class FreeText extends Segment
         $aTextReference[] = $sFreeTextDescriptionCode;
 
         // Code List Identification Code
-        $aTextReference[] = $sCodeListIdentificationCode;
+
+        if ($sCodeListIdentificationCode !== null) {
+            $aTextReference[] = $sCodeListIdentificationCode;
+        }
 
         // Code List Responsible Agency Code
-        $aTextReference[] = $sCodeListResponsibleAgencyCode;
+
+        if ($sCodeListResponsibleAgencyCode !== null) {
+            $aTextReference[] = $sCodeListResponsibleAgencyCode;
+        }
 
         $this->aTextReference = $aTextReference;
 
@@ -121,25 +129,42 @@ class FreeText extends Segment
      */
     public function compose(): self
     {
-        $aComposed = ['FTX'];
+        $aComposed[] = self::segment;
 
         // Text Subject Code Qualifier
         $aComposed[] = $this->sTextSubjectCodeQualifier;
 
         // Free Text Function Code
-        $aComposed[] = $this->sFreeTextFunctionCode;
+
+        if ($this->sFreeTextFunctionCode !== null) {
+            $aComposed[] = $this->sFreeTextFunctionCode;
+        }
 
         // Text Reference
-        $aComposed[] = $this->aTextReference;
+
+        if (count($this->aTextReference) > 0) {
+            $aComposed[] = $this->aTextReference;
+        }
 
         // Text Literal
-        $aComposed[] = $this->aTextLiteral;
+
+        if (count($this->aTextLiteral) > 0) {
+            $aComposed[] = $this->aTextLiteral;
+        }
 
         // Language Name Code
-        $aComposed[] = $this->sLanguageNameCode;
+
+        if ($this->sLanguageNameCode !== null) {
+            $aComposed[] = $this->sLanguageNameCode;
+        }
 
         // Free Text Format Code
-        $aComposed[] = $this->sFreeTextFormatCode;
+
+        if ($this->sFreeTextFormatCode !== null) {
+            $aComposed[] = $this->sFreeTextFormatCode;
+        }
+
+        // dd($aComposed);
 
         $this->setComposed($aComposed);
 

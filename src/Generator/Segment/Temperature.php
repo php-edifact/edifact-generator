@@ -11,7 +11,9 @@ use EDI\Generator\Segment;
  */
 class Temperature extends Segment
 {
-    protected $sTemperatureTypeCodeQualifier = '';
+    const segment = 'TMP';
+
+    protected $sTemperatureTypeCodeQualifier;
     protected $aTemperatureSetting = [];
 
     /**
@@ -30,20 +32,26 @@ class Temperature extends Segment
     /**
      * Set Temperature Setting.
      *
-     * @param string $sTemperatureDegree (6246)
-     * @param string $sMeasurementUnitCode (6411)
+     * @param mixed $sTemperatureDegree (6246)
+     * @param mixed $sMeasurementUnitCode (6411)
      *
      * @return self $this
      */
-    public function setTemperatureSetting(string $sTemperatureDegree = '', string $sMeasurementUnitCode = '')
+    public function setTemperatureSetting(?string $sTemperatureDegree = null, ?string $sMeasurementUnitCode = null)
     {
         $aTemperatureSetting = [];
 
         // Temperature Degree
-        $aTemperatureSetting[] = $sTemperatureDegree;
+
+        if ($sTemperatureDegree !== null) {
+            $aTemperatureSetting[] = $sTemperatureDegree;
+        }
 
         // Measurement Unit Code
-        $aTemperatureSetting[] = $sMeasurementUnitCode;
+
+        if ($sMeasurementUnitCode !== null) {
+            $aTemperatureSetting[] = $sMeasurementUnitCode;
+        }
 
         $this->aTemperatureSetting = $aTemperatureSetting;
 
@@ -57,13 +65,17 @@ class Temperature extends Segment
      */
     public function compose(): self
     {
-        $aComposed = ['TMP'];
+        $aComposed[] = self::segment;
 
         // Temperature Type Code Qualifier
+
         $aComposed[] = $this->sTemperatureTypeCodeQualifier;
 
-        // Temperature Settings
-        $aComposed[] = $this->aTemperatureSetting;
+        // Temperature Setting
+
+        if (count($this->aTemperatureSetting) > 0) {
+            $aComposed[] = $this->aTemperatureSetting;
+        }
 
         $this->setComposed($aComposed);
 

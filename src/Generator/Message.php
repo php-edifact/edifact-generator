@@ -77,27 +77,9 @@ class Message
         // Message Trailer
         $aComposed[] = ['UNT', (2 + count($this->messageContent)), $this->messageID];
 
-        // Reduce
-        $aComposed = $this->reduce($aComposed);
-
         $this->setComposed($aComposed);
 
         return $this;
-    }
-
-    /**
-     * Reduce.
-     * @comment Trailing data elements and their leading separators are omitted to reduce message size.
-     *
-     * @param array $aComposed
-     *
-     * @return array $aComposed
-     */
-    public function reduce(array $aComposed): array
-    {
-        // @todo
-
-        return $aComposed;
     }
 
     /*

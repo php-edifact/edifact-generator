@@ -11,10 +11,12 @@ use EDI\Generator\Segment;
  */
 class RangeDetails extends Segment
 {
-    protected $sRangeTypeCodeQualifier = '';
-    protected $sMeasurementUnitCode ='';
-    protected $sRangeMinimumQuantity = '';
-    protected $sRangeMaximumQuantity = '';
+    const segment = 'RNG';
+
+    protected $sRangeTypeCodeQualifier;
+    protected $sMeasurementUnitCode;
+    protected $sRangeMinimumQuantity;
+    protected $sRangeMaximumQuantity;
 
     /**
      * Set Range Type Code Qualifier.
@@ -75,19 +77,29 @@ class RangeDetails extends Segment
      */
     public function compose(): self
     {
-        $aComposed = ['RNG'];
+        $aComposed[] = self::segment;
 
         // Range Type Code Qualifier
         $aComposed[] = $this->sRangeTypeCodeQualifier;
 
         // Measurement Unit Code
-        $aComposed[] = $this->sMeasurementUnitCode;
+        $aRange[] = $this->sMeasurementUnitCode;
 
         // Range Minimum Quantity
-        $aComposed[] = $this->sRangeMinimumQuantity;
+
+        if ($this->sRangeMinimumQuantity !== null) {
+            $aRange[] = $this->sRangeMinimumQuantity;
+        }
 
         // Range Maximum Quantity
-        $aComposed[] = $this->sRangeMaximumQuantity;
+
+        if ($this->sRangeMaximumQuantity !== null) {
+            $aRange[] = $this->sRangeMaximumQuantity;
+        }
+
+        if (count($aRange) > 0) {
+            $aComposed[] = $aRange;
+        }
 
         $this->setComposed($aComposed);
 

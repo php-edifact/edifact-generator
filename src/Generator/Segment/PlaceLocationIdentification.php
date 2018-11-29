@@ -11,11 +11,13 @@ use EDI\Generator\Segment;
  */
 class PlaceLocationIdentification extends Segment
 {
-    protected $sLocationFunctionCodeQualifier = '';
+    const segment = 'LOC';
+
+    protected $sLocationFunctionCodeQualifier;
     protected $aLocationIdentification = [];
     protected $aRelatedLocationOneIdentification = [];
     protected $aRelatedLocationTwoIdentification = [];
-    protected $sRelationCode = '';
+    protected $sRelationCode;
 
     /**
      * Set Location Function Code Qualifier.
@@ -33,32 +35,44 @@ class PlaceLocationIdentification extends Segment
     /**
      * Set Location Identification.
      *
-     * @param string $sLocationIdentifier (3225)
-     * @param string $sCodeListIdentificationCode (1131)
-     * @param string $sCodeListResponsibleAgencyCode (3055)
-     * @param string $sLocationName (3224)
+     * @param mixed $sLocationIdentifier (3225)
+     * @param mixed $sCodeListIdentificationCode (1131)
+     * @param mixed $sCodeListResponsibleAgencyCode (3055)
+     * @param mixed $sLocationName (3224)
      *
      * @return self $this
      */
     public function setLocationIdentification(
-        string $sLocationIdentifier = '',
-        string $sCodeListIdentificationCode = '',
-        string $sCodeListResponsibleAgencyCode = '',
-        string $sLocationName = ''
+        ?string $sLocationIdentifier = null,
+        ?string $sCodeListIdentificationCode = null,
+        ?string $sCodeListResponsibleAgencyCode = null,
+        ?string $sLocationName = null
     ) {
         $aLocationIdentification = [];
 
         // Location Identifier
-        $aLocationIdentification[] = $sLocationIdentifier;
+
+        if ($sLocationIdentifier !== null) {
+            $aLocationIdentification[] = $sLocationIdentifier;
+        }
 
         // Code List Identification Code
-        $aLocationIdentification[] = $sCodeListIdentificationCode;
+
+        if ($sCodeListIdentificationCode !== null) {
+            $aLocationIdentification[] = $sCodeListIdentificationCode;
+        }
 
         // Code List Responsible Agency Code
-        $aLocationIdentification[] = $sCodeListResponsibleAgencyCode;
+
+        if ($sCodeListResponsibleAgencyCode !== null) {
+            $aLocationIdentification[] = $sCodeListResponsibleAgencyCode;
+        }
 
         // Location Name
-        $aLocationIdentification[] = $sLocationName;
+
+        if ($sLocationName !== null) {
+            $aLocationIdentification[] = $sLocationName;
+        }
 
         $this->aLocationIdentification = $aLocationIdentification;
 
@@ -68,32 +82,44 @@ class PlaceLocationIdentification extends Segment
     /**
      * Set Related Location One Identification.
      *
-     * @param string $sFirstRelatedLocationIdentifier (3223)
-     * @param string $sCodeListIdentificationCode (1131)
-     * @param string $sCodeListResponsibleAgencyCode (3055)
-     * @param string $sFirstRelatedLocationName (3222)
+     * @param mixed $sFirstRelatedLocationIdentifier (3223)
+     * @param mixed $sCodeListIdentificationCode (1131)
+     * @param mixed $sCodeListResponsibleAgencyCode (3055)
+     * @param mixed $sFirstRelatedLocationName (3222)
      *
      * @return self $this
      */
     public function setRelatedLocationOneIdentification(
-        string $sFirstRelatedLocationIdentifier = '',
-        string $sCodeListIdentificationCode = '',
-        string $sCodeListResponsibleAgencyCode = '',
-        string $sFirstRelatedLocationName = ''
+        ?string $sFirstRelatedLocationIdentifier = null,
+        ?string $sCodeListIdentificationCode = null,
+        ?string $sCodeListResponsibleAgencyCode = null,
+        ?string $sFirstRelatedLocationName = null
     ) {
         $aRelatedLocationOneIdentification = [];
 
         // First Related Location Identifier
-        $aRelatedLocationOneIdentification[] = $sFirstRelatedLocationIdentifier;
+
+        if ($sFirstRelatedLocationIdentifier !== null) {
+            $aRelatedLocationOneIdentification[] = $sFirstRelatedLocationIdentifier;
+        }
 
         // Code List Identification Code
-        $aRelatedLocationOneIdentification[] = $sCodeListIdentificationCode;
+
+        if ($sCodeListIdentificationCode !== null) {
+            $aRelatedLocationOneIdentification[] = $sCodeListIdentificationCode;
+        }
 
         // Code List Responsible Agency Code
-        $aRelatedLocationOneIdentification[] = $sCodeListResponsibleAgencyCode;
+
+        if ($sCodeListResponsibleAgencyCode !== null) {
+            $aRelatedLocationOneIdentification[] = $sCodeListResponsibleAgencyCode;
+        }
 
         // First Related Location Name
-        $aRelatedLocationOneIdentification[] = $sFirstRelatedLocationName;
+
+        if ($sFirstRelatedLocationName !== null) {
+            $aRelatedLocationOneIdentification[] = $sFirstRelatedLocationName;
+        }
 
         $this->aRelatedLocationOneIdentification = $aRelatedLocationOneIdentification;
 
@@ -103,32 +129,44 @@ class PlaceLocationIdentification extends Segment
     /**
      * Set Related Location Two Identification.
      *
-     * @param string $sSecondRelatedLocationIdentifier (3233)
-     * @param string $sCodeListIdentificationCode (1131)
-     * @param string $sCodeListResponsibleAgencyCode (3055)
-     * @param string $sSecondRelatedLocationName (3232)
+     * @param mixed $sSecondRelatedLocationIdentifier (3233)
+     * @param mixed $sCodeListIdentificationCode (1131)
+     * @param mixed $sCodeListResponsibleAgencyCode (3055)
+     * @param mixed $sSecondRelatedLocationName (3232)
      *
      * @return self $this
      */
     public function setRelatedLocationTwoIdentification(
-        string $sSecondRelatedLocationIdentifier = '',
-        string $sCodeListIdentificationCode = '',
-        string $sCodeListResponsibleAgencyCode = '',
-        string $sSecondRelatedLocationName = ''
+        ?string $sSecondRelatedLocationIdentifier = null,
+        ?string $sCodeListIdentificationCode = null,
+        ?string $sCodeListResponsibleAgencyCode = null,
+        ?string $sSecondRelatedLocationName = null
     ) {
         $aRelatedLocationTwoIdentification = [];
 
         // Second Related Location Identifier
-        $aRelatedLocationTwoIdentification[] = $sSecondRelatedLocationIdentifier;
+
+        if ($sSecondRelatedLocationIdentifier !== null) {
+            $aRelatedLocationTwoIdentification[] = $sSecondRelatedLocationIdentifier;
+        }
 
         // Code List Identification Code
-        $aRelatedLocationTwoIdentification[] = $sCodeListIdentificationCode;
+
+        if ($sCodeListIdentificationCode !== null) {
+            $aRelatedLocationTwoIdentification[] = $sCodeListIdentificationCode;
+        }
 
         // Code List responsible Agency Code
-        $aRelatedLocationTwoIdentification[] = $sCodeListResponsibleAgencyCode;
+
+        if ($sCodeListResponsibleAgencyCode !== null) {
+            $aRelatedLocationTwoIdentification[] = $sCodeListResponsibleAgencyCode;
+        }
 
         // Second Related Location Name
-        $aRelatedLocationTwoIdentification[] = $sSecondRelatedLocationName;
+
+        if ($sSecondRelatedLocationName !== null) {
+            $aRelatedLocationTwoIdentification[] = $sSecondRelatedLocationName;
+        }
 
         $this->aRelatedLocationTwoIdentification = $aRelatedLocationTwoIdentification;
 
@@ -155,22 +193,34 @@ class PlaceLocationIdentification extends Segment
      */
     public function compose(): self
     {
-        $aComposed = ['LOC'];
+        $aComposed[] = self::segment;
 
         // Location Function Code Qualifier
         $aComposed[] = $this->sLocationFunctionCodeQualifier;
 
         // Location Identification
-        $aComposed[] = $this->aLocationIdentification;
+
+        if (count($this->aLocationIdentification) > 0) {
+            $aComposed[] = $this->aLocationIdentification;
+        }
 
         // Related Location One Identification
-        $aComposed[] = $this->aRelatedLocationOneIdentification;
+
+        if (count($this->aRelatedLocationOneIdentification) > 0) {
+            $aComposed[] = $this->aRelatedLocationOneIdentification;
+        }
 
         // Related Location Two Identification
-        $aComposed[] = $this->aRelatedLocationTwoIdentification;
+
+        if (count($this->aRelatedLocationTwoIdentification) > 0) {
+            $aComposed[] = $this->aRelatedLocationTwoIdentification;
+        }
 
         // Relation Code
-        $aComposed[] = $this->sRelationCode;
+
+        if ($this->sRelationCode !== null) {
+            $aComposed[] = $this->sRelationCode;
+        }
 
         $this->setComposed($aComposed);
 

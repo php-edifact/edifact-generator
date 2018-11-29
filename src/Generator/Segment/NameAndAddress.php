@@ -11,11 +11,11 @@ use EDI\Generator\Segment;
  */
 class NameAndAddress extends Segment
 {
-    protected $sPartyFunctionCodeQualifier = '';
+    protected $sPartyFunctionCodeQualifier;
     protected $aPartyIdentificationDetails = [];
     protected $aNameAndAddress = [];
-    protected $sCityName = '';
-    protected $sCountryIdentifier = '';
+    protected $sCityName;
+    protected $sCountryIdentifier;
 
     /**
      * Set Party Function Code Qualifier.
@@ -34,15 +34,15 @@ class NameAndAddress extends Segment
      * Set Party Identification Details.
      *
      * @param string $sPartyIdentifier (3039)
-     * @param string $sCodeListIdentificationCode (1131)
-     * @param string $sCodeListResponsibleAgencyCode (3055)
+     * @param mixed $sCodeListIdentificationCode (1131)
+     * @param mixed $sCodeListResponsibleAgencyCode (3055)
      *
      * @return self $this
      */
     public function setPartyIdentificationDetails(
         string $sPartyIdentifier,
-        string $sCodeListIdentificationCode = '',
-        string $sCodeListResponsibleAgencyCode = ''
+        ?string $sCodeListIdentificationCode = null,
+        ?string $sCodeListResponsibleAgencyCode = null
     ): self {
         $aPartyIdentificationDetails = [];
 
@@ -50,10 +50,16 @@ class NameAndAddress extends Segment
         $aPartyIdentificationDetails[] = $sPartyIdentifier;
 
         // Code List Identification Code
-        $aPartyIdentificationDetails[] = $sCodeListIdentificationCode;
+
+        if ($sCodeListIdentificationCode !== null) {
+            $aPartyIdentificationDetails[] = $sCodeListIdentificationCode;
+        }
 
         // Code List Responsible Agency Code
-        $aPartyIdentificationDetails[] = $sCodeListResponsibleAgencyCode;
+
+        if ($sCodeListResponsibleAgencyCode !== null) {
+            $aPartyIdentificationDetails[] = $sCodeListResponsibleAgencyCode;
+        }
 
         $this->aPartyIdentificationDetails = $aPartyIdentificationDetails;
 
@@ -124,13 +130,22 @@ class NameAndAddress extends Segment
         $aComposed = ['NAD'];
 
         // Party Function Code Qualifier
-        $aComposed[] = $this->sPartyFunctionCodeQualifier;
+
+        if ($this->sPartyFunctionCodeQualifier !== null) {
+            $aComposed[] = $this->sPartyFunctionCodeQualifier;
+        }
 
         // Party Identification Details
-        $aComposed[] = $this->aPartyIdentificationDetails;
+
+        if (count($this->aPartyIdentificationDetails) > 0) {
+            $aComposed[] = $this->aPartyIdentificationDetails;
+        }
 
         // Name And Address
-        $aComposed[] = $this->aNameAndAddress;
+
+        if ($this->aNameAndAddress !== null) {
+            $aComposed[] = $this->aNameAndAddress;
+        }
 
         // Party Name
         $aComposed[] = ''; // @todo
@@ -139,16 +154,25 @@ class NameAndAddress extends Segment
         $aComposed[] = ''; // @todo
 
         // City Name
-        $aComposed[] = $this->sCityName;
+
+        if ($this->sCityName !== null) {
+            $aComposed[] = $this->sCityName;
+        }
 
         // Country Subdivision Details
         $aComposed[] = ''; // @todo
 
         // Postal Identification Code
-        $aComposed[] = $this->sPostalIdentificationCode;
+
+        if ($this->sPostalIdentificationCode !== null) {
+            $aComposed[] = $this->sPostalIdentificationCode;
+        }
 
         // Country Identifier
-        $aComposed[] = $this->sCountryIdentifier;
+
+        if ($this->sCountryIdentifier !== null) {
+            $aComposed[] = $this->sCountryIdentifier;
+        }
 
         $this->setComposed($aComposed);
 

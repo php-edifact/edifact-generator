@@ -11,13 +11,15 @@ use EDI\Generator\Segment;
  */
 class EquipmentDetails extends Segment
 {
-    protected $sEquipmentTypeCodeQualifier = '';
+    const segment = 'EQD';
+
+    protected $sEquipmentTypeCodeQualifier;
     protected $aEquipmentIdentification = [];
     protected $aEquipmentSizeAndType = [];
-    protected $sEquipmentSupplierCode = '';
-    protected $sEquipmentStatusCode = '';
-    protected $sFullOrEmptyIndicatorCode = '';
-    protected $sMarkingInstructionsCode = '';
+    protected $sEquipmentSupplierCode;
+    protected $sEquipmentStatusCode;
+    protected $sFullOrEmptyIndicatorCode;
+    protected $sMarkingInstructionsCode;
 
     /**
      * Set Equipment Type CodeQualifier.
@@ -35,32 +37,44 @@ class EquipmentDetails extends Segment
     /**
      * Set Equipment Identification.
      *
-     * @param string $sEquipmentIdentifier (8260)
-     * @param string $sCodeListIdentificationCode (1131)
-     * @param string $sCodeListResponsibleAgencyCode (3055)
-     * @param string $sCountryIdentifier (3207)
+     * @param mixed $sEquipmentIdentifier (8260)
+     * @param mixed $sCodeListIdentificationCode (1131)
+     * @param mixed $sCodeListResponsibleAgencyCode (3055)
+     * @param mixed $sCountryIdentifier (3207)
      *
      * @return self $this
      */
     public function setEquipmentIdentification(
-        string $sEquipmentIdentifier = '',
-        string $sCodeListIdentificationCode = '',
-        string $sCodeListResponsibleAgencyCode = '',
-        string $sCountryIdentifier = ''
+        ?string $sEquipmentIdentifier = null,
+        ?string $sCodeListIdentificationCode = null,
+        ?string $sCodeListResponsibleAgencyCode = null,
+        ?string $sCountryIdentifier = null
     ): self {
         $aEquipmentIdentification = [];
 
         // Equipment Identifier
-        $aEquipmentIdentification[] = $sEquipmentIdentifier;
+
+        if ($sEquipmentIdentifier !== null) {
+            $aEquipmentIdentification[] = $sEquipmentIdentifier;
+        }
 
         // Code List Identification Code
-        $aEquipmentIdentification[] = $sCodeListIdentificationCode;
+
+        if ($sCodeListIdentificationCode !== null) {
+            $aEquipmentIdentification[] = $sCodeListIdentificationCode;
+        }
 
         // Code List Responsible Agency Code
-        $aEquipmentIdentification[] = $sCodeListResponsibleAgencyCode;
+
+        if ($sCodeListResponsibleAgencyCode !== null) {
+            $aEquipmentIdentification[] = $sCodeListResponsibleAgencyCode;
+        }
 
         // Country Identifier
-        $aEquipmentIdentification[] = $sCountryIdentifier;
+
+        if ($sCountryIdentifier !== null) {
+            $aEquipmentIdentification[] = $sCountryIdentifier;
+        }
 
         $this->aEquipmentIdentification = $aEquipmentIdentification;
 
@@ -70,32 +84,48 @@ class EquipmentDetails extends Segment
     /**
      * Set Equipment Size And Type.
      *
-     * @param string $sEquipmentSizeAndTypeDescriptionCode (8155)
-     * @param string $sCodeListIdentificationCode (1131)
-     * @param string $sCodeListResponsibleAgencyCode (3055)
-     * @param string $sEquipmentSizeAndTypeDescription (8154)
+     * @param mixed $sEquipmentSizeAndTypeDescriptionCode (8155)
+     * @param mixed $sCodeListIdentificationCode (1131)
+     * @param mixed $sCodeListResponsibleAgencyCode (3055)
+     * @param mixed $sEquipmentSizeAndTypeDescription (8154)
      *
      * @return self $this
      */
     public function setEquipmentSizeAndType(
-        string $sEquipmentSizeAndTypeDescriptionCode = '',
-        string $sCodeListIdentificationCode = null,
-        string $sCodeListResponsibleAgencyCode = null,
-        string $sEquipmentSizeAndTypeDescription = ''
+        ?string $sEquipmentSizeAndTypeDescriptionCode = null,
+        ?string $sCodeListIdentificationCode = null,
+        ?string $sCodeListResponsibleAgencyCode = null,
+        ?string $sEquipmentSizeAndTypeDescription = null
     ) {
+        if (empty($sEquipmentSizeAndTypeDescriptionCode)) {
+            return $this;
+        }
+
         $aEquipmentSizeAndType = [];
 
         // Equipment Size and Type Description Code
-        $aEquipmentSizeAndType[] = $sEquipmentSizeAndTypeDescriptionCode;
+
+        if ($sEquipmentSizeAndTypeDescriptionCode !== null) {
+            $aEquipmentSizeAndType[] = $sEquipmentSizeAndTypeDescriptionCode;
+        }
 
         // Code List Identification Code
-        $aEquipmentSizeAndType[] = $sCodeListIdentificationCode;
+
+        if ($sCodeListIdentificationCode !== null) {
+            $aEquipmentSizeAndType[] = $sCodeListIdentificationCode;
+        }
 
         // Code List Responsible Agency Code
-        $aEquipmentSizeAndType[] = $sCodeListResponsibleAgencyCode;
+
+        if ($sCodeListResponsibleAgencyCode !== null) {
+            $aEquipmentSizeAndType[] = $sCodeListResponsibleAgencyCode;
+        }
 
         // Equipment Size and Type Description
-        $aEquipmentSizeAndType[] = $sEquipmentSizeAndTypeDescription;
+
+        if ($sEquipmentSizeAndTypeDescription !== null) {
+            $aEquipmentSizeAndType[] = $sEquipmentSizeAndTypeDescription;
+        }
 
         $this->aEquipmentSizeAndType = $aEquipmentSizeAndType;
 
@@ -161,28 +191,49 @@ class EquipmentDetails extends Segment
      */
     public function compose(): self
     {
-        $aComposed = ['EQD'];
+        $aComposed[] = self::segment;
 
         // Equipment Type Code Qualifier
-        $aComposed[] = $this->sEquipmentTypeCodeQualifier;
+
+        if ($this->sEquipmentTypeCodeQualifier !== null) {
+            $aComposed[] = $this->sEquipmentTypeCodeQualifier;
+        }
 
         // Equipment Identification
-        $aComposed[] = $this->aEquipmentIdentification;
+
+        if (count($this->aEquipmentIdentification) > 0) {
+            $aComposed[] = $this->aEquipmentIdentification;
+        }
 
         // Equipment Size and Type
-        $aComposed[] = $this->aEquipmentSizeAndType;
+
+        if (count($this->aEquipmentSizeAndType) > 0) {
+            $aComposed[] = $this->aEquipmentSizeAndType;
+        }
 
         // Equipment Supplier Code
-        $aComposed[] = $this->sEquipmentSupplierCode;
+
+        if ($this->sEquipmentSupplierCode !== null) {
+            $aComposed[] = $this->sEquipmentSupplierCode;
+        }
 
         // Equipment Status Code
-        $aComposed[] = $this->sEquipmentStatusCode;
+
+        if ($this->sEquipmentStatusCode !== null) {
+            $aComposed[] = $this->sEquipmentStatusCode;
+        }
 
         // Full Or Empty Indicator Code
-        $aComposed[] = $this->sFullOrEmptyIndicatorCode;
+
+        if ($this->sFullOrEmptyIndicatorCode !== null) {
+            $aComposed[] = $this->sFullOrEmptyIndicatorCode;
+        }
 
         // Marking Instructions Code
-        $aComposed[] = $this->sMarkingInstructionsCode;
+
+        if ($this->sMarkingInstructionsCode !== null) {
+            $aComposed[] = $this->sMarkingInstructionsCode;
+        }
 
         $this->setComposed($aComposed);
 

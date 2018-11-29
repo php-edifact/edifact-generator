@@ -11,9 +11,11 @@ use EDI\Generator\Segment;
  */
 class DateTimePeriod extends Segment
 {
-    protected $sDateOrTimeOrPeriodFunctionCodeQualifier = '';
-    protected $sDateOrTimeOrPeriodText = '';
-    protected $sDateOrTimeOrPeriodFormatCode = '';
+    const segment = 'DTM';
+
+    protected $sDateOrTimeOrPeriodFunctionCodeQualifier;
+    protected $sDateOrTimeOrPeriodText;
+    protected $sDateOrTimeOrPeriodFormatCode;
 
     /**
      * Set Date Or Time Or Period Function Code Qualifier.
@@ -61,16 +63,26 @@ class DateTimePeriod extends Segment
      */
     public function compose(): self
     {
-        $aComposed = ['EQD'];
+        $aComposed[] = self::segment;
 
         // Date Or Time Or Period Function Code Qualifier
-        $aComposed[] = $this->sDateOrTimeOrPeriodFunctionCodeQualifier;
+        $aDateTimePeriod[] = $this->sDateOrTimeOrPeriodFunctionCodeQualifier;
 
         // Date Or Time Or Period Text
-        $aComposed[] = $this->sDateOrTimeOrPeriodText;
+
+        if ($this->sDateOrTimeOrPeriodText !== null) {
+            $aDateTimePeriod[] = $this->sDateOrTimeOrPeriodText;
+        }
 
         // Date Or Time Or Period Format Code
-        $aComposed[] = $this->sDateOrTimeOrPeriodFormatCode;
+
+        if ($this->sDateOrTimeOrPeriodFormatCode !== null) {
+            $aDateTimePeriod[] = $this->sDateOrTimeOrPeriodFormatCode;
+        }
+
+        if (count($aDateTimePeriod) > 0) {
+            $aComposed[] = $aDateTimePeriod;
+        }
 
         $this->setComposed($aComposed);
 

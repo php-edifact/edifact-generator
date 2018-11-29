@@ -11,10 +11,12 @@ use EDI\Generator\Segment;
  */
 class Measurements extends Segment
 {
-    protected $sMeasurementPurposeCodeQualifier = '';
+    const segment = 'MEA';
+
+    protected $sMeasurementPurposeCodeQualifier;
     protected $aMeasurementDetails = [];
     protected $aValueRange = [];
-    protected $sSurfaceOrLayerCode = '';
+    protected $sSurfaceOrLayerCode;
 
     /**
      * Set Measurement Purpose Code Qualifier.
@@ -32,32 +34,44 @@ class Measurements extends Segment
     /**
      * Set Measurement Details.
      *
-     * @param string $sMeasuredAttributeCode (6313)
-     * @param string $sMeasurementSignificanceCode (6321)
-     * @param string $sNonDiscreteMeasurementNameCode (6155)
-     * @param string $sNonDiscreteMeasurementName (6154)
+     * @param mixed $sMeasuredAttributeCode (6313)
+     * @param mixed $sMeasurementSignificanceCode (6321)
+     * @param mixed $sNonDiscreteMeasurementNameCode (6155)
+     * @param mixed $sNonDiscreteMeasurementName (6154)
      *
      * @return self $this
      */
     public function setMeasurementDetails(
-        string $sMeasuredAttributeCode = '',
-        string $sMeasurementSignificanceCode = '',
-        string $sNonDiscreteMeasurementNameCode = '',
-        string $sNonDiscreteMeasurementName = ''
+        ?string $sMeasuredAttributeCode = null,
+        ?string $sMeasurementSignificanceCode = null,
+        ?string $sNonDiscreteMeasurementNameCode = null,
+        ?string $sNonDiscreteMeasurementName = null
     ) {
         $aMeasurementDetails = [];
 
         // Measured Attribute Code
-        $aMeasurementDetails[] = $sMeasuredAttributeCode;
+
+        if ($sMeasuredAttributeCode !== null) {
+            $aMeasurementDetails[] = $sMeasuredAttributeCode;
+        }
 
         // Measurement Significance code
-        $aMeasurementDetails[] = $sMeasurementSignificanceCode;
+
+        if ($sMeasurementSignificanceCode !== null) {
+            $aMeasurementDetails[] = $sMeasurementSignificanceCode;
+        }
 
         // Non-discrete Measurement Name Code
-        $aMeasurementDetails[] = $sNonDiscreteMeasurementNameCode;
+
+        if ($sNonDiscreteMeasurementNameCode !== null) {
+            $aMeasurementDetails[] = $sNonDiscreteMeasurementNameCode;
+        }
 
         // Non-discrete Measurement Name
-        $aMeasurementDetails[] = $sNonDiscreteMeasurementName;
+
+        if ($sNonDiscreteMeasurementName !== null) {
+            $aMeasurementDetails[] = $sNonDiscreteMeasurementName;
+        }
 
         $this->aMeasurementDetails = $aMeasurementDetails;
 
@@ -67,37 +81,52 @@ class Measurements extends Segment
     /**
      * Set Value Range.
      *
-     * @param string $sMeasurementUnitCode
-     * @param string $sMeasure
-     * @param string $sRangeMinimumQuantity
-     * @param string $sRangeMaximumQuantity
-     * @param string $sSignificantDigitsQuantity
+     * @param mixed $sMeasurementUnitCode
+     * @param mixed $sMeasure
+     * @param mixed $sRangeMinimumQuantity
+     * @param mixed $sRangeMaximumQuantity
+     * @param mixed $sSignificantDigitsQuantity
      *
      * @return self $this
      */
     public function setValueRange(
-        string $sMeasurementUnitCode = '',
-        string $sMeasure = '',
-        string $sRangeMinimumQuantity = '',
-        string $sRangeMaximumQuantity = '',
-        string $sSignificantDigitsQuantity = ''
+        ?string $sMeasurementUnitCode = null,
+        ?string $sMeasure = null,
+        ?string $sRangeMinimumQuantity = null,
+        ?string $sRangeMaximumQuantity = null,
+        ?string $sSignificantDigitsQuantity = null
     ) {
         $aValueRange = [];
 
         // Measurement Unit Code
-        $aValueRange[] = $sMeasurementUnitCode;
+
+        if ($sMeasurementUnitCode !== null) {
+            $aValueRange[] = $sMeasurementUnitCode;
+        }
 
         // Measure
-        $aValueRange[] = $sMeasure;
+
+        if ($sMeasure !== null) {
+            $aValueRange[] = $sMeasure;
+        }
 
         // Range Minimum Quantity
-        $aValueRange[] = $sRangeMinimumQuantity;
+
+        if ($sRangeMinimumQuantity !== null) {
+            $aValueRange[] = $sRangeMinimumQuantity;
+        }
 
         // Range Maximum Quantity
-        $aValueRange[] = $sRangeMaximumQuantity;
+
+        if ($sRangeMaximumQuantity !== null) {
+            $aValueRange[] = $sRangeMaximumQuantity;
+        }
 
         // Significant Digits Quantity
-        $aValueRange[] = $sSignificantDigitsQuantity;
+
+        if ($sSignificantDigitsQuantity !== null) {
+            $aValueRange[] = $sSignificantDigitsQuantity;
+        }
 
         $this->aValueRange = $aValueRange;
 
@@ -124,19 +153,28 @@ class Measurements extends Segment
      */
     public function compose(): self
     {
-        $aComposed = ['MEA'];
+        $aComposed[] = self::segment;
 
         // Measurement Purpose Code Qualifier
         $aComposed[] = $this->sMeasurementPurposeCodeQualifier;
 
         // Measurement Details
-        $aComposed[] = $this->aMeasurementDetails;
+
+        if (count($this->aMeasurementDetails) > 0) {
+            $aComposed[] = $this->aMeasurementDetails;
+        }
 
         // Value / Range
-        $aComposed[] = $this->aValueRange;
+
+        if (count($this->aValueRange) > 0) {
+            $aComposed[] = $this->aValueRange;
+        }
 
         // Surface Or Layer Code
-        $aComposed[] = $this->sSurfaceOrLayerCode;
+
+        if ($this->sSurfaceOrLayerCode !== null) {
+            $aComposed[] = $this->sSurfaceOrLayerCode;
+        }
 
         $this->setComposed($aComposed);
 
