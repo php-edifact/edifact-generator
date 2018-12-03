@@ -11,7 +11,7 @@ use EDI\Generator\Segment;
  */
 class PlaceLocationIdentification extends Segment
 {
-    const segment = 'LOC';
+    const SEGMENT_NAME = 'LOC';
 
     protected $sLocationFunctionCodeQualifier;
     protected $aLocationIdentification = [];
@@ -193,7 +193,7 @@ class PlaceLocationIdentification extends Segment
      */
     public function compose(): self
     {
-        $aComposed[] = self::segment;
+        $aComposed[] = self::SEGMENT_NAME;
 
         // Location Function Code Qualifier
         $aComposed[] = $this->sLocationFunctionCodeQualifier;

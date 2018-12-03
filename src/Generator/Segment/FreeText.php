@@ -11,7 +11,7 @@ use EDI\Generator\Segment;
  */
 class FreeText extends Segment
 {
-    const segment = 'FTX';
+    const SEGMENT_NAME = 'FTX';
 
     protected $sTextSubjectCodeQualifier;
     protected $sFreeTextFunctionCode;
@@ -129,7 +129,7 @@ class FreeText extends Segment
      */
     public function compose(): self
     {
-        $aComposed[] = self::segment;
+        $aComposed[] = self::SEGMENT_NAME;
 
         // Text Subject Code Qualifier
         $aComposed[] = $this->sTextSubjectCodeQualifier;

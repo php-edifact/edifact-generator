@@ -11,7 +11,7 @@ use EDI\Generator\Segment;
  */
 class EquipmentDetails extends Segment
 {
-    const segment = 'EQD';
+    const SEGMENT_NAME = 'EQD';
 
     protected $sEquipmentTypeCodeQualifier;
     protected $aEquipmentIdentification = [];
@@ -191,7 +191,7 @@ class EquipmentDetails extends Segment
      */
     public function compose(): self
     {
-        $aComposed[] = self::segment;
+        $aComposed[] = self::SEGMENT_NAME;
 
         // Equipment Type Code Qualifier
 

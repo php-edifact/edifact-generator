@@ -11,6 +11,8 @@ use EDI\Generator\Segment;
  */
 class NameAndAddress extends Segment
 {
+    const SEGMENT_NAME = 'NAD';
+
     protected $sPartyFunctionCodeQualifier;
     protected $aPartyIdentificationDetails = [];
     protected $aNameAndAddress = [];
@@ -127,7 +129,7 @@ class NameAndAddress extends Segment
      */
     public function compose(): self
     {
-        $aComposed = ['NAD'];
+        $aComposed[] = self::SEGMENT_NAME;
 
         // Party Function Code Qualifier
 

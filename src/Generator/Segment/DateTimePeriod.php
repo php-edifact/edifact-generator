@@ -11,7 +11,7 @@ use EDI\Generator\Segment;
  */
 class DateTimePeriod extends Segment
 {
-    const segment = 'DTM';
+    const SEGMENT_NAME = 'DTM';
 
     protected $sDateOrTimeOrPeriodFunctionCodeQualifier;
     protected $sDateOrTimeOrPeriodText;
@@ -63,7 +63,7 @@ class DateTimePeriod extends Segment
      */
     public function compose(): self
     {
-        $aComposed[] = self::segment;
+        $aComposed[] = self::SEGMENT_NAME;
 
         // Date Or Time Or Period Function Code Qualifier
         $aDateTimePeriod[] = $this->sDateOrTimeOrPeriodFunctionCodeQualifier;

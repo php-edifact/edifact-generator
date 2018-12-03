@@ -11,7 +11,7 @@ use EDI\Generator\Segment;
  */
 class Reference extends Segment
 {
-    const segment = 'RFF';
+    const SEGMENT_NAME = 'RFF';
 
     protected $sReferenceCodeQualifier;
     protected $sReferenceIdentifier;
@@ -91,7 +91,7 @@ class Reference extends Segment
      */
     public function compose(): self
     {
-        $aComposed[] = self::segment;
+        $aComposed[] = self::SEGMENT_NAME;
 
         // Reference Code Qualifier
         $aReference[] = $this->sReferenceCodeQualifier;

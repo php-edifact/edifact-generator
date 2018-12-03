@@ -11,7 +11,7 @@ use EDI\Generator\Segment;
  */
 class ControlTotal extends Segment
 {
-    const segment = 'CNT';
+    const SEGMENT_NAME = 'CNT';
 
     protected $sControlTotalTypeCodeQualifier;
     protected $sControlTotalQuantity;
@@ -63,7 +63,7 @@ class ControlTotal extends Segment
      */
     public function compose(): self
     {
-        $aComposed[] = self::segment;
+        $aComposed[] = self::SEGMENT_NAME;
 
         // Control Total Type Code Qualifier
         $aControl[] = $this->sControlTotalTypeCodeQualifier;

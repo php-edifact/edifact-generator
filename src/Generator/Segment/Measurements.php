@@ -11,7 +11,7 @@ use EDI\Generator\Segment;
  */
 class Measurements extends Segment
 {
-    const segment = 'MEA';
+    const SEGMENT_NAME = 'MEA';
 
     protected $sMeasurementPurposeCodeQualifier;
     protected $aMeasurementDetails = [];
@@ -153,7 +153,7 @@ class Measurements extends Segment
      */
     public function compose(): self
     {
-        $aComposed[] = self::segment;
+        $aComposed[] = self::SEGMENT_NAME;
 
         // Measurement Purpose Code Qualifier
         $aComposed[] = $this->sMeasurementPurposeCodeQualifier;

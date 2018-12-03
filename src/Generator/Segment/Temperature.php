@@ -11,7 +11,7 @@ use EDI\Generator\Segment;
  */
 class Temperature extends Segment
 {
-    const segment = 'TMP';
+    const SEGMENT_NAME = 'TMP';
 
     protected $sTemperatureTypeCodeQualifier;
     protected $aTemperatureSetting = [];
@@ -65,7 +65,7 @@ class Temperature extends Segment
      */
     public function compose(): self
     {
-        $aComposed[] = self::segment;
+        $aComposed[] = self::SEGMENT_NAME;
 
         // Temperature Type Code Qualifier
 
