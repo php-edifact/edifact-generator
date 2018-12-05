@@ -12,11 +12,46 @@ trait NameAndAddress
   /** @var array */
   protected $manufacturerAddress;
   /** @var array */
+  protected $manufacturerAddressContactPerson;
+  /** @var array */
+  protected $manufacturerAddressMailAddress;
+  /** @var array */
+  protected $manufacturerAddressPhoneNumber;
+  /** @var array */
+  protected $manufacturerAddressFaxNumber;
+
+  /** @var array */
   protected $wholesalerAddress;
+  /** @var array */
+  protected $wholesalerAddressContactPerson;
+  /** @var array */
+  protected $wholesalerAddressMailAddress;
+  /** @var array */
+  protected $wholesalerAddressPhoneNumber;
+  /** @var array */
+  protected $wholesalerAddressFaxNumber;
+
   /** @var array */
   protected $deliveryAddress;
   /** @var array */
+  protected $deliveryAddressContactPerson;
+  /** @var array */
+  protected $deliveryAddressMailAddress;
+  /** @var array */
+  protected $deliveryAddressPhoneNumber;
+  /** @var array */
+  protected $deliveryAddressFaxNumber;
+
+  /** @var array */
   protected $invoiceAddress;
+  /** @var array */
+  protected $invoiceAddressContactPerson;
+  /** @var array */
+  protected $invoiceAddressMailAddress;
+  /** @var array */
+  protected $invoiceAddressPhoneNumber;
+  /** @var array */
+  protected $invoiceAddressFaxNumber;
 
   /**
    * @param string $name1
