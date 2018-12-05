@@ -92,7 +92,7 @@ trait NameAndAddress
   }
 
   /**
-   * @param        $name1
+   * @param string $name1
    * @param string $name2
    * @param string $name3
    * @param string $street
@@ -135,7 +135,7 @@ trait NameAndAddress
   }
 
   /**
-   * @param        $name1
+   * @param string $name1
    * @param string $name2
    * @param string $name3
    * @param string $street
@@ -180,7 +180,7 @@ trait NameAndAddress
    * @param string $name2
    * @param string $name3
    * @param string $street
-   * @param string $zipcode
+   * @param string $zipCode
    * @param string $city
    * @param string $countryCode
    * @param string $managingOrganisation
@@ -189,7 +189,7 @@ trait NameAndAddress
    * @return $this
    */
   public function setDeliveryAddress($name1, $name2 = '', $name3 = '',
-    $street = '', $zipcode = '',
+    $street = '', $zipCode = '',
     $city = '', $countryCode = 'DE', $managingOrganisation = 'ZZZ',
     $sender = null
   ) {
@@ -198,7 +198,7 @@ trait NameAndAddress
       $name2,
       $name3,
       $street,
-      $zipcode,
+      $zipCode,
       $city,
       $countryCode,
       $managingOrganisation,
@@ -213,7 +213,7 @@ trait NameAndAddress
    * @param string $name2
    * @param string $name3
    * @param string $street
-   * @param string $zipcode
+   * @param string $zipCode
    * @param string $city
    * @param string $countryCode
    * @param string $managingOrganisation
@@ -221,7 +221,7 @@ trait NameAndAddress
    * @return $this
    */
   public function setInvoiceAddress($name1, $name2 = '', $name3 = '',
-    $street = '', $zipcode = '',
+    $street = '', $zipCode = '',
     $city = '', $countryCode = 'DE', $managingOrganisation = 'ZZZ'
   ) {
     $this->invoiceAddress = $this->addNameAndAddress(
@@ -229,7 +229,7 @@ trait NameAndAddress
       $name2,
       $name3,
       $street,
-      $zipcode,
+      $zipCode,
       $city,
       $countryCode,
       $managingOrganisation,

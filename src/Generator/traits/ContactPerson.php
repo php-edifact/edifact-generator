@@ -27,14 +27,20 @@ trait ContactPerson
   }
 
   /**
-   * @param string $contactPerson
-   * @param string $section unused
+   * @param string      $contactPerson
+   * @param string      $section
+   * @param null|string $prefix used for prefixing the variableName deliveryAddressContactPerson
    *
    * @return $this
    */
-  public function setContactPerson($contactPerson, $section = '')
+  public function setContactPerson($contactPerson, $section = '', $prefix = null)
   {
-    $this->contactPerson = [
+    $var = "contactPerson";
+    if ($prefix) {
+      $var = $prefix . ucfirst($var);
+    }
+
+    $this->{$var} = [
       'CTA',
       $section,
       [
@@ -55,13 +61,19 @@ trait ContactPerson
   }
 
   /**
-   * @param string $mailAddress
+   * @param string      $mailAddress
+   *
+   * @param null|string $prefix
    *
    * @return $this
    */
-  public function setMailAddress($mailAddress)
+  public function setMailAddress($mailAddress, $prefix = null)
   {
-    $this->mailAddress = [
+    $var = "mailAddress";
+    if ($prefix) {
+      $var = $prefix . ucfirst($var);
+    }
+    $this->{$var} = [
       'COM',
       [
         $mailAddress,
@@ -80,13 +92,19 @@ trait ContactPerson
   }
 
   /**
-   * @param string $phoneNumber
+   * @param string      $phoneNumber
+   *
+   * @param null|string $prefix
    *
    * @return $this
    */
-  public function setPhoneNumber($phoneNumber)
+  public function setPhoneNumber($phoneNumber, $prefix = null)
   {
-    $this->phoneNumber = [
+    $var = "phoneNumber";
+    if ($prefix) {
+      $var = $prefix . ucfirst($var);
+    }
+    $this->{$var} = [
       'COM',
       [
         $phoneNumber,
@@ -105,13 +123,20 @@ trait ContactPerson
   }
 
   /**
-   * @param string $faxNumber
+   * @param string      $faxNumber
+   *
+   * @param null|string $prefix
    *
    * @return $this
    */
-  public function setFaxNumber($faxNumber)
+  public function setFaxNumber($faxNumber, $prefix = null)
   {
-    $this->faxNumber = [
+    $var = "faxNumber";
+    if ($prefix) {
+      $var = $prefix . ucfirst($var);
+    }
+
+    $this->{$var} = [
       'COM',
       [
         $faxNumber,
