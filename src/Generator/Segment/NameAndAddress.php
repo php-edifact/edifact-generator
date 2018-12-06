@@ -141,18 +141,18 @@ class NameAndAddress extends Segment
     /**
      * Set Country Subdivision Details. (C819)
      *
-     * @param string $sCountrySubdivisionIdentifier (3229)
-     * @param string $sCodeListIdentificationCode (1131)
-     * @param string $sCodeListResponsibleAgencyCode (3055)
-     * @param string $sCountrySubdivisionName (3228)
+     * @param mixed $sCountrySubdivisionIdentifier (3229)
+     * @param mixed $sCodeListIdentificationCode (1131)
+     * @param mixed $sCodeListResponsibleAgencyCode (3055)
+     * @param mixed $sCountrySubdivisionName (3228)
      *
      * @return self $this
      */
     public function setCountrySubdivisionDetails(
-        $sCountrySubdivisionIdentifier,
-        $sCodeListIdentificationCode,
-        $sCodeListResponsibleAgencyCode,
-        $sCountrySubdivisionName
+        ?string $sCountrySubdivisionIdentifier = null,
+        ?string $sCodeListIdentificationCode = null,
+        ?string $sCodeListResponsibleAgencyCode = null,
+        ?string $sCountrySubdivisionName = null
     ) {
         $aCountrySubdivisionDetails = [];
 
@@ -173,6 +173,7 @@ class NameAndAddress extends Segment
         }
 
         $this->aCountrySubdivisionDetails = $aCountrySubdivisionDetails;
+
         return $this;
     }
 
