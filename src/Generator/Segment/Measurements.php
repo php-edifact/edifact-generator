@@ -32,7 +32,7 @@ class Measurements extends Segment
     }
 
     /**
-     * Set Measurement Details.
+     * Set Measurement Details (C502).
      *
      * @param mixed $sMeasuredAttributeCode (6313)
      * @param mixed $sMeasurementSignificanceCode (6321)
@@ -79,7 +79,7 @@ class Measurements extends Segment
     }
 
     /**
-     * Set Value Range.
+     * Set Value Range (C174).
      *
      * @param mixed $sMeasurementUnitCode
      * @param mixed $sMeasure

@@ -47,7 +47,7 @@ class FreeText extends Segment
     }
 
     /**
-     * Set Text Reference.
+     * Set Text Reference (C107).
      *
      * @param string $sFreeTextDescriptionCode (4441)
      * @param mixed $sCodeListIdentificationCode (1131)
@@ -83,7 +83,7 @@ class FreeText extends Segment
     }
 
     /**
-     * Set Text Literal.
+     * Set Text Literal (C108).
      *
      * @param array $aTextLiteral (4440)
      */

@@ -33,7 +33,7 @@ class PlaceLocationIdentification extends Segment
     }
 
     /**
-     * Set Location Identification.
+     * Set Location Identification (C517).
      *
      * @param mixed $sLocationIdentifier (3225)
      * @param mixed $sCodeListIdentificationCode (1131)
@@ -80,7 +80,7 @@ class PlaceLocationIdentification extends Segment
     }
 
     /**
-     * Set Related Location One Identification.
+     * Set Related Location One Identification (C519).
      *
      * @param mixed $sFirstRelatedLocationIdentifier (3223)
      * @param mixed $sCodeListIdentificationCode (1131)
@@ -127,7 +127,7 @@ class PlaceLocationIdentification extends Segment
     }
 
     /**
-     * Set Related Location Two Identification.
+     * Set Related Location Two Identification (C553).
      *
      * @param mixed $sSecondRelatedLocationIdentifier (3233)
      * @param mixed $sCodeListIdentificationCode (1131)
