@@ -16,7 +16,15 @@ class NameAndAddress extends Segment
     protected $sPartyFunctionCodeQualifier;
     protected $aPartyIdentificationDetails = [];
     protected $aNameAndAddress = [];
+    protected $aPartyName = [];
+    protected $sPartyNameFormatCode;
+    protected $aStreet = [];
     protected $sCityName;
+    protected $sCountrySubdivisionIdentifier;
+    protected $sCodeListIdentificationCode;
+    protected $sCodeListResponsibleAgencyCode;
+    protected $sCountrySubdivisionName;
+    protected $sPostalIdentificationCode;
     protected $sCountryIdentifier;
 
     /**
@@ -82,6 +90,45 @@ class NameAndAddress extends Segment
     }
 
     /**
+     * Set Party Name.
+     *
+     * @param array $aPartyName (3036)
+     *
+     * @return self $this
+     */
+    public function setPartyName(array $aPartyName): self
+    {
+        $this->aPartyName = $aPartyName;
+        return $this;
+    }
+
+    /**
+     * Set Party Name Format Code.
+     *
+     * @param array $sPartyNameFormatCode (3045)
+     *
+     * @return self $this
+     */
+    public function setPartyNameFormatCode(string $sPartyNameFormatCode): self
+    {
+        $this->sPartyNameFormatCode = $sPartyNameFormatCode;
+        return $this;
+    }
+
+    /**
+     * Set Street.
+     *
+     * @param array $aStreet (3042)
+     *
+     * @return self $this
+     */
+    public function setStreet(array $aStreet): self
+    {
+        $this->aStreet = $aStreet;
+        return $this;
+    }
+
+    /**
      * Set City Name.
      *
      * @param string $sCityName (3164)
@@ -91,6 +138,58 @@ class NameAndAddress extends Segment
     public function setCityName(string $sCityName): self
     {
         $this->sCityName = $sCityName;
+        return $this;
+    }
+
+    /**
+     * Set Country Subdivision Identifier.
+     *
+     * @param string $sCountrySubdivisionIdentifier (3229)
+     *
+     * @return self $this
+     */
+    public function setCountrySubdivisionIdentifier(string $sCountrySubdivisionIdentifier): self
+    {
+        $this->sCountrySubdivisionIdentifier = $sCountrySubdivisionIdentifier;
+        return $this;
+    }
+
+    /**
+     * Set Code List Identification Code.
+     *
+     * @param string $sCodeListIdentificationCode (1131)
+     *
+     * @return self $this
+     */
+    public function setCodeListIdentificationCode(string $sCodeListIdentificationCode): self
+    {
+        $this->sCodeListIdentificationCode = $sCodeListIdentificationCode;
+        return $this;
+    }
+
+    /**
+     * Set Code List Responsible Agency Code.
+     *
+     * @param string $sCodeListResponsibleAgencyCode (3055)
+     *
+     * @return self $this
+     */
+    public function setCodeListResponsibleAgencyCode(string $sCodeListResponsibleAgencyCode): self
+    {
+        $this->sCodeListResponsibleAgencyCode = $sCodeListResponsibleAgencyCode;
+        return $this;
+    }
+
+    /**
+     * Set Country Subdivision Name.
+     *
+     * @param string $sPostalIdentificationCode (3228)
+     *
+     * @return self $this
+     */
+    public function setCountrySubdivisionName(string $sCountrySubdivisionName): self
+    {
+        $this->sCountrySubdivisionName = $sCountrySubdivisionName;
         return $this;
     }
 
@@ -145,15 +244,27 @@ class NameAndAddress extends Segment
 
         // Name And Address
 
-        if ($this->aNameAndAddress !== null) {
+        if (count($this->aNameAndAddress) > 0) {
             $aComposed[] = $this->aNameAndAddress;
         }
 
         // Party Name
-        $aComposed[] = ''; // @todo
+
+        if (count($this->aPartyName) > 0) {
+            $aPartyName = $this->aPartyName;
+
+            if ($this->sPartyNameFormatCode !== null) {
+                $aPartyName[] = $this->sPartyNameFormatCode;
+            }
+
+            $aComposed[] = $aPartyName;
+        }
 
         // Street
-        $aComposed[] = ''; // @todo
+
+        if (count($this->aStreet) > 0) {
+            $aComposed[] = $this->aStreet;
+        }
 
         // City Name
 
@@ -162,7 +273,28 @@ class NameAndAddress extends Segment
         }
 
         // Country Subdivision Details
-        $aComposed[] = ''; // @todo
+
+        $aCountrySubdivisionDetails = [];
+
+        if ($this->sCountrySubdivisionIdentifier !== null) {
+            $aCountrySubdivisionDetails[] = $this->sCountrySubdivisionIdentifier;
+        }
+
+        if ($this->sCodeListIdentificationCode !== null) {
+            $aCountrySubdivisionDetails[] = $this->sCodeListIdentificationCode;
+        }
+
+        if ($this->sCodeListResponsibleAgencyCode !== null) {
+            $aCountrySubdivisionDetails[] = $this->sCodeListResponsibleAgencyCode;
+        }
+
+        if ($this->sCountrySubdivisionName !== null) {
+            $aCountrySubdivisionDetails[] = $this->sCountrySubdivisionName;
+        }
+
+        if (count($aCountrySubdivisionDetails) > 0) {
+            $aComposed[] = $aCountrySubdivisionDetails;
+        }
 
         // Postal Identification Code
 
