@@ -20,10 +20,7 @@ class NameAndAddress extends Segment
     protected $sPartyNameFormatCode;
     protected $aStreet = [];
     protected $sCityName;
-    protected $sCountrySubdivisionIdentifier;
-    protected $sCodeListIdentificationCode;
-    protected $sCodeListResponsibleAgencyCode;
-    protected $sCountrySubdivisionName;
+    protected $aCountrySubdivisionDetails = [];
     protected $sPostalIdentificationCode;
     protected $sCountryIdentifier;
 
@@ -41,7 +38,7 @@ class NameAndAddress extends Segment
     }
 
     /**
-     * Set Party Identification Details.
+     * Set Party Identification Details (C082).
      *
      * @param string $sPartyIdentifier (3039)
      * @param mixed $sCodeListIdentificationCode (1131)
@@ -77,7 +74,7 @@ class NameAndAddress extends Segment
     }
 
     /**
-     * Set Name And Address.
+     * Set Name And Address (C058).
      *
      * @param array $aNameAndAddressDescription (3124)
      *
@@ -90,7 +87,7 @@ class NameAndAddress extends Segment
     }
 
     /**
-     * Set Party Name.
+     * Set Party Name (C080).
      *
      * @param array $aPartyName (3036)
      *
@@ -116,7 +113,7 @@ class NameAndAddress extends Segment
     }
 
     /**
-     * Set Street.
+     * Set Street (C059).
      *
      * @param array $aStreet (3042)
      *
@@ -142,54 +139,40 @@ class NameAndAddress extends Segment
     }
 
     /**
-     * Set Country Subdivision Identifier.
+     * Set Country Subdivision Details. (C819)
      *
      * @param string $sCountrySubdivisionIdentifier (3229)
-     *
-     * @return self $this
-     */
-    public function setCountrySubdivisionIdentifier(string $sCountrySubdivisionIdentifier): self
-    {
-        $this->sCountrySubdivisionIdentifier = $sCountrySubdivisionIdentifier;
-        return $this;
-    }
-
-    /**
-     * Set Code List Identification Code.
-     *
      * @param string $sCodeListIdentificationCode (1131)
-     *
-     * @return self $this
-     */
-    public function setCodeListIdentificationCode(string $sCodeListIdentificationCode): self
-    {
-        $this->sCodeListIdentificationCode = $sCodeListIdentificationCode;
-        return $this;
-    }
-
-    /**
-     * Set Code List Responsible Agency Code.
-     *
      * @param string $sCodeListResponsibleAgencyCode (3055)
+     * @param string $sCountrySubdivisionName (3228)
      *
      * @return self $this
      */
-    public function setCodeListResponsibleAgencyCode(string $sCodeListResponsibleAgencyCode): self
-    {
-        $this->sCodeListResponsibleAgencyCode = $sCodeListResponsibleAgencyCode;
-        return $this;
-    }
+    public function setCountrySubdivisionDetails(
+        $sCountrySubdivisionIdentifier,
+        $sCodeListIdentificationCode,
+        $sCodeListResponsibleAgencyCode,
+        $sCountrySubdivisionName
+    ) {
+        $aCountrySubdivisionDetails = [];
 
-    /**
-     * Set Country Subdivision Name.
-     *
-     * @param string $sPostalIdentificationCode (3228)
-     *
-     * @return self $this
-     */
-    public function setCountrySubdivisionName(string $sCountrySubdivisionName): self
-    {
-        $this->sCountrySubdivisionName = $sCountrySubdivisionName;
+        if ($sCountrySubdivisionIdentifier !== null) {
+            $aCountrySubdivisionDetails[] = $sCountrySubdivisionIdentifier;
+        }
+
+        if ($sCodeListIdentificationCode !== null) {
+            $aCountrySubdivisionDetails[] = $sCodeListIdentificationCode;
+        }
+
+        if ($sCodeListResponsibleAgencyCode !== null) {
+            $aCountrySubdivisionDetails[] = $sCodeListResponsibleAgencyCode;
+        }
+
+        if ($sCountrySubdivisionName !== null) {
+            $aCountrySubdivisionDetails[] = $sCountrySubdivisionName;
+        }
+
+        $this->aCountrySubdivisionDetails = $aCountrySubdivisionDetails;
         return $this;
     }
 
@@ -274,26 +257,8 @@ class NameAndAddress extends Segment
 
         // Country Subdivision Details
 
-        $aCountrySubdivisionDetails = [];
-
-        if ($this->sCountrySubdivisionIdentifier !== null) {
-            $aCountrySubdivisionDetails[] = $this->sCountrySubdivisionIdentifier;
-        }
-
-        if ($this->sCodeListIdentificationCode !== null) {
-            $aCountrySubdivisionDetails[] = $this->sCodeListIdentificationCode;
-        }
-
-        if ($this->sCodeListResponsibleAgencyCode !== null) {
-            $aCountrySubdivisionDetails[] = $this->sCodeListResponsibleAgencyCode;
-        }
-
-        if ($this->sCountrySubdivisionName !== null) {
-            $aCountrySubdivisionDetails[] = $this->sCountrySubdivisionName;
-        }
-
-        if (count($aCountrySubdivisionDetails) > 0) {
-            $aComposed[] = $aCountrySubdivisionDetails;
+        if (count($this->aCountrySubdivisionDetails) > 0) {
+            $aComposed[] = $this->aCountrySubdivisionDetails;
         }
 
         // Postal Identification Code
