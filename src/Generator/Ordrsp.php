@@ -81,7 +81,7 @@ class Ordrsp extends Message
   /**
    * Ordrsp constructor.
    *
-   * @param null $messageId
+   * @param null   $messageId
    * @param string $identifier
    * @param string $version
    * @param string $release
@@ -195,13 +195,15 @@ class Ordrsp extends Message
 
   /**
    * @param string|\DateTime $deliveryDate
+   * @param int              $type
+   * @param int              $formatQuantifier
    *
    * @return Ordrsp
    * @throws EdifactException
    */
-  public function setDeliveryDate($deliveryDate)
+  public function setDeliveryDate($deliveryDate, $type = EdifactDate::TYPE_DELIVERY_DATE_REQUESTED, $formatQuantifier = EdifactDate::DATE)
   {
-    $this->deliveryDate = $this->addDTMSegment($deliveryDate, '2');
+    $this->deliveryDate = $this->addDTMSegment($deliveryDate, $type, $formatQuantifier);
     return $this;
   }
 

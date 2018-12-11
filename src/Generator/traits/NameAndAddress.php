@@ -211,7 +211,7 @@ trait NameAndAddress
   }
 
   /**
-   * @param        $name1
+   * @param string $name1
    * @param string $name2
    * @param string $name3
    * @param string $street
@@ -244,7 +244,7 @@ trait NameAndAddress
   }
 
   /**
-   * @param        $name1
+   * @param string $name1
    * @param string $name2
    * @param string $name3
    * @param string $street
