@@ -22,7 +22,7 @@ class EdifactDate
   const DATETIME_FORMAT = 'YmdHi';
 
   const SHIPPING_WEEK = 616;
-  const SHIPPING_WEEK_FORMAT = 'YmdW';
+  const SHIPPING_WEEK_FORMAT = 'YmW';
 
   const SHIPPING_UNDEFINED = 999;
   const SHIPPING_UNDEFINED_FORMAT = "";
