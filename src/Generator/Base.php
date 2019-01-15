@@ -14,14 +14,17 @@ namespace EDI\Generator;
  * @package EDI\Generator
  * @property array $composeKeys
  */
-class Base
-{
+class Base {
+
   /** @var array */
   protected $messageContent = [];
+
   /** @var array */
   protected $composed;
+
   /** @var string */
   protected $sender;
+
   /** @var string */
   protected $receiver;
 
@@ -31,8 +34,7 @@ class Base
   /**
    * @param $keyName
    */
-  public function addKeyToCompose($keyName)
-  {
+  public function addKeyToCompose($keyName) {
     array_push($this->composeKeys, $keyName);
   }
 
@@ -44,8 +46,7 @@ class Base
    * @return array
    * @throws EdifactException
    */
-  public function composeByKeys($keys = null)
-  {
+  public function composeByKeys($keys = null) {
     if (is_null($keys)) {
       $keys = $this->composeKeys;
     }
@@ -73,16 +74,14 @@ class Base
   /**
    * @return array
    */
-  public function getComposed()
-  {
+  public function getComposed() {
     return $this->composed;
   }
 
   /**
    * @return string
    */
-  public function getSender()
-  {
+  public function getSender() {
     return $this->sender;
   }
 
@@ -91,17 +90,16 @@ class Base
    *
    * @return $this
    */
-  public function setSender($sender)
-  {
+  public function setSender($sender) {
     $this->sender = $sender;
+
     return $this;
   }
 
   /**
    * @return string
    */
-  public function getReceiver()
-  {
+  public function getReceiver() {
     return $this->receiver;
   }
 
@@ -110,9 +108,9 @@ class Base
    *
    * @return $this
    */
-  public function setReceiver($receiver)
-  {
+  public function setReceiver($receiver) {
     $this->receiver = $receiver;
+
     return $this;
   }
 
@@ -123,8 +121,7 @@ class Base
    *
    * @return array|bool
    */
-  protected function addRFFSegment($functionCode, $identifier)
-  {
+  protected function addRFFSegment($functionCode, $identifier) {
     if (empty($identifier)) {
       return false;
     }
@@ -147,15 +144,17 @@ class Base
    * @return array
    * @throws EdifactException
    */
-  protected function addDTMSegment($dateString, $type, $formatQualifier = EdifactDate::DATE)
-  {
+  protected function addDTMSegment($dateString, $type, $formatQualifier = EdifactDate::DATE) {
+    $data = [];
+    array_push($data, $type);
+    if (!empty($dateString)) {
+      array_push($data, EdifactDate::get($dateString, $formatQualifier));
+      array_push($data, $formatQualifier);
+    }
+
     return [
       'DTM',
-      [
-        $type,
-        EdifactDate::get($dateString, $formatQualifier),
-        $formatQualifier,
-      ],
+      $data,
     ];
   }
 
@@ -165,8 +164,7 @@ class Base
    *
    * @return array
    */
-  public static function addBGMSegment($documentNumber, $type)
-  {
+  public static function addBGMSegment($documentNumber, $type) {
     return [
       'BGM',
       [
@@ -186,11 +184,11 @@ class Base
    *
    * @return string
    */
-  protected static function maxChars($string, $length = 35)
-  {
+  protected static function maxChars($string, $length = 35) {
     if (empty($string)) {
       return;
     }
+
     return mb_substr($string, 0, $length);
   }
 
@@ -202,8 +200,7 @@ class Base
    *
    * @throws EdifactException
    */
-  protected function isAllowed($value, $array, $errorMessage = null)
-  {
+  protected function isAllowed($value, $array, $errorMessage = null) {
     if (is_null($errorMessage)) {
       $errorMessage = 'value: ' . $value . ' is not in allowed values: ' .
         ' [' . implode(', ', $array) . '] in ' . get_class($this) . '->' .
@@ -221,8 +218,7 @@ class Base
    *
    * @return array
    */
-  public static function addMOASegment($qualifier, $value)
-  {
+  public static function addMOASegment($qualifier, $value) {
     return [
       'MOA',
       [
