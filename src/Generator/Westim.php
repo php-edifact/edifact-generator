@@ -19,14 +19,28 @@ class Westim extends Message
     private $_costTotals;
     private $_totalMessageAmounts;
 
-    /*
-     * messageID needs to be the estimate reference number
+    /**
+     * Construct.
+     *
+     * @param mixed $sMessageReferenceNumber (0062)
+     * @param string $sMessageType (0065)
+     * @param string $sMessageVersionNumber (0052)
+     * @param string $sMessageReleaseNumber (0054)
+     * @param string $sMessageControllingAgencyCoded (0051)
+     * @param string $sAssociationAssignedCode (0057)
      */
-    public function __construct($estimateReference = null, $identifier = 'WESTIM', $version = '0', $release = null, $controllingAgency = null, $association = null)
-    {
-        parent::__construct($identifier, $version, $release, $controllingAgency, $estimateReference, $association);
+    public function __construct(
+        $sMessageReferenceNumber = null,
+        $sMessageType = 'WESTIM',
+        $sMessageVersionNumber = '0',
+        $sMessageReleaseNumber = null,
+        $sMessageControllingAgencyCoded = null,
+        $sAssociationAssignedCode = null
+    ) {
+        parent::__construct($sMessageType, $sMessageVersionNumber, $sMessageReleaseNumber,
+            $sMessageControllingAgencyCoded, $sMessageReferenceNumber, $sAssociationAssignedCode);
         
-        $this->_estimateReference = $estimateReference;
+        $this->_estimateReference = $sMessageReferenceNumber;
 
         $this->_damages = [];
     }
@@ -124,10 +138,18 @@ class Westim extends Message
         return $this;
     }
 
-    public function compose($msgStatus = null)
+    /**
+     * Compose.
+     *
+     * @param mixed $sMessageFunctionCode (1225)
+     * @param mixed $sDocumentNameCode (1001)
+     * @param mixed $sDocumentIdentifier (1004)
+     *
+     * @return parent::compose()
+     */
+    public function compose(?string $sMessageFunctionCode = null, ?string $sDocumentNameCode = null, ?string $sDocumentIdentifier = null): parent
     {
-        $this->messageContent = [
-        ];
+        $this->messageContent = [];
 
         $this->messageContent[] = $this->_dtmATR;
         $this->messageContent[] = ['RFF', 'EST', $this->_estimateReference, $this->_day];
@@ -136,13 +158,16 @@ class Westim extends Message
         $this->messageContent[] = $this->_nadLED;
         $this->messageContent[] = $this->_nadDED;
         $this->messageContent[] = $this->_equipment;
+
         if ($this->_fullEmpty !== null) {
             $this->messageContent[] = $this->_fullEmpty;
         }
+
         $this->messageContent[] = ['ECI', 'D'];
 
         foreach ($this->_damages as $damage) {
             $content = $damage->compose();
+
             foreach ($content as $segment) {
                 $this->messageContent[] = $segment;
             }
@@ -151,7 +176,6 @@ class Westim extends Message
         $this->messageContent[] = $this->_costTotals;
         $this->messageContent[] = $this->_totalMessageAmounts;
 
-        parent::compose();
-        return $this;
+        return parent::compose($sMessageFunctionCode, $sDocumentNameCode, $sDocumentIdentifier);
     }
 }

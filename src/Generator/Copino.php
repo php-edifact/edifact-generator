@@ -10,15 +10,29 @@ class Copino extends Message
     private $port;
     private $destination;
     private $dtm;
-    private $cntr;
-    private $measures;
+    private $cntr = [];
+    private $measures = [];
 
-    public function __construct($messageID = null, $identifier = 'COPINO', $version = 'D', $release = '95B', $controllingAgency = 'UN', $association = 'ITG13')
-    {
-        parent::__construct($identifier, $version, $release, $controllingAgency, $messageID, $association);
-
-        $this->cntr = [];
-        $this->measures = [];
+    /**
+     * Construct.
+     *
+     * @param mixed $sMessageReferenceNumber (0062)
+     * @param string $sMessageType (0065)
+     * @param string $sMessageVersionNumber (0052)
+     * @param string $sMessageReleaseNumber (0054)
+     * @param string $sMessageControllingAgencyCoded (0051)
+     * @param string $sAssociationAssignedCode (0057)
+     */
+    public function __construct(
+        $sMessageReferenceNumber = null,
+        $sMessageType = 'COPINO',
+        $sMessageVersionNumber = 'D',
+        $sMessageReleaseNumber = '95B',
+        $sMessageControllingAgencyCoded = 'UN',
+        $sAssociationAssignedCode = 'ITG13'
+    ) {
+        parent::__construct($sMessageType, $sMessageVersionNumber, $sMessageReleaseNumber,
+            $sMessageControllingAgencyCoded, $sMessageReferenceNumber, $sAssociationAssignedCode);
     }
 
     public function setSenderAndReceiver($sender, $receiver)
@@ -100,33 +114,41 @@ class Copino extends Message
         return $this;
     }
 
-    /*
-     * $documentCode = 660 (delivery) / 661 (pickup)
+    /**
+     * Compose.
+     *
+     * @param mixed $sMessageFunctionCode (1225)
+     * @param mixed $sDocumentNameCode (1001)
+     * @param mixed $sDocumentIdentifier (1004)
+     *
+     * @return parent::compose()
      */
-    public function compose($msgStatus = 9, $documentCode = 661)
+    public function compose(?string $sMessageFunctionCode = null, ?string $sDocumentNameCode = null, ?string $sDocumentIdentifier = null): parent
     {
         $this->messageContent = [
-            ['BGM', $documentCode, $this->messageID, $msgStatus],
+            ['BGM', $sDocumentNameCode, $this->messageID, $sMessageFunctionCode],
             self::rffSegment('XXX', 1)
         ];
 
         if (count($this->transporter) > 0) {
             $this->messageContent[] = $this->transporter;
         }
+
         $this->messageContent[] = $this->port;
         $this->messageContent[] = $this->dtm;
         $this->messageContent[] = $this->sender;
         $this->messageContent[] = $this->receiver;
         $this->messageContent[] = ['GID', 1];
+
         foreach ($this->cntr as $segment) {
             $this->messageContent[] = $segment;
         }
+
         $this->messageContent[] = $this->measures;
         $this->messageContent[] = $this->vessel;
         $this->messageContent[] = $this->destination;
         $this->messageContent[] = ['CNT', [16, 1]];
 
-        parent::compose();
-        return $this;
+        return parent::compose($sMessageFunctionCode, $sDocumentNameCode, $sDocumentIdentifier);
     }
 }

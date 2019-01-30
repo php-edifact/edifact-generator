@@ -11,13 +11,30 @@ class Calinf extends Message
     private $etd;
     private $callsign;
 
-    public function __construct($messageID = null, $identifier = 'CALINF', $version = 'D', $release = '00B', $controllingAgency = 'UN', $association = 'SMDG20')
-    {
-        parent::__construct($identifier, $version, $release, $controllingAgency, $messageID, $association);
+    private $containers = [];
+
+    /**
+     * Construct.
+     *
+     * @param mixed $sMessageReferenceNumber (0062)
+     * @param string $sMessageType (0065)
+     * @param string $sMessageVersionNumber (0052)
+     * @param string $sMessageReleaseNumber (0054)
+     * @param string $sMessageControllingAgencyCoded (0051)
+     * @param string $sAssociationAssignedCode (0057)
+     */
+    public function __construct(
+        $sMessageReferenceNumber = null,
+        $sMessageType = 'CALINF',
+        $sMessageVersionNumber = 'D',
+        $sMessageReleaseNumber = '00B',
+        $sMessageControllingAgencyCoded = 'UN',
+        $sAssociationAssignedCode = 'SMDG20'
+    ) {
+        parent::__construct($sMessageType, $sMessageVersionNumber, $sMessageReleaseNumber,
+            $sMessageControllingAgencyCoded, $sMessageReferenceNumber, $sAssociationAssignedCode);
 
         $this->dtmSend = self::dtmSegment(137, date('YmdHi'));
-
-        $this->containers = [];
     }
 
     /*
@@ -81,10 +98,19 @@ class Calinf extends Message
         return $this;
     }
 
-    public function compose($msgStatus = 5, $documentCode = 96)
+    /**
+     * Compose.
+     *
+     * @param mixed $sMessageFunctionCode (1225)
+     * @param mixed $sDocumentNameCode (1001)
+     * @param mixed $sDocumentIdentifier (1004)
+     *
+     * @return parent::compose()
+     */
+    public function compose(?string $sMessageFunctionCode = null, ?string $sDocumentNameCode = null, ?string $sDocumentIdentifier = null): parent
     {
         $this->messageContent = [
-            ['BGM', $documentCode, $this->messageID, $msgStatus]
+            ['BGM', $sDocumentNameCode, $this->messageID, $sMessageFunctionCode]
         ];
 
         $this->messageContent[] = $this->dtmSend;
@@ -95,7 +121,6 @@ class Calinf extends Message
         $this->messageContent[] = $this->etd;
         $this->messageContent[] = $this->callsign;
 
-        parent::compose();
-        return $this;
+        return parent::compose($sMessageFunctionCode, $sDocumentNameCode, $sDocumentIdentifier);
     }
 }

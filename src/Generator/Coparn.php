@@ -28,13 +28,30 @@ class Coparn extends Message
     private $cargo;
     private $dimensions;
 
-    public function __construct($messageID = null, $identifier = 'COPARN', $version = 'D', $release = '00B', $controllingAgency = 'UN', $association = 'SMDG20')
-    {
-        parent::__construct($identifier, $version, $release, $controllingAgency, $messageID, $association);
+    private $containers = [];
+
+    /**
+     * Construct.
+     *
+     * @param mixed $sMessageReferenceNumber (0062)
+     * @param string $sMessageType (0065)
+     * @param string $sMessageVersionNumber (0052)
+     * @param string $sMessageReleaseNumber (0054)
+     * @param string $sMessageControllingAgencyCoded (0051)
+     * @param string $sAssociationAssignedCode (0057)
+     */
+    public function __construct(
+        $sMessageReferenceNumber = null,
+        $sMessageType = 'COPARN',
+        $sMessageVersionNumber = 'D',
+        $sMessageReleaseNumber = '00B',
+        $sMessageControllingAgencyCoded = 'UN',
+        $sAssociationAssignedCode = 'SMDG20'
+    ) {
+        parent::__construct($sMessageType, $sMessageVersionNumber, $sMessageReleaseNumber,
+            $sMessageControllingAgencyCoded, $sMessageReferenceNumber, $sAssociationAssignedCode);
 
         $this->dtmSend = self::dtmSegment(137, date('YmdHi'));
-
-        $this->containers = [];
     }
 
     /*
@@ -258,16 +275,27 @@ class Coparn extends Message
         return $this;
     }
 
-    public function compose($msgStatus = 5, $documentCode = 126)
+    /**
+     * Compose.
+     *
+     * @param mixed $sMessageFunctionCode (1225)
+     * @param mixed $sDocumentNameCode (1001)
+     * @param mixed $sDocumentIdentifier (1004)
+     *
+     * @return parent::compose()
+     */
+    public function compose(?string $sMessageFunctionCode = null, ?string $sDocumentNameCode = null, ?string $sDocumentIdentifier = null): parent
     {
         $this->messageContent = [
-            ['BGM', $documentCode, $this->messageID, $msgStatus, 'AB']
+            ['BGM', $sDocumentNameCode, $this->messageID, $sMessageFunctionCode, 'AB']
         ];
 
         $this->messageContent[] = $this->dtmSend;
+
         if ($this->rffAcceptOrder !== null) {
             $this->messageContent[] = $this->rffAcceptOrder;
         }
+
         $this->messageContent[] = $this->booking;
         $this->messageContent[] = $this->vessel;
         $this->messageContent[] = $this->callsign;
@@ -278,13 +306,17 @@ class Coparn extends Message
         $this->messageContent[] = $this->messageCF;
         $this->messageContent[] = $this->cntr;
         $this->messageContent[] = $this->bookingSequence;
+
         if ($this->cntr  === '') {
             $this->messageContent[] = $this->cntrAmount;
         }
+
         $this->messageContent[] = ['TMD', '3'];
+
         if ($this->weightTime !== null) {
             $this->messageContent[] = $this->weightTime;
         }
+
         $this->messageContent[] = $this->fnd;
         $this->messageContent[] = $this->pol;
         $this->messageContent[] = $this->pod;
@@ -293,6 +325,7 @@ class Coparn extends Message
         if ($this->ventilation !== null) {
             $this->messageContent[] = $this->ventilation;
         }
+
         if ($this->humidity !== null) {
             $this->messageContent[] = $this->humidity;
         }
@@ -302,20 +335,24 @@ class Coparn extends Message
                 $this->messageContent[] = $segment;
             }
         }
+
         if ($this->temperature !== null) {
             $this->messageContent[] = $this->temperature;
         }
+
         if ($this->cargo !== null) {
             $this->messageContent[] = $this->cargo;
         }
+
         if ($this->dangerous !== null) {
             foreach ($this->dangerous as $segment) {
                 $this->messageContent[] = $segment;
             }
         }
+
         $this->messageContent[] = ['TDT', 1, '', 3];
         $this->messageContent[] = ['CNT', [16, 1]];
-        parent::compose();
-        return $this;
+
+        return parent::compose($sMessageFunctionCode, $sDocumentNameCode, $sDocumentIdentifier);
     }
 }

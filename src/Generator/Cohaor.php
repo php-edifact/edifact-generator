@@ -51,7 +51,7 @@ class Cohaor extends Message
      *
      * @return parent::compose()
      */
-    public function compose(?string $sMessageFunctionCode, ?string $sDocumentNameCode, ?string $sDocumentIdentifier): parent
+    public function compose(?string $sMessageFunctionCode = null, ?string $sDocumentNameCode = null, ?string $sDocumentIdentifier = null): parent
     {
         // BGM - Beginning of message
 

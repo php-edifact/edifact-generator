@@ -10,15 +10,30 @@ class Vermas extends Message
     private $messageSenderInformation = '';
     private $messageSenderCompany = ['NAD', 'TB'];
 
-    private $containers;
+    private $containers = [];
 
-    public function __construct($messageID = null, $identifier = 'VERMAS', $version = 'D', $release = '16A', $controllingAgency = 'UN', $association = 'SMDG10')
-    {
-        parent::__construct($identifier, $version, $release, $controllingAgency, $messageID, $association);
+    /**
+     * Construct.
+     *
+     * @param mixed $sMessageReferenceNumber (0062)
+     * @param string $sMessageType (0065)
+     * @param string $sMessageVersionNumber (0052)
+     * @param string $sMessageReleaseNumber (0054)
+     * @param string $sMessageControllingAgencyCoded (0051)
+     * @param string $sAssociationAssignedCode (0057)
+     */
+    public function __construct(
+        $sMessageReferenceNumber = null,
+        $sMessageType = 'VERMAS',
+        $sMessageVersionNumber = 'D',
+        $sMessageReleaseNumber = '16A',
+        $sMessageControllingAgencyCoded = 'UN',
+        $sAssociationAssignedCode = 'SMDG10'
+    ) {
+        parent::__construct($sMessageType, $sMessageVersionNumber, $sMessageReleaseNumber,
+            $sMessageControllingAgencyCoded, $sMessageReferenceNumber, $sAssociationAssignedCode);
 
         $this->dtmSend = self::dtmSegment(137, date('YmdHi'));
-
-        $this->containers = [];
     }
 
     /*
@@ -78,10 +93,19 @@ class Vermas extends Message
         return $this;
     }
 
-    public function compose($msgStatus = 5, $documentCode = 749)
+    /**
+     * Compose.
+     *
+     * @param mixed $sMessageFunctionCode (1225)
+     * @param mixed $sDocumentNameCode (1001)
+     * @param mixed $sDocumentIdentifier (1004)
+     *
+     * @return parent::compose()
+     */
+    public function compose(?string $sMessageFunctionCode = null, ?string $sDocumentNameCode = null, ?string $sDocumentIdentifier = null): parent
     {
         $this->messageContent = [
-            ['BGM', $documentCode, $this->messageID, $msgStatus]
+            ['BGM', $sDocumentNameCode, $this->messageID, $sMessageFunctionCode]
         ];
 
         /* message creation date and time */
@@ -110,7 +134,6 @@ class Vermas extends Message
             }
         }
 
-        parent::compose();
-        return $this;
+        return parent::compose($sMessageFunctionCode, $sDocumentNameCode, $sDocumentIdentifier);
     }
 }
