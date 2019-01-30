@@ -7,13 +7,28 @@ class Codeco extends Message
     private $receiver;
     private $messageCF;
 
-    private $containers;
+    private $containers = [];
 
-    public function __construct($messageID = null, $identifier = 'CODECO', $version = 'D', $release = '95B', $controllingAgency = 'UN', $association = null)
-    {
-        parent::__construct($identifier, $version, $release, $controllingAgency, $messageID, $association);
-
-        $this->containers = [];
+    /**
+     * Construct.
+     *
+     * @param mixed $sMessageReferenceNumber (0062)
+     * @param string $sMessageType (0065)
+     * @param string $sMessageVersionNumber (0052)
+     * @param string $sMessageReleaseNumber (0054)
+     * @param string $sMessageControllingAgencyCoded (0051)
+     * @param string $sAssociationAssignedCode (0057)
+     */
+    public function __construct(
+        $sMessageReferenceNumber = null,
+        $sMessageType = 'CODECO',
+        $sMessageVersionNumber = 'D',
+        $sMessageReleaseNumber = '95B',
+        $sMessageControllingAgencyCoded = 'UN',
+        $sAssociationAssignedCode = null
+    ) {
+        parent::__construct($sMessageType, $sMessageVersionNumber, $sMessageReleaseNumber,
+            $sMessageControllingAgencyCoded, $sMessageReferenceNumber, $sAssociationAssignedCode);
     }
 
     /*
@@ -41,13 +56,19 @@ class Codeco extends Message
         return $this;
     }
 
-    /*
-     * $documentCode = 34 (gate in), 36 (gate out)
+    /**
+     * Compose.
+     *
+     * @param mixed $sMessageFunctionCode (1225)
+     * @param mixed $sDocumentNameCode (1001)
+     * @param mixed $sDocumentIdentifier (1004)
+     *
+     * @return parent::compose()
      */
-    public function compose($msgStatus = 5, $documentCode = 34)
+    public function compose(?string $sMessageFunctionCode = null, ?string $sDocumentNameCode = null, ?string $sDocumentIdentifier = null): parent
     {
         $this->messageContent = [
-            ['BGM', $documentCode, $this->messageID, $msgStatus]
+            ['BGM', $sDocumentNameCode, $this->messageID, $sMessageFunctionCode]
         ];
 
         if ($this->sender !== null) {
@@ -68,7 +89,7 @@ class Codeco extends Message
         }
 
         $this->messageContent[] = ['CNT', [16, count($this->containers)]];
-        parent::compose();
-        return $this;
+
+        return parent::compose($sMessageFunctionCode, $sDocumentNameCode, $sDocumentIdentifier);
     }
 }

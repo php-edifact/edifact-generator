@@ -9,13 +9,28 @@ class Coprar extends Message
     private $eta;
     private $etd;
 
-    private $containers;
+    private $containers = [];
 
-    public function __construct($messageID = null, $identifier = 'COPRAR', $version = 'D', $release = '95B', $controllingAgency = 'UN', $association = 'SMDG16')
-    {
-        parent::__construct($identifier, $version, $release, $controllingAgency, $messageID, $association);
-
-        $this->containers = [];
+    /**
+     * Construct.
+     *
+     * @param mixed $sMessageReferenceNumber (0062)
+     * @param string $sMessageType (0065)
+     * @param string $sMessageVersionNumber (0052)
+     * @param string $sMessageReleaseNumber (0054)
+     * @param string $sMessageControllingAgencyCoded (0051)
+     * @param string $sAssociationAssignedCode (0057)
+     */
+    public function __construct(
+        $sMessageReferenceNumber = null,
+        $sMessageType = 'COPRAR',
+        $sMessageVersionNumber = 'D',
+        $sMessageReleaseNumber = '95B',
+        $sMessageControllingAgencyCoded = 'UN',
+        $sAssociationAssignedCode = 'SMDG16'
+    ) {
+        parent::__construct($sMessageType, $sMessageVersionNumber, $sMessageReleaseNumber,
+            $sMessageControllingAgencyCoded, $sMessageReferenceNumber, $sAssociationAssignedCode);
     }
 
     /*
@@ -83,14 +98,19 @@ class Coprar extends Message
         return $this;
     }
 
-    /*
-     * $documentCode = 43 (discharge), 45 (loading)
-     * $msgStatus = 9 (original), 5 (replacement)
+    /**
+     * Compose.
+     *
+     * @param mixed $sMessageFunctionCode (1225)
+     * @param mixed $sDocumentNameCode (1001)
+     * @param mixed $sDocumentIdentifier (1004)
+     *
+     * @return parent::compose()
      */
-    public function compose($msgStatus = 9, $documentCode = 45)
+    public function compose(?string $sMessageFunctionCode = null, ?string $sDocumentNameCode = null, ?string $sDocumentIdentifier = null): parent
     {
         $this->messageContent = [
-            ['BGM', $documentCode, $this->messageID, $msgStatus],
+            ['BGM', $sDocumentNameCode, $this->messageID, $sMessageFunctionCode],
             self::rffSegment('XXX', 1)
         ];
 
@@ -102,16 +122,18 @@ class Coprar extends Message
 
         foreach ($this->containers as $cntr) {
             $content = $cntr;
+
             if (is_a($cntr, 'EDI\Generator\Coprar\Container')) {
                 $content = $cntr->compose();
             }
+
             foreach ($content as $segment) {
                 $this->messageContent[] = $segment;
             }
         }
 
         $this->messageContent[] = ['CNT', [16, count($this->containers)]];
-        parent::compose();
-        return $this;
+
+        return parent::compose($sMessageFunctionCode, $sDocumentNameCode, $sDocumentIdentifier);
     }
 }

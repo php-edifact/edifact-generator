@@ -24,9 +24,26 @@ class Coreor extends Message
     private $emptyDepot;
     private $freightPayer;
 
-    public function __construct($messageID = null, $identifier = 'COREOR', $version = 'D', $release = '00B', $controllingAgency = 'UN', $association = 'SMDG20')
-    {
-        parent::__construct($identifier, $version, $release, $controllingAgency, $messageID, $association);
+    /**
+     * Construct.
+     *
+     * @param mixed $sMessageReferenceNumber (0062)
+     * @param string $sMessageType (0065)
+     * @param string $sMessageVersionNumber (0052)
+     * @param string $sMessageReleaseNumber (0054)
+     * @param string $sMessageControllingAgencyCoded (0051)
+     * @param string $sAssociationAssignedCode (0057)
+     */
+    public function __construct(
+        $sMessageReferenceNumber = null,
+        $sMessageType = 'COREOR',
+        $sMessageVersionNumber = 'D',
+        $sMessageReleaseNumber = '00B',
+        $sMessageControllingAgencyCoded = 'UN',
+        $sAssociationAssignedCode = 'SMDG20'
+    ) {
+        parent::__construct($sMessageType, $sMessageVersionNumber, $sMessageReleaseNumber,
+            $sMessageControllingAgencyCoded, $sMessageReferenceNumber, $sAssociationAssignedCode);
 
         $this->dtmSend = self::dtmSegment(137, date('YmdHi'));
     }
@@ -198,20 +215,29 @@ class Coreor extends Message
         return $this;
     }
 
-     /*
-     * $documentCode = 129 (Transport cargo release order)
+    /**
+     * Compose.
+     *
+     * @param mixed $sMessageFunctionCode (1225)
+     * @param mixed $sDocumentNameCode (1001)
+     * @param mixed $sDocumentIdentifier (1004)
+     *
+     * @return parent::compose()
      */
-    public function compose($msgStatus = 9, $documentCode = 129)
+    public function compose(?string $sMessageFunctionCode = null, ?string $sDocumentNameCode = null, ?string $sDocumentIdentifier = null): parent
     {
         $this->messageContent = [
-            ['BGM', $documentCode, $this->messageID, $msgStatus]
+            ['BGM', $sDocumentNameCode, $this->messageID, $sMessageFunctionCode]
         ];
+
         $this->messageContent[] = $this->dtmSend;
         $this->messageContent[] = $this->releaseNumber;
         $this->messageContent[] = $this->dtmExpiration;
+
         if ($this->previousMessage !== null) {
             $this->messageContent[] = $this->previousMessage;
         }
+
         $this->messageContent[] = $this->vessel;
         $this->messageContent[] = $this->pol;
         $this->messageContent[] = $this->pod;
@@ -230,7 +256,6 @@ class Coreor extends Message
         $this->messageContent[] = $this->freightPayer;
         $this->messageContent[] = ['CNT', [16, 1]];
 
-        parent::compose();
-        return $this;
+        return parent::compose($sMessageFunctionCode, $sDocumentNameCode, $sDocumentIdentifier);
     }
 }

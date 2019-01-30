@@ -28,15 +28,30 @@ class Iftmbf extends Message
     private $forwarder;
     private $consignor;
 
-    private $containers;
+    private $containers = [];
 
-    public function __construct($messageID = null, $identifier = 'IFTMBF', $version = 'D', $release = '00B', $controllingAgency = 'UN', $association = '2.0')
-    {
-        parent::__construct($identifier, $version, $release, $controllingAgency, $messageID, $association);
+    /**
+     * Construct.
+     *
+     * @param mixed $sMessageReferenceNumber (0062)
+     * @param string $sMessageType (0065)
+     * @param string $sMessageVersionNumber (0052)
+     * @param string $sMessageReleaseNumber (0054)
+     * @param string $sMessageControllingAgencyCoded (0051)
+     * @param string $sAssociationAssignedCode (0057)
+     */
+    public function __construct(
+        $sMessageReferenceNumber = null,
+        $sMessageType = 'IFTMBF',
+        $sMessageVersionNumber = 'D',
+        $sMessageReleaseNumber = '00B',
+        $sMessageControllingAgencyCoded = 'UN',
+        $sAssociationAssignedCode = '2.0'
+    ) {
+        parent::__construct($sMessageType, $sMessageVersionNumber, $sMessageReleaseNumber,
+            $sMessageControllingAgencyCoded, $sMessageReferenceNumber, $sAssociationAssignedCode);
 
         $this->dtmSend = self::dtmSegment(137, date('YmdHi'));
-
-        $this->containers = [];
     }
 
     public function setSender($name, $email)
@@ -188,12 +203,22 @@ class Iftmbf extends Message
         $this->containers[] = $container;
         return $this;
     }
-    
-    public function compose($msgStatus = 5, $documentCode = 335)
+
+    /**
+     * Compose.
+     *
+     * @param mixed $sMessageFunctionCode (1225)
+     * @param mixed $sDocumentNameCode (1001)
+     * @param mixed $sDocumentIdentifier (1004)
+     *
+     * @return parent::compose()
+     */
+    public function compose(?string $sMessageFunctionCode = null, ?string $sDocumentNameCode = null, ?string $sDocumentIdentifier = null): parent
     {
         $this->messageContent = [
-            ['BGM', $documentCode, $this->messageID, $msgStatus]
+            ['BGM', $sDocumentNameCode, $this->messageID, $sMessageFunctionCode]
         ];
+
         $this->messageContent[] = $this->messageSender;
         $this->messageContent[] = $this->messageSenderInformation;
         $this->messageContent[] = $this->dtmSend;
@@ -222,6 +247,7 @@ class Iftmbf extends Message
 
         foreach ($this->containers as $cntr) {
             $content = $cntr->composeGoods();
+
             foreach ($content as $segment) {
                 $this->messageContent[] = $segment;
             }
@@ -229,12 +255,12 @@ class Iftmbf extends Message
 
         foreach ($this->containers as $cntr) {
             $content = $cntr->composeEquipment();
+
             foreach ($content as $segment) {
                 $this->messageContent[] = $segment;
             }
         }
 
-        parent::compose();
-        return $this;
+        return parent::compose($sMessageFunctionCode, $sDocumentNameCode, $sDocumentIdentifier);
     }
 }
