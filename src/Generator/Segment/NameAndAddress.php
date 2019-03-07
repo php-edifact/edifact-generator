@@ -34,15 +34,16 @@ class NameAndAddress extends Segment
     public function setPartyFunctionCodeQualifier(string $sPartyFunctionCodeQualifier): self
     {
         $this->sPartyFunctionCodeQualifier = $sPartyFunctionCodeQualifier;
+
         return $this;
     }
 
     /**
      * Set Party Identification Details (C082).
      *
-     * @param string $sPartyIdentifier (3039)
-     * @param mixed $sCodeListIdentificationCode (1131)
-     * @param mixed $sCodeListResponsibleAgencyCode (3055)
+     * @param string $sPartyIdentifier               (3039)
+     * @param mixed  $sCodeListIdentificationCode    (1131)
+     * @param mixed  $sCodeListResponsibleAgencyCode (3055)
      *
      * @return self $this
      */
@@ -83,6 +84,7 @@ class NameAndAddress extends Segment
     public function setNameAndAddress(array $aNameAndAddressDescription): self
     {
         $this->aNameAndAddress = $aNameAndAddressDescription;
+
         return $this;
     }
 
@@ -96,6 +98,7 @@ class NameAndAddress extends Segment
     public function setPartyName(array $aPartyName): self
     {
         $this->aPartyName = $aPartyName;
+
         return $this;
     }
 
@@ -109,6 +112,7 @@ class NameAndAddress extends Segment
     public function setPartyNameFormatCode(string $sPartyNameFormatCode): self
     {
         $this->sPartyNameFormatCode = $sPartyNameFormatCode;
+
         return $this;
     }
 
@@ -122,6 +126,7 @@ class NameAndAddress extends Segment
     public function setStreet(array $aStreet): self
     {
         $this->aStreet = $aStreet;
+
         return $this;
     }
 
@@ -135,16 +140,17 @@ class NameAndAddress extends Segment
     public function setCityName(string $sCityName): self
     {
         $this->sCityName = $sCityName;
+
         return $this;
     }
 
     /**
-     * Set Country Subdivision Details. (C819)
+     * Set Country Subdivision Details. (C819).
      *
-     * @param mixed $sCountrySubdivisionIdentifier (3229)
-     * @param mixed $sCodeListIdentificationCode (1131)
+     * @param mixed $sCountrySubdivisionIdentifier  (3229)
+     * @param mixed $sCodeListIdentificationCode    (1131)
      * @param mixed $sCodeListResponsibleAgencyCode (3055)
-     * @param mixed $sCountrySubdivisionName (3228)
+     * @param mixed $sCountrySubdivisionName        (3228)
      *
      * @return self $this
      */
@@ -187,6 +193,7 @@ class NameAndAddress extends Segment
     public function setPostalIdentificationCode(string $sPostalIdentificationCode): self
     {
         $this->sPostalIdentificationCode = $sPostalIdentificationCode;
+
         return $this;
     }
 
@@ -202,6 +209,7 @@ class NameAndAddress extends Segment
     public function setCountryIdentifier(string $sCountryIdentifier): self
     {
         $this->sCountryIdentifier = $sCountryIdentifier;
+
         return $this;
     }
 

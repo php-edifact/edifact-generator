@@ -31,16 +31,17 @@ class EquipmentDetails extends Segment
     public function setEquipmentTypeCodeQualifier(string $sEquipmentTypeCodeQualifier): self
     {
         $this->sEquipmentTypeCodeQualifier = $sEquipmentTypeCodeQualifier;
+
         return $this;
     }
 
     /**
      * Set Equipment Identification (C237).
      *
-     * @param mixed $sEquipmentIdentifier (8260)
-     * @param mixed $sCodeListIdentificationCode (1131)
+     * @param mixed $sEquipmentIdentifier           (8260)
+     * @param mixed $sCodeListIdentificationCode    (1131)
      * @param mixed $sCodeListResponsibleAgencyCode (3055)
-     * @param mixed $sCountryIdentifier (3207)
+     * @param mixed $sCountryIdentifier             (3207)
      *
      * @return self $this
      */
@@ -85,9 +86,9 @@ class EquipmentDetails extends Segment
      * Set Equipment Size And Type (C224).
      *
      * @param mixed $sEquipmentSizeAndTypeDescriptionCode (8155)
-     * @param mixed $sCodeListIdentificationCode (1131)
-     * @param mixed $sCodeListResponsibleAgencyCode (3055)
-     * @param mixed $sEquipmentSizeAndTypeDescription (8154)
+     * @param mixed $sCodeListIdentificationCode          (1131)
+     * @param mixed $sCodeListResponsibleAgencyCode       (3055)
+     * @param mixed $sEquipmentSizeAndTypeDescription     (8154)
      *
      * @return self $this
      */
@@ -142,6 +143,7 @@ class EquipmentDetails extends Segment
     public function setEquipmentSupplierCode(string $sEquipmentSupplierCode): self
     {
         $this->sEquipmentSupplierCode = $sEquipmentSupplierCode;
+
         return $this;
     }
 
@@ -155,6 +157,7 @@ class EquipmentDetails extends Segment
     public function setEquipmentStatusCode(string $sEquipmentStatusCode): self
     {
         $this->sEquipmentStatusCode = $sEquipmentStatusCode;
+
         return $this;
     }
 
@@ -168,6 +171,7 @@ class EquipmentDetails extends Segment
     public function setFullOrEmptyIndicatorCode(string $sFullOrEmptyIndicatorCode): self
     {
         $this->sFullOrEmptyIndicatorCode = $sFullOrEmptyIndicatorCode;
+
         return $this;
     }
 
@@ -181,6 +185,7 @@ class EquipmentDetails extends Segment
     public function setMarkingInstructionsCode(string $sMarkingInstructionsCode): self
     {
         $this->sMarkingInstructionsCode = $sMarkingInstructionsCode;
+
         return $this;
     }
 

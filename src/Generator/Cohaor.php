@@ -9,12 +9,12 @@ class Cohaor extends Message
     /**
      * Construct.
      *
-     * @param mixed $sMessageReferenceNumber (0062)
-     * @param string $sMessageType (0065)
-     * @param string $sMessageVersionNumber (0052)
-     * @param string $sMessageReleaseNumber (0054)
+     * @param mixed  $sMessageReferenceNumber        (0062)
+     * @param string $sMessageType                   (0065)
+     * @param string $sMessageVersionNumber          (0052)
+     * @param string $sMessageReleaseNumber          (0054)
      * @param string $sMessageControllingAgencyCoded (0051)
-     * @param string $sAssociationAssignedCode (0057)
+     * @param string $sAssociationAssignedCode       (0057)
      */
     public function __construct(
         $sMessageReferenceNumber = null,
@@ -31,7 +31,7 @@ class Cohaor extends Message
     /**
      * Add Segment Group.
      *
-     * @param int $iSegmentGroupNumber
+     * @param int   $iSegmentGroupNumber
      * @param array $aSegment
      *
      * @return self $this
@@ -39,6 +39,7 @@ class Cohaor extends Message
     public function addSegmentGroup($iSegmentGroupNumber, $aSegments): self
     {
         $this->aSegmentGroups[$iSegmentGroupNumber][] = $aSegments;
+
         return $this;
     }
 
@@ -46,8 +47,8 @@ class Cohaor extends Message
      * Compose.
      *
      * @param mixed $sMessageFunctionCode (1225)
-     * @param mixed $sDocumentNameCode (1001)
-     * @param mixed $sDocumentIdentifier (1004)
+     * @param mixed $sDocumentNameCode    (1001)
+     * @param mixed $sDocumentIdentifier  (1004)
      *
      * @return parent::compose()
      */
@@ -56,7 +57,7 @@ class Cohaor extends Message
         // BGM - Beginning of message
 
         $this->messageContent = [
-            ['BGM', $sDocumentNameCode, $sDocumentIdentifier, $sMessageFunctionCode]
+            ['BGM', $sDocumentNameCode, $sDocumentIdentifier, $sMessageFunctionCode],
         ];
 
         // Segment Groups
@@ -74,4 +75,3 @@ class Cohaor extends Message
         return parent::compose($sMessageFunctionCode, $sDocumentNameCode, $sDocumentIdentifier);
     }
 }
-

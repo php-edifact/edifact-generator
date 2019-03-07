@@ -1,9 +1,9 @@
 <?php
+
 namespace EDI\Generator\Codeco;
 
 class Container
 {
-
     private $cntr;
     private $bkg;
 
@@ -15,7 +15,6 @@ class Container
 
     public function __construct()
     {
-
     }
 
     /*
@@ -26,6 +25,7 @@ class Container
     public function setContainer($number, $size, $statusCode, $fullEmptyIndicator)
     {
         $this->cntr = \EDI\Generator\Message::eqdSegment('CN', $number, [$size, '6346', '306'], '', $statusCode, $fullEmptyIndicator);
+
         return $this;
     }
 
@@ -35,6 +35,7 @@ class Container
     public function setBooking($booking, $sequence = null)
     {
         $this->bkg = \EDI\Generator\Message::rffSegment('BN', $booking);
+
         return $this;
     }
 
@@ -44,6 +45,7 @@ class Container
     public function setBillOfLading($bl)
     {
         $this->bkg = \EDI\Generator\Message::rffSegment('BM', $bl);
+
         return $this;
     }
 
@@ -54,6 +56,7 @@ class Container
     public function setSeal($seal, $sealIssuer)
     {
         $this->seal = ['SEL', [$seal, $sealIssuer]];
+
         return $this;
     }
 
@@ -66,6 +69,7 @@ class Container
             $date = date('YmdHi');
         }
         $this->effectiveDate = \EDI\Generator\Message::dtmSegment(7, $date);
+
         return $this;
     }
 
@@ -76,6 +80,7 @@ class Container
     public function setModeOfTransport($transportMode, $transportMeans)
     {
         $this->modeOfTransport = \EDI\Generator\Message::tdtShortSegment(1, '', $transportMode, $transportMeans);
+
         return $this;
     }
 
@@ -85,6 +90,7 @@ class Container
     public function setLocation($locode)
     {
         $this->destination = \EDI\Generator\Message::locSegment(165, [$locode, 139, 6]);
+
         return $this;
     }
 
@@ -96,6 +102,7 @@ class Container
     public function setWeight($type, $weight)
     {
         $this->weight = ['MEA', 'AAE', $type, ['KGM', $weight]];
+
         return $this;
     }
 
@@ -115,6 +122,7 @@ class Container
         if ($this->modeOfTransport !== null) {
             $composed[] = $this->modeOfTransport;
         }
+
         return $composed;
     }
 }
