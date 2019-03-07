@@ -28,16 +28,17 @@ class Measurements extends Segment
     public function setMeasurementPurposeCodeQualifier(string $sMeasurementPurposeCodeQualifier): self
     {
         $this->sMeasurementPurposeCodeQualifier = $sMeasurementPurposeCodeQualifier;
+
         return $this;
     }
 
     /**
      * Set Measurement Details (C502).
      *
-     * @param mixed $sMeasuredAttributeCode (6313)
-     * @param mixed $sMeasurementSignificanceCode (6321)
+     * @param mixed $sMeasuredAttributeCode          (6313)
+     * @param mixed $sMeasurementSignificanceCode    (6321)
      * @param mixed $sNonDiscreteMeasurementNameCode (6155)
-     * @param mixed $sNonDiscreteMeasurementName (6154)
+     * @param mixed $sNonDiscreteMeasurementName     (6154)
      *
      * @return self $this
      */
@@ -143,6 +144,7 @@ class Measurements extends Segment
     public function setSurfaceOrLayerCode(string $sSurfaceOrLayerCode): self
     {
         $this->sSurfaceOrLayerCode = $sSurfaceOrLayerCode;
+
         return $this;
     }
 

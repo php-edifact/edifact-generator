@@ -1,4 +1,5 @@
 <?php
+
 namespace EDI\Generator;
 
 class Coprar extends Message
@@ -14,12 +15,12 @@ class Coprar extends Message
     /**
      * Construct.
      *
-     * @param mixed $sMessageReferenceNumber (0062)
-     * @param string $sMessageType (0065)
-     * @param string $sMessageVersionNumber (0052)
-     * @param string $sMessageReleaseNumber (0054)
+     * @param mixed  $sMessageReferenceNumber        (0062)
+     * @param string $sMessageType                   (0065)
+     * @param string $sMessageVersionNumber          (0052)
+     * @param string $sMessageReleaseNumber          (0054)
      * @param string $sMessageControllingAgencyCoded (0051)
-     * @param string $sAssociationAssignedCode (0057)
+     * @param string $sAssociationAssignedCode       (0057)
      */
     public function __construct(
         $sMessageReferenceNumber = null,
@@ -39,6 +40,7 @@ class Coprar extends Message
     public function setCarrier($line)
     {
         $this->messageCA = ['NAD', 'CA', [$line, 160, 20]];
+
         return $this;
     }
 
@@ -50,6 +52,7 @@ class Coprar extends Message
     {
         $this->vessel = self::tdtSegment(20, $extVoyage, 1, '', [$line, 172, 20], '', '', [$callsign, 103, '', $vslName]);
         $this->callsign = self::rffSegment('VM', $callsign);
+
         return $this;
     }
 
@@ -63,6 +66,7 @@ class Coprar extends Message
         } else {
             $this->port = self::locSegment($type, [$locode, 139, 6], [$terminal, TER, ZZZ]);
         }
+
         return $this;
     }
 
@@ -73,6 +77,7 @@ class Coprar extends Message
     public function setEta($dtm)
     {
         $this->eta = self::dtmSegment(132, $dtm);
+
         return $this;
     }
 
@@ -83,18 +88,21 @@ class Coprar extends Message
     public function setEtd($dtm)
     {
         $this->etd = self::dtmSegment(133, $dtm);
+
         return $this;
     }
 
     public function addContainer(Coprar\Container $container)
     {
         $this->containers[] = $container;
+
         return $this;
     }
 
     public function addContainerSegments($container)
     {
         $this->containers[] = $container;
+
         return $this;
     }
 
@@ -102,8 +110,8 @@ class Coprar extends Message
      * Compose.
      *
      * @param mixed $sMessageFunctionCode (1225)
-     * @param mixed $sDocumentNameCode (1001)
-     * @param mixed $sDocumentIdentifier (1004)
+     * @param mixed $sDocumentNameCode    (1001)
+     * @param mixed $sDocumentIdentifier  (1004)
      *
      * @return parent::compose()
      */
@@ -111,7 +119,7 @@ class Coprar extends Message
     {
         $this->messageContent = [
             ['BGM', $sDocumentNameCode, $this->messageID, $sMessageFunctionCode],
-            self::rffSegment('XXX', 1)
+            self::rffSegment('XXX', 1),
         ];
 
         $this->messageContent[] = $this->vessel;

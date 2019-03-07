@@ -1,4 +1,5 @@
 <?php
+
 namespace EDI\Generator\Iftmbf;
 
 class Container
@@ -22,32 +23,39 @@ class Container
     public function setContainer($size)
     {
         $this->cntr = \EDI\Generator\Message::eqdSegment('CN', $this->goodsID, [$size, '102', '5'], '', 2, 5);
+
         return $this;
     }
 
     /*
      * Add the array counter as id for this group
      */
-    public function setGoodsID($id) {
+    public function setGoodsID($id)
+    {
         $this->goodsID = $id;
+
         return $this;
     }
 
     /*
      * Goods description
      */
-    public function setGoodsDescription($description) {
+    public function setGoodsDescription($description)
+    {
         $description = str_split($description, 35);
         $this->goodsDescription = ['FTX', 'AAA', '', '', $description];
+
         return $this;
     }
 
     /*
      * Goods weight
      */
-    public function setWeight($weight, $unit = 'KGM') {
+    public function setWeight($weight, $unit = 'KGM')
+    {
         $this->weight = ['MEA', 'AAE', 'G', [$unit, $weight]];
         $this->weightEq = ['MEA', 'AAE', 'AAL', [$unit, $weight]];
+
         return $this;
     }
 
@@ -64,12 +72,14 @@ class Container
         $address = str_split($address, 35);
 
         $this->shipFrom = ['NAD', 'SF', [$code, 160, 'ZZZ'], array_merge($name, $address), '', '', '', '', $postalCode];
+
         return $this;
     }
 
     public function setShipDate($date)
     {
         $this->shipDate = self::dtmSegment(200, $date);
+
         return $this;
     }
 
@@ -86,6 +96,7 @@ class Container
         if ($comType !== null) {
             $this->shipContact[] = ['COM', [$comData, $comType]];
         }
+
         return $this;
     }
 
@@ -94,7 +105,7 @@ class Container
         $composed = [
             ['GID', $this->goodsID],
             $this->goodsDescription,
-            $this->weight
+            $this->weight,
         ];
 
         return $composed;
@@ -105,10 +116,10 @@ class Container
         $composed = [
             $this->cntr,
             ['EQN', 1],
-            $this->weightEq
+            $this->weightEq,
         ];
         if ($this->shipFrom !== null) {
-            $composed[] = $this->shipFrom;           
+            $composed[] = $this->shipFrom;
             if ($this->shipContact !== null) {
                 $composed[] = $this->shipContact[0];
                 if (isset($this->shipContact[1])) {
@@ -116,6 +127,7 @@ class Container
                 }
             }
         }
+
         return $composed;
     }
 }

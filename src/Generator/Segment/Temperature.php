@@ -26,13 +26,14 @@ class Temperature extends Segment
     public function setTemperatureTypeCodeQualifier(string $sTemperatureTypeCodeQualifier): self
     {
         $this->sTemperatureTypeCodeQualifier = $sTemperatureTypeCodeQualifier;
+
         return $this;
     }
 
     /**
      * Set Temperature Setting (C239).
      *
-     * @param mixed $sTemperatureDegree (6246)
+     * @param mixed $sTemperatureDegree   (6246)
      * @param mixed $sMeasurementUnitCode (6411)
      *
      * @return self $this

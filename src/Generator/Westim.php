@@ -1,4 +1,5 @@
 <?php
+
 namespace EDI\Generator;
 
 class Westim extends Message
@@ -22,12 +23,12 @@ class Westim extends Message
     /**
      * Construct.
      *
-     * @param mixed $sMessageReferenceNumber (0062)
-     * @param string $sMessageType (0065)
-     * @param string $sMessageVersionNumber (0052)
-     * @param string $sMessageReleaseNumber (0054)
+     * @param mixed  $sMessageReferenceNumber        (0062)
+     * @param string $sMessageType                   (0065)
+     * @param string $sMessageVersionNumber          (0052)
+     * @param string $sMessageReleaseNumber          (0054)
      * @param string $sMessageControllingAgencyCoded (0051)
-     * @param string $sAssociationAssignedCode (0057)
+     * @param string $sAssociationAssignedCode       (0057)
      */
     public function __construct(
         $sMessageReferenceNumber = null,
@@ -39,7 +40,7 @@ class Westim extends Message
     ) {
         parent::__construct($sMessageType, $sMessageVersionNumber, $sMessageReleaseNumber,
             $sMessageControllingAgencyCoded, $sMessageReferenceNumber, $sAssociationAssignedCode);
-        
+
         $this->_estimateReference = $sMessageReferenceNumber;
 
         $this->_damages = [];
@@ -56,6 +57,7 @@ class Westim extends Message
             $dt = [$day, $time];
         }
         $this->_dtmATR = ['DTM', 'ATR', $dt];
+
         return $this;
     }
 
@@ -65,6 +67,7 @@ class Westim extends Message
     public function setCurrency($currency)
     {
         $this->_currency = ['ACA', $currency, ['STD', 0]];
+
         return $this;
     }
 
@@ -74,6 +77,7 @@ class Westim extends Message
     public function setLabourRate($labourRate)
     {
         $this->_labourRate = ['LBR', $labourRate];
+
         return $this;
     }
 
@@ -84,6 +88,7 @@ class Westim extends Message
     {
         $this->_nadDED = ['NAD', 'DED', $from];
         $this->_nadLED = ['NAD', 'LED', $to];
+
         return $this;
     }
 
@@ -93,6 +98,7 @@ class Westim extends Message
     public function setContainer($ownerCode, $serial, $isoSize, $maximumGrossWeight = 0)
     {
         $this->_equipment = ['EQF', 'CON', [$ownerCode, $serial], $isoSize, ['MGW', $maximumGrossWeight, 'KGM']];
+
         return $this;
     }
 
@@ -102,6 +108,7 @@ class Westim extends Message
     public function setFullEmpty($fullEmpty)
     {
         $this->_fullEmpty = ['CUI', '', '', 'E'];
+
         return $this;
     }
 
@@ -111,6 +118,7 @@ class Westim extends Message
     public function addDamage(Westim\Damage $damage)
     {
         $this->_damages[] = $damage;
+
         return $this;
     }
 
@@ -120,6 +128,7 @@ class Westim extends Message
     public function setCostTotals($responsibility, $labour, $material, $handling, $tax, $invoiceAmount)
     {
         $this->_costTotals = ['CTO', $responsibility, $labour, $material, $handling, $tax, $invoiceAmount];
+
         return $this;
     }
 
@@ -135,6 +144,7 @@ class Westim extends Message
         if ($taxRate !== null) {
             $this->_totalMessageAmounts[] = ['TMA', $grandTotal, '', '', '', '', $authorizedAmount, '', $taxRate];
         }
+
         return $this;
     }
 
@@ -142,8 +152,8 @@ class Westim extends Message
      * Compose.
      *
      * @param mixed $sMessageFunctionCode (1225)
-     * @param mixed $sDocumentNameCode (1001)
-     * @param mixed $sDocumentIdentifier (1004)
+     * @param mixed $sDocumentNameCode    (1001)
+     * @param mixed $sDocumentIdentifier  (1004)
      *
      * @return parent::compose()
      */
