@@ -1,9 +1,9 @@
 <?php
+
 namespace EDI\Generator;
 
 class Iftmbf extends Message
 {
-    
     private $messageSender;
     private $messageSenderInformation;
     private $dtmSend;
@@ -33,12 +33,12 @@ class Iftmbf extends Message
     /**
      * Construct.
      *
-     * @param mixed $sMessageReferenceNumber (0062)
-     * @param string $sMessageType (0065)
-     * @param string $sMessageVersionNumber (0052)
-     * @param string $sMessageReleaseNumber (0054)
+     * @param mixed  $sMessageReferenceNumber        (0062)
+     * @param string $sMessageType                   (0065)
+     * @param string $sMessageVersionNumber          (0052)
+     * @param string $sMessageReleaseNumber          (0054)
      * @param string $sMessageControllingAgencyCoded (0051)
-     * @param string $sAssociationAssignedCode (0057)
+     * @param string $sAssociationAssignedCode       (0057)
      */
     public function __construct(
         $sMessageReferenceNumber = null,
@@ -58,66 +58,75 @@ class Iftmbf extends Message
     {
         $this->messageSender = ['CTA', 'IC', ['', $name]];
         $this->messageSenderInformation = ['COM', [$email, 'EM']];
+
         return $this;
     }
 
     /**
      * Transport type requested
-     * $tsr DE 4065
+     * $tsr DE 4065.
      */
     public function setTransportRequirements($tsr)
     {
         $this->transportRequirements = ['TSR', 27];
+
         return $this;
     }
 
     /**
      * Free text instructions
-     * $ftx Max 512*5 chars
+     * $ftx Max 512*5 chars.
      */
     public function setFreeTextInstructions($ftx)
     {
         $this->freeTextInstructions = ['FTX', 'AAI', '', '', str_split($ftx, 512)];
+
         return $this;
     }
 
     /**
      * Cargo nature
-     * $cargo DE 7085
+     * $cargo DE 7085.
      */
     public function setCargoNature($cargo)
     {
         $this->cargoNature = ['GDS', $cargo];
+
         return $this;
     }
 
     public function setPlaceOfReceipt($porLocode)
     {
         $this->placeOfReceipt = self::locSegment(88, [$porLocode, 181, 6]);
+
         return $this;
     }
 
     public function setPlaceOfDelivery($podLocode)
     {
         $this->placeOfDelivery = self::locSegment(7, [$podLocode, 181, 6]);
+
         return $this;
     }
 
     public function setBookingOffice($bkgLocode)
     {
         $this->bookingOffice = self::locSegment(197, [$bkgLocode, 181, 6]);
+
         return $this;
     }
 
     public function setContractNumber($ctNumber)
     {
         $this->contractNumber = self::rffSegment('CT', $ctNumber);
+
         return $this;
     }
 
     public function setShipmentReference($siNumber)
     {
         $this->shipmentReference = self::rffSegment('SI', $siNumber);
+
         return $this;
     }
 
@@ -132,6 +141,7 @@ class Iftmbf extends Message
     public function setVessel($extVoyage, $scac, $vslName, $imonumber)
     {
         $this->vessel = self::tdtSegment(20, $extVoyage, 1, 8, [$scac, 172, 182], '', '', [$imonumber, 146, 11, $vslName]);
+
         return $this;
     }
 
@@ -142,6 +152,7 @@ class Iftmbf extends Message
     public function setPOL($loc)
     {
         $this->pol = self::locSegment(9, [$loc, 139, 6]);
+
         return $this;
     }
 
@@ -152,6 +163,7 @@ class Iftmbf extends Message
     public function setPOD($loc)
     {
         $this->pod = self::locSegment(11, [$loc, 139, 6]);
+
         return $this;
     }
 
@@ -168,6 +180,7 @@ class Iftmbf extends Message
         $address = str_split($address, 35);
 
         $this->bookingParty = ['NAD', 'ZZZ', [$code, 160, 'ZZZ'], array_merge($name, $address), '', '', '', '', $postalCode];
+
         return $this;
     }
 
@@ -177,6 +190,7 @@ class Iftmbf extends Message
     public function setCarrier($scac)
     {
         $this->carrier = ['NAD', 'CA', [$scac, 160, 'ZZZ']];
+
         return $this;
     }
 
@@ -186,6 +200,7 @@ class Iftmbf extends Message
         $address = str_split($address, 35);
 
         $this->forwarder = ['NAD', 'FW', [$code, 160, 'ZZZ'], array_merge($name, $address), '', '', '', '', $postalCode];
+
         return $this;
     }
 
@@ -195,12 +210,14 @@ class Iftmbf extends Message
         $address = str_split($address, 35);
 
         $this->consignor = ['NAD', 'CZ', [$code, 160, 'ZZZ'], array_merge($name, $address), '', '', '', '', $postalCode];
+
         return $this;
     }
 
     public function addContainer(Iftmbf\Container $container)
     {
         $this->containers[] = $container;
+
         return $this;
     }
 
@@ -208,15 +225,15 @@ class Iftmbf extends Message
      * Compose.
      *
      * @param mixed $sMessageFunctionCode (1225)
-     * @param mixed $sDocumentNameCode (1001)
-     * @param mixed $sDocumentIdentifier (1004)
+     * @param mixed $sDocumentNameCode    (1001)
+     * @param mixed $sDocumentIdentifier  (1004)
      *
      * @return parent::compose()
      */
     public function compose(?string $sMessageFunctionCode = null, ?string $sDocumentNameCode = null, ?string $sDocumentIdentifier = null): parent
     {
         $this->messageContent = [
-            ['BGM', $sDocumentNameCode, $this->messageID, $sMessageFunctionCode]
+            ['BGM', $sDocumentNameCode, $this->messageID, $sMessageFunctionCode],
         ];
 
         $this->messageContent[] = $this->messageSender;

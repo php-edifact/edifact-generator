@@ -1,9 +1,9 @@
 <?php
+
 namespace EDI\Generator\Vermas;
 
 class Container
 {
-
     private $cntr;
     private $bkg;
     private $seal;
@@ -16,7 +16,6 @@ class Container
 
     public function __construct()
     {
-
     }
 
     /*
@@ -28,6 +27,7 @@ class Container
         if ($fixedFields) {
             $this->cntr = \EDI\Generator\Message::eqdSegment('CN', $number, [$size, '6346', '306'], '', '', 5);
         }
+
         return $this;
     }
 
@@ -37,11 +37,12 @@ class Container
     public function setBooking($booking, $sequence = null)
     {
         $bkg = [];
-        $bkg[]= \EDI\Generator\Message::rffSegment('BN', $booking);
+        $bkg[] = \EDI\Generator\Message::rffSegment('BN', $booking);
         if ($sequence !== null) {
-            $bkg[]= \EDI\Generator\Message::rffSegment('SQ', $sequence);
+            $bkg[] = \EDI\Generator\Message::rffSegment('SQ', $sequence);
         }
         $this->bkg = $bkg;
+
         return $this;
     }
 
@@ -52,6 +53,7 @@ class Container
     public function setSeal($seal, $sealIssuer)
     {
         $this->seal = ['SEL', [$seal, $sealIssuer]];
+
         return $this;
     }
 
@@ -63,6 +65,7 @@ class Container
     public function setMeasures($weightMode, $weight, $unit = 'KGM')
     {
         $this->measures = ['MEA', 'AAE', $weightMode, [$unit, $weight]];
+
         return $this;
     }
 
@@ -73,6 +76,7 @@ class Container
     public function setWeighMethod($type, $cert)
     {
         $this->weighMethod = ['DOC', [$type, 'VGM', 306], $cert];
+
         return $this;
     }
 
@@ -86,9 +90,9 @@ class Container
             $date = date('YmdHi');
         }
         $this->weighDate = \EDI\Generator\Message::dtmSegment(798, $date);
+
         return $this;
     }
-
 
     /*
      * $spcShipper = SOLAS verified gross mass responsible party
@@ -96,6 +100,7 @@ class Container
     public function setWeighingStationId($spcWpa)
     {
         $this->spcWpa = ['NAD', 'WPA', $spcWpa];
+
         return $this;
     }
 
@@ -109,6 +114,7 @@ class Container
             $this->shipper[] = '';
             $this->shipper[] = $spcCity;
         }
+
         return $this;
     }
 
@@ -125,6 +131,7 @@ class Container
         if ($comType !== null) {
             $this->spcContact[] = ['COM', [$comData, $comType]];
         }
+
         return $this;
     }
 
@@ -164,6 +171,7 @@ class Container
                 $composed[] = $this->spcContact[1];
             }
         }
+
         return $composed;
     }
 }

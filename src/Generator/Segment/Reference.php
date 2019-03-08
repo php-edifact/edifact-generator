@@ -29,6 +29,7 @@ class Reference extends Segment
     public function setReferenceCodeQualifier(string $sReferenceCodeQualifier): self
     {
         $this->sReferenceCodeQualifier = $sReferenceCodeQualifier;
+
         return $this;
     }
 
@@ -42,6 +43,7 @@ class Reference extends Segment
     public function setReferenceIdentifier(string $sReferenceIdentifier): self
     {
         $this->sReferenceIdentifier = $sReferenceIdentifier;
+
         return $this;
     }
 
@@ -55,6 +57,7 @@ class Reference extends Segment
     public function setDocumentLineIdentifier(string $sDocumentLineIdentifier): self
     {
         $this->sDocumentLineIdentifier = $sDocumentLineIdentifier;
+
         return $this;
     }
 
@@ -68,6 +71,7 @@ class Reference extends Segment
     public function setVersionIdentifier(string $sVersionIdentifier): self
     {
         $this->sVersionIdentifier = $sVersionIdentifier;
+
         return $this;
     }
 
@@ -81,6 +85,7 @@ class Reference extends Segment
     public function setRevisionIdentifier(string $sRevisionIdentifier): self
     {
         $this->sRevisionIdentifier = $sRevisionIdentifier;
+
         return $this;
     }
 

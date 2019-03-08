@@ -1,4 +1,5 @@
 <?php
+
 namespace EDI\Generator;
 
 class Copino extends Message
@@ -16,12 +17,12 @@ class Copino extends Message
     /**
      * Construct.
      *
-     * @param mixed $sMessageReferenceNumber (0062)
-     * @param string $sMessageType (0065)
-     * @param string $sMessageVersionNumber (0052)
-     * @param string $sMessageReleaseNumber (0054)
+     * @param mixed  $sMessageReferenceNumber        (0062)
+     * @param string $sMessageType                   (0065)
+     * @param string $sMessageVersionNumber          (0052)
+     * @param string $sMessageReleaseNumber          (0054)
      * @param string $sMessageControllingAgencyCoded (0051)
-     * @param string $sAssociationAssignedCode (0057)
+     * @param string $sAssociationAssignedCode       (0057)
      */
     public function __construct(
         $sMessageReferenceNumber = null,
@@ -39,6 +40,7 @@ class Copino extends Message
     {
         $this->sender = ['NAD', 'MS', $sender];
         $this->receiver = ['NAD', 'MR', $receiver];
+
         return $this;
     }
 
@@ -48,6 +50,7 @@ class Copino extends Message
     public function setTransporter($transRef, $modeOfTransport, $meansOfTransport, $carrierName, $plate, $driver)
     {
         $this->transporter = self::tdtSegment(1, $transRef, $modeOfTransport, $meansOfTransport, $carrierName, '', '', [$plate, 146, '', $driver]);
+
         return $this;
     }
 
@@ -57,7 +60,8 @@ class Copino extends Message
 
     public function setVessel($carrierName, $callsign, $vesselName)
     {
-        $this->vessel=self::tdtSegment(20, '', 1, 13, $carrierName, '', '', [$callsign, 103, '', $vesselName]);
+        $this->vessel = self::tdtSegment(20, '', 1, 13, $carrierName, '', '', [$callsign, 103, '', $vesselName]);
+
         return $this;
     }
 
@@ -67,6 +71,7 @@ class Copino extends Message
     public function setDTM($dtm)
     {
         $this->dtm = self::dtmSegment(132, $dtm);
+
         return $this;
     }
 
@@ -79,9 +84,10 @@ class Copino extends Message
         $cntr = [];
         $cntr[] = ['SGP', $number];
         $cntr[] = self::eqdSegment('CN', $number, [$size, '102', '5'], '', 2, 5);
-        $cntr[]= self::rffSegment('BN', $booking);
-        $cntr[]= self::rffSegment('SQ', $sequence);
+        $cntr[] = self::rffSegment('BN', $booking);
+        $cntr[] = self::rffSegment('SQ', $sequence);
         $this->cntr = $cntr;
+
         return $this;
     }
 
@@ -93,6 +99,7 @@ class Copino extends Message
     public function setMeasures($weightMode, $weight, $unit = 'KGM')
     {
         $this->measures = ['MEA', 'AAE', $weightMode, [$unit, $weight]];
+
         return $this;
     }
 
@@ -102,6 +109,7 @@ class Copino extends Message
     public function setPort($locode, $terminal)
     {
         $this->port = self::locSegment(88, [$locode, 139, 6], [$terminal, 72, 306]);
+
         return $this;
     }
 
@@ -111,6 +119,7 @@ class Copino extends Message
     public function setDestination($locode)
     {
         $this->destination = self::locSegment(7, [$locode, 139, 6]);
+
         return $this;
     }
 
@@ -118,8 +127,8 @@ class Copino extends Message
      * Compose.
      *
      * @param mixed $sMessageFunctionCode (1225)
-     * @param mixed $sDocumentNameCode (1001)
-     * @param mixed $sDocumentIdentifier (1004)
+     * @param mixed $sDocumentNameCode    (1001)
+     * @param mixed $sDocumentIdentifier  (1004)
      *
      * @return parent::compose()
      */
@@ -127,7 +136,7 @@ class Copino extends Message
     {
         $this->messageContent = [
             ['BGM', $sDocumentNameCode, $this->messageID, $sMessageFunctionCode],
-            self::rffSegment('XXX', 1)
+            self::rffSegment('XXX', 1),
         ];
 
         if (count($this->transporter) > 0) {
