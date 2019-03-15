@@ -1,9 +1,9 @@
 <?php
+
 namespace EDI\Generator\Coprar;
 
 class Container
 {
-
     private $cntr;
     private $bkg;
     private $pol;
@@ -20,7 +20,6 @@ class Container
 
     public function __construct()
     {
-
     }
 
     /*
@@ -31,6 +30,7 @@ class Container
     public function setContainer($number, $size, $statusCode, $fullEmptyIndicator)
     {
         $this->cntr = \EDI\Generator\Message::eqdSegment('CN', $number, [$size, '102', '5'], '', $statusCode, $fullEmptyIndicator);
+
         return $this;
     }
 
@@ -40,6 +40,7 @@ class Container
     public function setBooking($booking, $sequence = null)
     {
         $this->bkg = \EDI\Generator\Message::rffSegment('BN', $booking);
+
         return $this;
     }
 
@@ -49,6 +50,7 @@ class Container
     public function setBillOfLading($bl)
     {
         $this->bkg = \EDI\Generator\Message::rffSegment('BM', $bl);
+
         return $this;
     }
 
@@ -59,6 +61,7 @@ class Container
     public function setPOL($loc)
     {
         $this->pol = \EDI\Generator\Message::locSegment(9, [$loc, 139, 6]);
+
         return $this;
     }
 
@@ -69,6 +72,7 @@ class Container
     public function setPOD($loc)
     {
         $this->pod = \EDI\Generator\Message::locSegment(11, [$loc, 139, 6]);
+
         return $this;
     }
 
@@ -79,6 +83,7 @@ class Container
     public function setFND($loc)
     {
         $this->fnd = \EDI\Generator\Message::locSegment(7, [$loc, 139, 6]);
+
         return $this;
     }
 
@@ -90,6 +95,7 @@ class Container
     {
         $this->weight = ['MEA', 'AAE', 'VGM', ['KGM', $weight]];
         $this->weightTime = \EDI\Generator\Message::dtmSegment(798, $weightTime);
+
         return $this;
     }
 
@@ -100,6 +106,7 @@ class Container
     public function setGrossWeight($weight)
     {
         $this->weight = ['MEA', 'AAE', 'G', ['KGM', $weight]];
+
         return $this;
     }
 
@@ -110,9 +117,9 @@ class Container
     public function setSeal($seal, $sealIssuer)
     {
         $this->seal = ['SEL', [$seal, $sealIssuer]];
+
         return $this;
     }
-
 
     /*
      * Cargo category
@@ -121,6 +128,7 @@ class Container
     public function setCargoCategory($text)
     {
         $this->cargo = ['FTX', 'AAA', '', '', $text];
+
         return $this;
     }
 
@@ -130,6 +138,7 @@ class Container
     public function setDangerous($hazardClass, $hazardCode)
     {
         $this->addDangerous($hazardClass, $hazardCode);
+
         return $this;
     }
 
@@ -149,14 +158,16 @@ class Container
                 $dgs[] = $packingGroup;
             }
         }
-        
+
         $this->dangerous[] = $dgs;
+
         return $this;
     }
 
     public function setTemperature($setDegrees)
     {
         $this->temperature = ['TMP', '2', [$setDegrees, 'CEL']];
+
         return $this;
     }
 
@@ -178,6 +189,7 @@ class Container
         if ($height !== '') {
             $this->dimensions[] = ['DIM', '13', ['CMT', '', '', $height]];
         }
+
         return $this;
     }
 
@@ -187,6 +199,7 @@ class Container
     public function setContainerOperator($line)
     {
         $this->containerOperator = ['NAD', 'CF', [$line, 160, 20]];
+
         return $this;
     }
 

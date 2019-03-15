@@ -1,4 +1,5 @@
 <?php
+
 namespace EDI\Generator;
 
 class Coreor extends Message
@@ -27,12 +28,12 @@ class Coreor extends Message
     /**
      * Construct.
      *
-     * @param mixed $sMessageReferenceNumber (0062)
-     * @param string $sMessageType (0065)
-     * @param string $sMessageVersionNumber (0052)
-     * @param string $sMessageReleaseNumber (0054)
+     * @param mixed  $sMessageReferenceNumber        (0062)
+     * @param string $sMessageType                   (0065)
+     * @param string $sMessageVersionNumber          (0052)
+     * @param string $sMessageReleaseNumber          (0054)
      * @param string $sMessageControllingAgencyCoded (0051)
-     * @param string $sAssociationAssignedCode (0057)
+     * @param string $sAssociationAssignedCode       (0057)
      */
     public function __construct(
         $sMessageReferenceNumber = null,
@@ -56,12 +57,14 @@ class Coreor extends Message
     {
         $this->releaseNumber = self::rffSegment('RE', $number);
         $this->dtmExpiration = self::dtmSegment(36, $expiration);
+
         return $this;
     }
 
     public function setPreviousMessage($number)
     {
         $this->previousMessage = self::rffSegment('ACW', $number);
+
         return $this;
     }
 
@@ -72,6 +75,7 @@ class Coreor extends Message
     public function setVessel($extVoyage, $line, $vslName, $callsign)
     {
         $this->vessel = self::tdtSegment(20, $extVoyage, '', '', [$line, 172, 20], '', '', [$callsign, 146, 11, $vslName]);
+
         return $this;
     }
 
@@ -82,6 +86,7 @@ class Coreor extends Message
     public function setPOL($loc)
     {
         $this->pol = self::locSegment(9, [$loc, 139, 6]);
+
         return $this;
     }
 
@@ -92,6 +97,7 @@ class Coreor extends Message
     public function setPOD($loc, $terminal)
     {
         $this->pod = self::locSegment(11, [$loc, 139, 6], [$terminal, 72, 'ZZZ']);
+
         return $this;
     }
 
@@ -102,6 +108,7 @@ class Coreor extends Message
     public function setETA($dtm)
     {
         $this->eta = self::dtmSegment(132, $dtm);
+
         return $this;
     }
 
@@ -111,6 +118,7 @@ class Coreor extends Message
     public function setSender($sender)
     {
         $this->sender = ['NAD', 'MS', $sender];
+
         return $this;
     }
 
@@ -120,6 +128,7 @@ class Coreor extends Message
     public function setCarrier($line)
     {
         $this->carrier = ['NAD', 'CA', [$line, 172, 20]];
+
         return $this;
     }
 
@@ -129,6 +138,7 @@ class Coreor extends Message
         $address = str_split($address, 35);
 
         $this->forwarder = ['NAD', 'FW', [$code, 160, 'ZZZ'], array_merge($name, $address), '', '', '', '', $postalCode];
+
         return $this;
     }
 
@@ -138,6 +148,7 @@ class Coreor extends Message
         $address = str_split($address, 35);
 
         $this->customsBroker = ['NAD', 'CB', [$code, 160, 'ZZZ'], array_merge($name, $address), '', '', '', '', $postalCode];
+
         return $this;
     }
 
@@ -147,6 +158,7 @@ class Coreor extends Message
     public function setContainer($number, $size)
     {
         $this->container = \EDI\Generator\Message::eqdSegment('CN', $number, [$size, '102', '5'], '', '', 5);
+
         return $this;
     }
 
@@ -156,6 +168,7 @@ class Coreor extends Message
     public function setBillOfLading($bl)
     {
         $this->bkg = \EDI\Generator\Message::rffSegment('BM', $bl);
+
         return $this;
     }
 
@@ -167,12 +180,14 @@ class Coreor extends Message
     public function setTare($weight)
     {
         $this->tare = ['MEA', 'AAE', 'T', ['KGM', $weight]];
+
         return $this;
     }
 
     public function setCargoWeight($weight)
     {
         $this->cargoWeight = ['MEA', 'AAE', 'AET', ['KGM', $weight]];
+
         return $this;
     }
 
@@ -183,6 +198,7 @@ class Coreor extends Message
     public function setSeal($seal)
     {
         $this->seal = ['SEL', $seal];
+
         return $this;
     }
 
@@ -193,6 +209,7 @@ class Coreor extends Message
     public function setCargoCategory($text)
     {
         $this->cargoCategory = ['FTX', 'AAA', '', '', $text];
+
         return $this;
     }
 
@@ -203,6 +220,7 @@ class Coreor extends Message
     public function setEmptyDepot($loc, $terminal)
     {
         $this->emptyDepot = self::locSegment(99, [$loc, 139, 6], [$terminal, 72, 'ZZZ']);
+
         return $this;
     }
 
@@ -212,6 +230,7 @@ class Coreor extends Message
         $address = str_split($address, 35);
 
         $this->freightPayer = ['NAD', 'FP', [$code, 160, 'ZZZ'], array_merge($name, $address), '', '', '', '', $postalCode];
+
         return $this;
     }
 
@@ -219,15 +238,15 @@ class Coreor extends Message
      * Compose.
      *
      * @param mixed $sMessageFunctionCode (1225)
-     * @param mixed $sDocumentNameCode (1001)
-     * @param mixed $sDocumentIdentifier (1004)
+     * @param mixed $sDocumentNameCode    (1001)
+     * @param mixed $sDocumentIdentifier  (1004)
      *
      * @return parent::compose()
      */
     public function compose(?string $sMessageFunctionCode = "9", ?string $sDocumentNameCode = "129", ?string $sDocumentIdentifier = null): parent
     {
         $this->messageContent = [
-            ['BGM', $sDocumentNameCode, $this->messageID, $sMessageFunctionCode]
+            ['BGM', $sDocumentNameCode, $this->messageID, $sMessageFunctionCode],
         ];
 
         $this->messageContent[] = $this->dtmSend;

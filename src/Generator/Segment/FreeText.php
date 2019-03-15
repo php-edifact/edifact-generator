@@ -30,6 +30,7 @@ class FreeText extends Segment
     public function setTextSubjectCodeQualifier(string $sTextSubjectCodeQualifier): self
     {
         $this->sTextSubjectCodeQualifier = $sTextSubjectCodeQualifier;
+
         return $this;
     }
 
@@ -43,15 +44,16 @@ class FreeText extends Segment
     public function setFreeTextFunctionCode(string $sFreeTextFunctionCode): self
     {
         $this->sFreeTextFunctionCode = $sFreeTextFunctionCode;
+
         return $this;
     }
 
     /**
      * Set Text Reference (C107).
      *
-     * @param string $sFreeTextDescriptionCode (4441)
-     * @param mixed $sCodeListIdentificationCode (1131)
-     * @param mixed $sCodeListResponsibleAgencyCode (3055)
+     * @param string $sFreeTextDescriptionCode       (4441)
+     * @param mixed  $sCodeListIdentificationCode    (1131)
+     * @param mixed  $sCodeListResponsibleAgencyCode (3055)
      *
      * @return self $this
      */
@@ -106,6 +108,7 @@ class FreeText extends Segment
     public function setLanguageNameCode(string $sLanguageNameCode): self
     {
         $this->sLanguageNameCode = $sLanguageNameCode;
+
         return $this;
     }
 
@@ -119,6 +122,7 @@ class FreeText extends Segment
     public function setFreeTextFormatCode(string $sFreeTextFormatCode): self
     {
         $this->sFreeTextFormatCode = $sFreeTextFormatCode;
+
         return $this;
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace EDI\Generator;
 
 class Vermas extends Message
@@ -15,12 +16,12 @@ class Vermas extends Message
     /**
      * Construct.
      *
-     * @param mixed $sMessageReferenceNumber (0062)
-     * @param string $sMessageType (0065)
-     * @param string $sMessageVersionNumber (0052)
-     * @param string $sMessageReleaseNumber (0054)
+     * @param mixed  $sMessageReferenceNumber        (0062)
+     * @param string $sMessageType                   (0065)
+     * @param string $sMessageVersionNumber          (0052)
+     * @param string $sMessageReleaseNumber          (0054)
      * @param string $sMessageControllingAgencyCoded (0051)
-     * @param string $sAssociationAssignedCode (0057)
+     * @param string $sAssociationAssignedCode       (0057)
      */
     public function __construct(
         $sMessageReferenceNumber = null,
@@ -43,6 +44,7 @@ class Vermas extends Message
     public function setDTMMessageSendingTime($dtm)
     {
         $this->dtmSend = self::dtmSegment(137, $dtm);
+
         return $this;
     }
 
@@ -52,6 +54,7 @@ class Vermas extends Message
     public function setCarrier($line)
     {
         $this->messageLine = ['NAD', 'CA', [$line, 'LINES', 306]];
+
         return $this;
     }
 
@@ -63,6 +66,7 @@ class Vermas extends Message
     public function setMessageSenderCompany($companyName)
     {
         $this->messageSenderCompany = ['NAD', 'TB',  $companyName];
+
         return $this;
     }
 
@@ -74,6 +78,7 @@ class Vermas extends Message
     public function setMessageSender($cntFunctionCode, $cntIdentifier, $cntName)
     {
         $this->messageSender = ['CTA', $cntFunctionCode, [$cntIdentifier, $cntName]];
+
         return $this;
     }
 
@@ -84,12 +89,14 @@ class Vermas extends Message
     public function setMessageSenderInformation($comType, $comData)
     {
         $this->messageSenderInformation = ['COM', [$comData, $comType]];
+
         return $this;
     }
 
     public function addContainer(Vermas\Container $container)
     {
         $this->containers[] = $container;
+
         return $this;
     }
 
@@ -97,15 +104,15 @@ class Vermas extends Message
      * Compose.
      *
      * @param mixed $sMessageFunctionCode (1225)
-     * @param mixed $sDocumentNameCode (1001)
-     * @param mixed $sDocumentIdentifier (1004)
+     * @param mixed $sDocumentNameCode    (1001)
+     * @param mixed $sDocumentIdentifier  (1004)
      *
      * @return parent::compose()
      */
     public function compose(?string $sMessageFunctionCode = "5", ?string $sDocumentNameCode = "749", ?string $sDocumentIdentifier = null): parent
     {
         $this->messageContent = [
-            ['BGM', $sDocumentNameCode, $this->messageID, $sMessageFunctionCode]
+            ['BGM', $sDocumentNameCode, $this->messageID, $sMessageFunctionCode],
         ];
 
         /* message creation date and time */

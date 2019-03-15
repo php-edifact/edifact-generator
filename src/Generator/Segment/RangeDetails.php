@@ -28,6 +28,7 @@ class RangeDetails extends Segment
     public function setRangeTypeCodeQualifier(string $sRangeTypeCodeQualifier): self
     {
         $this->sRangeTypeCodeQualifier = $sRangeTypeCodeQualifier;
+
         return $this;
     }
 
@@ -41,6 +42,7 @@ class RangeDetails extends Segment
     public function setMeasurementUnitCode(string $sMeasurementUnitCode): self
     {
         $this->sMeasurementUnitCode = $sMeasurementUnitCode;
+
         return $this;
     }
 
@@ -54,6 +56,7 @@ class RangeDetails extends Segment
     public function setRangeMinimumQuantity(string $sRangeMinimumQuantity): self
     {
         $this->sRangeMinimumQuantity = $sRangeMinimumQuantity;
+
         return $this;
     }
 
@@ -67,6 +70,7 @@ class RangeDetails extends Segment
     public function setRangeMaximumQuantity(string $sRangeMaximumQuantity): self
     {
         $this->sRangeMaximumQuantity = $sRangeMaximumQuantity;
+
         return $this;
     }
 

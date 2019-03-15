@@ -27,6 +27,7 @@ class DateTimePeriod extends Segment
     public function setDateOrTimeOrPeriodFunctionCodeQualifier(string $sDateOrTimeOrPeriodFunctionCodeQualifier): self
     {
         $this->sDateOrTimeOrPeriodFunctionCodeQualifier = $sDateOrTimeOrPeriodFunctionCodeQualifier;
+
         return $this;
     }
 
@@ -40,6 +41,7 @@ class DateTimePeriod extends Segment
     public function setDateOrTimeOrPeriodText(string $sDateOrTimeOrPeriodText): self
     {
         $this->sDateOrTimeOrPeriodText = $sDateOrTimeOrPeriodText;
+
         return $this;
     }
 
@@ -53,6 +55,7 @@ class DateTimePeriod extends Segment
     public function setDateOrTimeOrPeriodFormatCode(string $sDateOrTimeOrPeriodFormatCode): self
     {
         $this->sDateOrTimeOrPeriodFormatCode = $sDateOrTimeOrPeriodFormatCode;
+
         return $this;
     }
 

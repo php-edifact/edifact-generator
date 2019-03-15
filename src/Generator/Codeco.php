@@ -1,4 +1,5 @@
 <?php
+
 namespace EDI\Generator;
 
 class Codeco extends Message
@@ -12,12 +13,12 @@ class Codeco extends Message
     /**
      * Construct.
      *
-     * @param mixed $sMessageReferenceNumber (0062)
-     * @param string $sMessageType (0065)
-     * @param string $sMessageVersionNumber (0052)
-     * @param string $sMessageReleaseNumber (0054)
+     * @param mixed  $sMessageReferenceNumber        (0062)
+     * @param string $sMessageType                   (0065)
+     * @param string $sMessageVersionNumber          (0052)
+     * @param string $sMessageReleaseNumber          (0054)
      * @param string $sMessageControllingAgencyCoded (0051)
-     * @param string $sAssociationAssignedCode (0057)
+     * @param string $sAssociationAssignedCode       (0057)
      */
     public function __construct(
         $sMessageReferenceNumber = null,
@@ -38,6 +39,7 @@ class Codeco extends Message
     {
         $this->sender = ['NAD', 'MS', $sender];
         $this->receiver = ['NAD', 'MR', $receiver];
+
         return $this;
     }
 
@@ -47,12 +49,14 @@ class Codeco extends Message
     public function setCarrier($line)
     {
         $this->messageCF = ['NAD', 'CF', [$line, 160, 166]];
+
         return $this;
     }
 
     public function addContainer(Codeco\Container $container)
     {
         $this->containers[] = $container;
+
         return $this;
     }
 
@@ -60,15 +64,15 @@ class Codeco extends Message
      * Compose.
      *
      * @param mixed $sMessageFunctionCode (1225)
-     * @param mixed $sDocumentNameCode (1001)
-     * @param mixed $sDocumentIdentifier (1004)
+     * @param mixed $sDocumentNameCode    (1001)
+     * @param mixed $sDocumentIdentifier  (1004)
      *
      * @return parent::compose()
      */
     public function compose(?string $sMessageFunctionCode = "5", ?string $sDocumentNameCode = "34", ?string $sDocumentIdentifier = null): parent
     {
         $this->messageContent = [
-            ['BGM', $sDocumentNameCode, $this->messageID, $sMessageFunctionCode]
+            ['BGM', $sDocumentNameCode, $this->messageID, $sMessageFunctionCode],
         ];
 
         if ($this->sender !== null) {

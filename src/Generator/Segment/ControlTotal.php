@@ -27,6 +27,7 @@ class ControlTotal extends Segment
     public function setControlTotalTypeCodeQualifier(string $sControlTotalTypeCodeQualifier): self
     {
         $this->sControlTotalTypeCodeQualifier = $sControlTotalTypeCodeQualifier;
+
         return $this;
     }
 
@@ -40,6 +41,7 @@ class ControlTotal extends Segment
     public function setControlTotalQuantity(string $sControlTotalQuantity): self
     {
         $this->sControlTotalQuantity = $sControlTotalQuantity;
+
         return $this;
     }
 
@@ -53,6 +55,7 @@ class ControlTotal extends Segment
     public function setMeasurementUnitCode(string $sMeasurementUnitCode): self
     {
         $this->sMeasurementUnitCode = sMeasurementUnitCode;
+
         return $this;
     }
 

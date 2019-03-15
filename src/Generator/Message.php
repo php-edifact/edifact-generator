@@ -1,4 +1,5 @@
 <?php
+
 namespace EDI\Generator;
 
 class Message
@@ -56,8 +57,8 @@ class Message
      * Compose.
      *
      * @param mixed $sMessageFunctionCode (1225)
-     * @param mixed $sDocumentNameCode (1001)
-     * @param mixed $sDocumentIdentifier (1004)
+     * @param mixed $sDocumentNameCode    (1001)
+     * @param mixed $sDocumentIdentifier  (1004)
      *
      * @return self $this
      */
@@ -114,6 +115,7 @@ class Message
         if ($secondaryLoc !== null) {
             $loc[] = $secondaryLoc;
         }
+
         return $loc;
     }
 
@@ -138,6 +140,7 @@ class Message
         if ($fullEmptyIndicatorCode !== null) {
             $eqd[] = $fullEmptyIndicatorCode;
         }
+
         return $eqd;
     }
 
