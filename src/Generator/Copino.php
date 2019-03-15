@@ -123,7 +123,7 @@ class Copino extends Message
      *
      * @return parent::compose()
      */
-    public function compose(?string $sMessageFunctionCode = null, ?string $sDocumentNameCode = null, ?string $sDocumentIdentifier = null): parent
+    public function compose(?string $sMessageFunctionCode = "9", ?string $sDocumentNameCode = "661", ?string $sDocumentIdentifier = null): parent
     {
         $this->messageContent = [
             ['BGM', $sDocumentNameCode, $this->messageID, $sMessageFunctionCode],

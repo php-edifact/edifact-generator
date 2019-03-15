@@ -284,7 +284,7 @@ class Coparn extends Message
      *
      * @return parent::compose()
      */
-    public function compose(?string $sMessageFunctionCode = null, ?string $sDocumentNameCode = null, ?string $sDocumentIdentifier = null): parent
+    public function compose(?string $sMessageFunctionCode = "5", ?string $sDocumentNameCode = "126", ?string $sDocumentIdentifier = null): parent
     {
         $this->messageContent = [
             ['BGM', $sDocumentNameCode, $this->messageID, $sMessageFunctionCode, 'AB']
