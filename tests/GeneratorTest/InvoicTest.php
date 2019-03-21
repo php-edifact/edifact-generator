@@ -14,7 +14,6 @@ use PHPUnit\Framework\TestCase;
  */
 final class InvoicTest extends TestCase
 {
-
     public function testBeginOfMessage()
     {
         $encoder = new Encoder(
@@ -134,7 +133,6 @@ final class InvoicTest extends TestCase
 //            fwrite(STDOUT, "\n\nINVOICE\n" . $message);
 
             $this->assertContains('UNT+40', $message);
-
         } catch (EdifactException $e) {
             fwrite(STDOUT, "\n\nINVOICE\n" . $e->getMessage());
         }

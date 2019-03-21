@@ -1,14 +1,15 @@
 <?php
 
 namespace EDI\Generator\Traits;
-use EDI\Generator\EdiFactNumber;
 
+use EDI\Generator\EdiFactNumber;
 
 /**
  * Trait ItemPrice
  * @package EDI\Generator\Traits
  */
-trait ItemPrice {
+trait ItemPrice
+{
 
     /** @var array */
     protected $grossPrice;

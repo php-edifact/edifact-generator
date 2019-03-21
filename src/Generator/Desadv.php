@@ -64,8 +64,7 @@ class Desadv extends Message
         $release = '96B',
         $controllingAgency = 'UN',
         $association = 'ITEK35'
-    )
-    {
+    ) {
         parent::__construct(
             $identifier,
             $version,

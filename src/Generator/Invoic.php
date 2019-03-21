@@ -95,8 +95,7 @@ class Invoic extends Message
         $release = '96B',
         $controllingAgency = 'UN',
         $association = 'ITEK35'
-    )
-    {
+    ) {
         parent::__construct(
             $identifier,
             $version,
@@ -411,6 +410,4 @@ class Invoic extends Message
         $this->taxAmount = self::addMOASegment('150', $amount);
         return $this;
     }
-
-
 }

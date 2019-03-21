@@ -2,7 +2,6 @@
 
 namespace GeneratorTest;
 
-
 use EDI\Generator\EdifactDate;
 use PHPUnit\Framework\TestCase;
 
@@ -62,5 +61,4 @@ class EdifactDateTest extends TestCase
             EdifactDate::parseFormat('2018-01-23 10:00', EdifactDate::DATETIME)
         );
     }
-
 }

@@ -147,6 +147,4 @@ class Item extends Base
 
         return $this;
     }
-
-
 }

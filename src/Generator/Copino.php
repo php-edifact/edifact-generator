@@ -36,8 +36,14 @@ class Copino extends Message
         $sMessageControllingAgencyCoded = 'UN',
         $sAssociationAssignedCode = 'ITG13'
     ) {
-        parent::__construct($sMessageType, $sMessageVersionNumber, $sMessageReleaseNumber,
-            $sMessageControllingAgencyCoded, $sMessageReferenceNumber, $sAssociationAssignedCode);
+        parent::__construct(
+            $sMessageType,
+            $sMessageVersionNumber,
+            $sMessageReleaseNumber,
+            $sMessageControllingAgencyCoded,
+            $sMessageReferenceNumber,
+            $sAssociationAssignedCode
+        );
     }
 
     /**

@@ -35,5 +35,4 @@ trait TransportData
 
         return $this;
     }
-
 }

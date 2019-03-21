@@ -7,7 +7,6 @@ namespace EDI\Generator;
  */
 class Iftmin extends Message
 {
-    
     private $messageSender;
     private $messageSenderInformation;
     private $dtmSend;
@@ -102,7 +101,8 @@ class Iftmin extends Message
      * @param $weight
      * @return \EDI\Generator\Iftmin
      */
-    public function setEstimatedWeight($weight) {
+    public function setEstimatedWeight($weight)
+    {
         $this->weight = ['CNT', ['7', $weight, 'TNE']];
         $this->weightKg = ['MEA', 'WT', 'AET', ['KGM', $weight]];
         return $this;

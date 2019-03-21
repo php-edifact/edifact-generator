@@ -23,7 +23,6 @@ final class DesadvTest extends TestCase
                 'LS123456789'
             );
         } catch (EdifactException $e) {
-
         }
         $array = $desadv->getDeliverNoteNumber();
         $this->assertEquals([
@@ -49,7 +48,6 @@ final class DesadvTest extends TestCase
         $this->expectExceptionMessage('value: XXX is not in allowed values:  [22E, 270, 351] in EDI\Generator\Desadv->setDeliveryNoteNumber');
         (new Desadv())
             ->setDeliveryNoteNumber('XXX', 'LS123456789');
-
     }
 
 
@@ -115,8 +113,6 @@ final class DesadvTest extends TestCase
                 'DE',
             ],
         ], $desadv->getManufacturerAddress());
-
-
     }
 
 
@@ -182,11 +178,8 @@ final class DesadvTest extends TestCase
             $this->assertContains('DTM+17', $message);
             $this->assertContains('CTA++', $message);
             $this->assertContains('COM+', $message);
-
         } catch (EdifactException $e) {
             fwrite(STDOUT, "\n\nDESADV\n" . $e->getMessage());
         }
     }
-
-
 }

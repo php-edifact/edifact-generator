@@ -8,5 +8,4 @@ namespace EDI\Generator;
  */
 class EdifactException extends \Exception
 {
-
 }

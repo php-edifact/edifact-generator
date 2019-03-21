@@ -2,8 +2,6 @@
 
 namespace GeneratorTest;
 
-
-
 use EDI\Generator\EdiFactNumber;
 use PHPUnit\Framework\TestCase;
 
@@ -11,9 +9,8 @@ use PHPUnit\Framework\TestCase;
  * Class EdifactNumberTest
  * @package GeneratorTest
  */
-class EdifactNumberTest extends TestCase {
-
-
+class EdifactNumberTest extends TestCase
+{
     public function testNumberWithComma()
     {
         $this->assertEquals(

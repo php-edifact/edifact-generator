@@ -10,9 +10,8 @@ use PHPUnit\Framework\TestCase;
  * Class InvoicItemTest
  * @package Generator
  */
-class InvoicItemTest extends TestCase{
-
-
+class InvoicItemTest extends TestCase
+{
     public function testPrice()
     {
         $this->assertEquals(

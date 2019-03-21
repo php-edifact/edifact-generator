@@ -62,7 +62,6 @@ class OrdrspTest extends TestCase
                 ->setPositionSeparator()
                 ->compose();
         } catch (EdifactException $e) {
-
         }
 
         $encoder = new Encoder($interchange->addMessage($ordrsp)->getComposed(), true);
@@ -122,6 +121,4 @@ class OrdrspTest extends TestCase
 
         ], $ordrsp->getDeliveryAddress());
     }
-
-
 }

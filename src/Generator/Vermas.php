@@ -35,8 +35,14 @@ class Vermas extends Message
         $sMessageControllingAgencyCoded = 'UN',
         $sAssociationAssignedCode = 'SMDG10'
     ) {
-        parent::__construct($sMessageType, $sMessageVersionNumber, $sMessageReleaseNumber,
-            $sMessageControllingAgencyCoded, $sMessageReferenceNumber, $sAssociationAssignedCode);
+        parent::__construct(
+            $sMessageType,
+            $sMessageVersionNumber,
+            $sMessageReleaseNumber,
+            $sMessageControllingAgencyCoded,
+            $sMessageReferenceNumber,
+            $sAssociationAssignedCode
+        );
 
         $this->dtmSend = self::dtmSegment(137, date('YmdHi'));
     }

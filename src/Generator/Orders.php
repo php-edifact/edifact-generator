@@ -7,7 +7,6 @@ use EDI\Generator\Traits\ContactPerson;
 use EDI\Generator\Traits\NameAndAddress;
 use EDI\Generator\Traits\TransportData;
 
-
 /**
  * Class Orders
  * @url http://www.unece.org/trade/untdid/d96b/trmd/orders_s.htm
@@ -83,8 +82,7 @@ class Orders extends Message
         $release = '96B',
         $controllingAgency = 'UN',
         $association = 'ITEK35'
-    )
-    {
+    ) {
         parent::__construct(
             $identifier,
             $version,
@@ -337,6 +335,4 @@ class Orders extends Message
         $this->deliveryTerms = ['TOD', '6', '', $deliveryTerms];
         return $this;
     }
-
-
 }

@@ -69,7 +69,6 @@ class OrdersTest extends TestCase
             //fwrite(STDOUT, "\n\nORDERS\n" . $message);
 
             $this->assertContains('UNT+20', $message);
-
         } catch (EdifactException $e) {
             fwrite(STDOUT, "\n\nORDERS\n" . $e->getMessage());
         }
