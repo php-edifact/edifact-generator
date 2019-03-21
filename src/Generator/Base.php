@@ -142,7 +142,7 @@ class Base
      * @param     $type
      * @param int $formatQualifier
      *
-     * @see https://www.stylusstudio.com/edifact/D94A/2379.htm
+     * @see http://www.unece.org/trade/untdid/d96a/trsd/trsddtm.htm
      * @return array
      * @throws EdifactException
      */

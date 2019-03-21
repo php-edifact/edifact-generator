@@ -9,7 +9,6 @@ use EDI\Generator\Traits\NameAndAddress;
 /**
  * Class Invoic
  * @url http://www.unece.org/trade/untdid/d96b/trmd/invoic_s.htm
- * @url http://www.stylusstudio.com/edifact/D96A/INVOIC.htm
  * @package EDI\Generator
  */
 class Invoic extends Message
