@@ -41,9 +41,9 @@ class NameAndAddress extends Segment
     /**
      * Set Party Identification Details (C082).
      *
-     * @param string $sPartyIdentifier               (3039)
-     * @param mixed  $sCodeListIdentificationCode    (1131)
-     * @param mixed  $sCodeListResponsibleAgencyCode (3055)
+     * @param string $sPartyIdentifier (3039)
+     * @param mixed $sCodeListIdentificationCode (1131)
+     * @param mixed $sCodeListResponsibleAgencyCode (3055)
      *
      * @return self $this
      */
@@ -147,10 +147,10 @@ class NameAndAddress extends Segment
     /**
      * Set Country Subdivision Details. (C819).
      *
-     * @param mixed $sCountrySubdivisionIdentifier  (3229)
-     * @param mixed $sCodeListIdentificationCode    (1131)
+     * @param mixed $sCountrySubdivisionIdentifier (3229)
+     * @param mixed $sCodeListIdentificationCode (1131)
      * @param mixed $sCodeListResponsibleAgencyCode (3055)
-     * @param mixed $sCountrySubdivisionName        (3228)
+     * @param mixed $sCountrySubdivisionName (3228)
      *
      * @return self $this
      */

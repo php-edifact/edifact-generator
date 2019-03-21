@@ -51,9 +51,9 @@ class FreeText extends Segment
     /**
      * Set Text Reference (C107).
      *
-     * @param string $sFreeTextDescriptionCode       (4441)
-     * @param mixed  $sCodeListIdentificationCode    (1131)
-     * @param mixed  $sCodeListResponsibleAgencyCode (3055)
+     * @param string $sFreeTextDescriptionCode (4441)
+     * @param mixed $sCodeListIdentificationCode (1131)
+     * @param mixed $sCodeListResponsibleAgencyCode (3055)
      *
      * @return self $this
      */

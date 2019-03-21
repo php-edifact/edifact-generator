@@ -42,7 +42,7 @@ class Message extends Base
         }
 
         if ($messageID === null) {
-            $this->messageID = 'M'.strtoupper(uniqid());
+            $this->messageID = 'M' . strtoupper(uniqid());
         } else {
             $this->messageID = $messageID;
         }

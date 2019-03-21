@@ -69,24 +69,24 @@ trait NameAndAddress
      * @return array
      */
     public function addNameAndAddress(
-      $name1,
-      $name2,
-      $name3,
-      $street,
-      $zipCode,
-      $city,
-      $countryCode,
-      $managingOrganisation,
-      $type,
-      $sender = ''
-  ) {
+        $name1,
+        $name2,
+        $name3,
+        $street,
+        $zipCode,
+        $city,
+        $countryCode,
+        $managingOrganisation,
+        $type,
+        $sender = ''
+    ) {
         if ($sender === null) {
             $sender = $this->sender;
         }
 
         $name = [
-      self::maxChars($name1),
-    ];
+            self::maxChars($name1),
+        ];
         if ($name2) {
             $name[] = self::maxChars($name2);
         }
@@ -94,27 +94,27 @@ trait NameAndAddress
             $name[] = self::maxChars($name3);
         }
         return [
-      'NAD',
-      $type,
-      [
-        self::maxChars($sender),
-        '',
-        $managingOrganisation,
-      ],
-      '',
-      $name,
-      str_split($street, 35),
-      str_split($city, 35),
-      [
-        '',
-      ],
-      [
-        self::maxChars($zipCode, 9),
-      ],
-      [
-        self::maxChars($countryCode, 2),
-      ],
-    ];
+            'NAD',
+            $type,
+            [
+                self::maxChars($sender),
+                '',
+                $managingOrganisation,
+            ],
+            '',
+            $name,
+            str_split($street, 35),
+            str_split($city, 35),
+            [
+                '',
+            ],
+            [
+                self::maxChars($zipCode, 9),
+            ],
+            [
+                self::maxChars($countryCode, 2),
+            ],
+        ];
     }
 
 
@@ -140,28 +140,28 @@ trait NameAndAddress
      * @return $this
      */
     public function setManufacturerAddress(
-      $name1,
-      $name2 = '',
-      $name3 = '',
-      $street = '',
-      $zipCode = '',
-      $city = '',
-      $countryCode = 'DE',
-      $managingOrganisation = 'ZZZ',
-      $sender = null
-  ) {
-        $this->manufacturerAddress = $this->addNameAndAddress(
         $name1,
-        $name2,
-        $name3,
-        $street,
-        $zipCode,
-        $city,
-        $countryCode,
-        $managingOrganisation,
-        'SU',
-        $sender ?? ''
-    );
+        $name2 = '',
+        $name3 = '',
+        $street = '',
+        $zipCode = '',
+        $city = '',
+        $countryCode = 'DE',
+        $managingOrganisation = 'ZZZ',
+        $sender = null
+    ) {
+        $this->manufacturerAddress = $this->addNameAndAddress(
+            $name1,
+            $name2,
+            $name3,
+            $street,
+            $zipCode,
+            $city,
+            $countryCode,
+            $managingOrganisation,
+            'SU',
+            $sender ?? ''
+        );
 
 
         return $this;
@@ -190,28 +190,28 @@ trait NameAndAddress
      * @return $this
      */
     public function setWholesalerAddress(
-      $name1,
-      $name2 = '',
-      $name3 = '',
-      $street = '',
-      $zipCode = '',
-      $city = '',
-      $countryCode = 'DE',
-      $managingOrganisation = 'ZZZ',
-      $sender = null
-  ) {
-        $this->wholesalerAddress = $this->addNameAndAddress(
         $name1,
-        $name2,
-        $name3,
-        $street,
-        $zipCode,
-        $city,
-        $countryCode,
-        $managingOrganisation,
-        'WS',
-        $sender
-    );
+        $name2 = '',
+        $name3 = '',
+        $street = '',
+        $zipCode = '',
+        $city = '',
+        $countryCode = 'DE',
+        $managingOrganisation = 'ZZZ',
+        $sender = null
+    ) {
+        $this->wholesalerAddress = $this->addNameAndAddress(
+            $name1,
+            $name2,
+            $name3,
+            $street,
+            $zipCode,
+            $city,
+            $countryCode,
+            $managingOrganisation,
+            'WS',
+            $sender
+        );
         return $this;
     }
 
@@ -237,28 +237,28 @@ trait NameAndAddress
      * @return $this
      */
     public function setDeliveryAddress(
-      $name1,
-      $name2 = '',
-      $name3 = '',
-      $street = '',
-      $zipCode = '',
-      $city = '',
-      $countryCode = 'DE',
-      $managingOrganisation = 'ZZZ',
-      $sender = null
-  ) {
-        $this->deliveryAddress = $this->addNameAndAddress(
         $name1,
-        $name2,
-        $name3,
-        $street,
-        $zipCode,
-        $city,
-        $countryCode,
-        $managingOrganisation,
-        'ST',
-        $sender
-    );
+        $name2 = '',
+        $name3 = '',
+        $street = '',
+        $zipCode = '',
+        $city = '',
+        $countryCode = 'DE',
+        $managingOrganisation = 'ZZZ',
+        $sender = null
+    ) {
+        $this->deliveryAddress = $this->addNameAndAddress(
+            $name1,
+            $name2,
+            $name3,
+            $street,
+            $zipCode,
+            $city,
+            $countryCode,
+            $managingOrganisation,
+            'ST',
+            $sender
+        );
         return $this;
     }
 
@@ -275,26 +275,26 @@ trait NameAndAddress
      * @return $this
      */
     public function setInvoiceAddress(
-      $name1,
-      $name2 = '',
-      $name3 = '',
-      $street = '',
-      $zipCode = '',
-      $city = '',
-      $countryCode = 'DE',
-      $managingOrganisation = 'ZZZ'
-  ) {
-        $this->invoiceAddress = $this->addNameAndAddress(
         $name1,
-        $name2,
-        $name3,
-        $street,
-        $zipCode,
-        $city,
-        $countryCode,
-        $managingOrganisation,
-        'IV'
-    );
+        $name2 = '',
+        $name3 = '',
+        $street = '',
+        $zipCode = '',
+        $city = '',
+        $countryCode = 'DE',
+        $managingOrganisation = 'ZZZ'
+    ) {
+        $this->invoiceAddress = $this->addNameAndAddress(
+            $name1,
+            $name2,
+            $name3,
+            $street,
+            $zipCode,
+            $city,
+            $countryCode,
+            $managingOrganisation,
+            'IV'
+        );
         return $this;
     }
 }

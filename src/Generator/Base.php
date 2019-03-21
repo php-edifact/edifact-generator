@@ -10,7 +10,7 @@ namespace EDI\Generator;
 class Base
 {
 
-  /** @var array */
+    /** @var array */
     protected $messageContent = [];
 
     /** @var array */
@@ -58,9 +58,9 @@ class Base
                 }
             } else {
                 throw new EdifactException(
-            'key: ' . $key . ' not found for composeByKeys in ' . get_class($this) . '->' .
-          debug_backtrace()[1]['function']
-        );
+                    'key: ' . $key . ' not found for composeByKeys in ' . get_class($this) . '->' .
+                    debug_backtrace()[1]['function']
+                );
             }
         }
 
@@ -129,12 +129,12 @@ class Base
         }
 
         return [
-      'RFF',
-      [
-        $functionCode,
-        self::maxChars($identifier, 35),
-      ],
-    ];
+            'RFF',
+            [
+                $functionCode,
+                self::maxChars($identifier, 35),
+            ],
+        ];
     }
 
     /**
@@ -149,7 +149,7 @@ class Base
     protected function addDTMSegment($dateString, $type, $formatQualifier = EdifactDate::DATE)
     {
         $data = [];
-        $data[] = (string) $type;
+        $data[] = (string)$type;
         if (!empty($dateString)) {
             $data[] = EdifactDate::get($dateString, $formatQualifier);
             $data[] = (string)$formatQualifier;
@@ -167,21 +167,21 @@ class Base
     public static function addBGMSegment($documentNumber, $type)
     {
         return [
-      'BGM',
-      [
-        $type,
-        '',
-        '89',
-      ],
-      $documentNumber,
-    ];
+            'BGM',
+            [
+                $type,
+                '',
+                '89',
+            ],
+            $documentNumber,
+        ];
     }
 
     /**
      * Crop String to max char length
      *
      * @param string $string
-     * @param int    $length
+     * @param int $length
      *
      * @return string
      */
@@ -206,8 +206,8 @@ class Base
     {
         if ($errorMessage === null) {
             $errorMessage = 'value: ' . $value . ' is not in allowed values: ' .
-        ' [' . implode(', ', $array) . '] in ' . get_class($this) . '->' .
-        debug_backtrace()[1]['function'];
+                ' [' . implode(', ', $array) . '] in ' . get_class($this) . '->' .
+                debug_backtrace()[1]['function'];
         }
         if (!in_array($value, $array, true)) {
             throw new EdifactException($errorMessage);
@@ -224,12 +224,12 @@ class Base
     public static function addMOASegment($qualifier, $value)
     {
         return [
-      'MOA',
-      [
-        '',
-          (string) $qualifier,
-        EdiFactNumber::convert($value),
-      ],
-    ];
+            'MOA',
+            [
+                '',
+                (string)$qualifier,
+                EdiFactNumber::convert($value),
+            ],
+        ];
     }
 }

@@ -13,7 +13,8 @@
         ]
     },
     "require": {
-        "sabas/edifact": "^0.4.1"
+        "sabas/edifact": "^0.4.1",
+        "friendsofphp/php-cs-fixer": "^2.14"
     },
     "require-dev": {
         "phpunit/phpunit": "6.1.*"

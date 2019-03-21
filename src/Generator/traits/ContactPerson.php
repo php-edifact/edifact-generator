@@ -27,8 +27,8 @@ trait ContactPerson
     }
 
     /**
-     * @param string      $contactPerson
-     * @param string      $section
+     * @param string $contactPerson
+     * @param string $section
      * @param null|string $prefix used for prefixing the variableName deliveryAddressContactPerson
      *
      * @return $this
@@ -41,13 +41,13 @@ trait ContactPerson
         }
 
         $this->{$var} = [
-      'CTA',
-      $section,
-      [
-        $section,
-        $contactPerson,
-      ],
-    ];
+            'CTA',
+            $section,
+            [
+                $section,
+                $contactPerson,
+            ],
+        ];
 
         return $this;
     }
@@ -61,7 +61,7 @@ trait ContactPerson
     }
 
     /**
-     * @param string      $mailAddress
+     * @param string $mailAddress
      *
      * @param null|string $prefix
      *
@@ -74,12 +74,12 @@ trait ContactPerson
             $var = $prefix . ucfirst($var);
         }
         $this->{$var} = [
-      'COM',
-      [
-        $mailAddress,
-        'EM',
-      ],
-    ];
+            'COM',
+            [
+                $mailAddress,
+                'EM',
+            ],
+        ];
         return $this;
     }
 
@@ -92,7 +92,7 @@ trait ContactPerson
     }
 
     /**
-     * @param string      $phoneNumber
+     * @param string $phoneNumber
      *
      * @param null|string $prefix
      *
@@ -105,12 +105,12 @@ trait ContactPerson
             $var = $prefix . ucfirst($var);
         }
         $this->{$var} = [
-      'COM',
-      [
-        $phoneNumber,
-        'TE',
-      ],
-    ];
+            'COM',
+            [
+                $phoneNumber,
+                'TE',
+            ],
+        ];
         return $this;
     }
 
@@ -123,7 +123,7 @@ trait ContactPerson
     }
 
     /**
-     * @param string      $faxNumber
+     * @param string $faxNumber
      *
      * @param null|string $prefix
      *
@@ -137,12 +137,12 @@ trait ContactPerson
         }
 
         $this->{$var} = [
-      'COM',
-      [
-        $faxNumber,
-        'FX',
-      ],
-    ];
+            'COM',
+            [
+                $faxNumber,
+                'FX',
+            ],
+        ];
         return $this;
     }
 }

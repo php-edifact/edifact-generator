@@ -41,40 +41,39 @@ class Ordrsp extends Message
     /** @var array */
     protected $items = [];
     /** @var array */
-    protected $composeKeys
-    = [
-      'orderConfirmationNumber',
-      'orderConfirmationDate',
-      'deliveryDate',
-      'orderNumber',
-      'orderInstruction',
-      'additionalReferenceNumber',
-      'transportDocumentNumber',
-      'beneficiaryReference',
-      'beneficiaryReference2',
-      'orderInstruction',
-      'manufacturerAddress',
-      'manufacturerAddressContactPerson',
-      'manufacturerAddressMailAddress',
-      'manufacturerAddressPhoneNumber',
-      'manufacturerAddressFaxNumber',
-      'wholesalerAddress',
-      'wholesalerAddressContactPerson',
-      'wholesalerAddressMailAddress',
-      'wholesalerAddressPhoneNumber',
-      'wholesalerAddressFaxNumber',
-      'deliveryAddress',
-      'deliveryAddressContactPerson',
-      'deliveryAddressMailAddress',
-      'deliveryAddressPhoneNumber',
-      'deliveryAddressFaxNumber',
-      'positionSeparator',
+    protected $composeKeys = [
+        'orderConfirmationNumber',
+        'orderConfirmationDate',
+        'deliveryDate',
+        'orderNumber',
+        'orderInstruction',
+        'additionalReferenceNumber',
+        'transportDocumentNumber',
+        'beneficiaryReference',
+        'beneficiaryReference2',
+        'orderInstruction',
+        'manufacturerAddress',
+        'manufacturerAddressContactPerson',
+        'manufacturerAddressMailAddress',
+        'manufacturerAddressPhoneNumber',
+        'manufacturerAddressFaxNumber',
+        'wholesalerAddress',
+        'wholesalerAddressContactPerson',
+        'wholesalerAddressMailAddress',
+        'wholesalerAddressPhoneNumber',
+        'wholesalerAddressFaxNumber',
+        'deliveryAddress',
+        'deliveryAddressContactPerson',
+        'deliveryAddressMailAddress',
+        'deliveryAddressPhoneNumber',
+        'deliveryAddressFaxNumber',
+        'positionSeparator',
     ];
 
     /**
      * Ordrsp constructor.
      *
-     * @param null   $messageId
+     * @param null $messageId
      * @param string $identifier
      * @param string $version
      * @param string $release
@@ -82,21 +81,21 @@ class Ordrsp extends Message
      * @param string $association
      */
     public function __construct(
-      $messageId = null,
-      $identifier = 'ORDRSP',
-      $version = 'D',
-      $release = '96B',
-      $controllingAgency = 'UN',
-      $association = 'ITEK35'
-  ) {
+        $messageId = null,
+        $identifier = 'ORDRSP',
+        $version = 'D',
+        $release = '96B',
+        $controllingAgency = 'UN',
+        $association = 'ITEK35'
+    ) {
         parent::__construct(
-        $identifier,
-        $version,
-        $release,
-        $controllingAgency,
-        $messageId,
-        $association
-    );
+            $identifier,
+            $version,
+            $release,
+            $controllingAgency,
+            $messageId,
+            $association
+        );
     }
 
 
@@ -124,9 +123,9 @@ class Ordrsp extends Message
         }
 
         $this->messageContent[] = [
-      'UNS',
-      'S',
-    ];
+            'UNS',
+            'S',
+        ];
         parent::compose();
 
         return $this;
@@ -150,10 +149,10 @@ class Ordrsp extends Message
     public function setOrderConfirmationNumber($orderConfirmationNumber, $documentType = '231')
     {
         $this->orderConfirmationNumber = [
-      'BGM',
-      $documentType,
-      $orderConfirmationNumber,
-    ];
+            'BGM',
+            $documentType,
+            $orderConfirmationNumber,
+        ];
         return $this;
     }
 
@@ -187,8 +186,8 @@ class Ordrsp extends Message
 
     /**
      * @param string|\DateTime $deliveryDate
-     * @param int              $type
-     * @param int              $formatQuantifier
+     * @param int $type
+     * @param int $formatQuantifier
      *
      * @return Ordrsp
      * @throws EdifactException
@@ -232,9 +231,9 @@ class Ordrsp extends Message
     public function setPositionSeparator()
     {
         $this->positionSeparator = [
-      'UNS',
-      'S',
-    ];
+            'UNS',
+            'S',
+        ];
         return $this;
     }
 

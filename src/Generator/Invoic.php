@@ -164,7 +164,10 @@ class Invoic extends Message
     public function setInvoiceNumber($invoiceNumber, $documentType = self::TYPE_INVOICE)
     {
         $this->isAllowed($documentType, [
-            self::TYPE_INVOICE, self::TYPE_CREDIT_NOTE, self::TYPE_SERVICE_CREDIT, self::TYPE_SERVICE_INVOICE,
+            self::TYPE_INVOICE,
+            self::TYPE_CREDIT_NOTE,
+            self::TYPE_SERVICE_CREDIT,
+            self::TYPE_SERVICE_INVOICE,
             self::TYPE_BONUS
         ]);
         $this->invoiceNumber = self::addBGMSegment($invoiceNumber, $documentType);

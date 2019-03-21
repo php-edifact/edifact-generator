@@ -20,12 +20,12 @@ class Vermas extends Message
     /**
      * Construct.
      *
-     * @param mixed  $sMessageReferenceNumber        (0062)
-     * @param string $sMessageType                   (0065)
-     * @param string $sMessageVersionNumber          (0052)
-     * @param string $sMessageReleaseNumber          (0054)
+     * @param mixed $sMessageReferenceNumber (0062)
+     * @param string $sMessageType (0065)
+     * @param string $sMessageVersionNumber (0052)
+     * @param string $sMessageReleaseNumber (0054)
      * @param string $sMessageControllingAgencyCoded (0051)
-     * @param string $sAssociationAssignedCode       (0057)
+     * @param string $sAssociationAssignedCode (0057)
      */
     public function __construct(
         $sMessageReferenceNumber = null,
@@ -80,7 +80,7 @@ class Vermas extends Message
      */
     public function setMessageSenderCompany($companyName)
     {
-        $this->messageSenderCompany = ['NAD', 'TB',  $companyName];
+        $this->messageSenderCompany = ['NAD', 'TB', $companyName];
 
         return $this;
     }

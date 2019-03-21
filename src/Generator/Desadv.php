@@ -32,7 +32,7 @@ class Desadv extends Message
     protected $deliveryDate;
     /** @var Item[] */
     protected $items;
-    /** @var array  */
+    /** @var array */
     protected $composeKeys = [
         'deliveryNoteNumber',
         'deliveryNoteDate',

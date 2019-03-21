@@ -3,7 +3,6 @@
 namespace EDI\Generator\Traits;
 
 use EDI\Generator\EdifactDate;
-use EDI\Generator\EdiFactNumber;
 
 /**
  * Trait Item
@@ -13,7 +12,7 @@ use EDI\Generator\EdiFactNumber;
 trait Item
 {
 
-  /** @var array */
+    /** @var array */
     protected $position;
 
     /** @var array */
@@ -51,16 +50,16 @@ trait Item
 
     /** @var array */
     protected $composeKeys
-    = [
-      'position',
-      'quantity',
-      'deliveryNoteDate',
-      'orderNumberWholesaler',
-      'orderDate',
-      'orderPosition',
-      'deliveryNoteNumber',
-      'deliveryNotePosition',
-    ];
+        = [
+            'position',
+            'quantity',
+            'deliveryNoteDate',
+            'orderNumberWholesaler',
+            'orderDate',
+            'orderPosition',
+            'deliveryNoteNumber',
+            'deliveryNotePosition',
+        ];
 
     /**
      * @return array
@@ -88,14 +87,14 @@ trait Item
     public function setPosition($position, $articleNumber, $numberType = 'MF')
     {
         $this->position = [
-      'LIN',
-      $position,
-      '',
-      [
-        $articleNumber,
-        $numberType,
-      ],
-    ];
+            'LIN',
+            $position,
+            '',
+            [
+                $articleNumber,
+                $numberType,
+            ],
+        ];
 
         return $this;
     }
@@ -117,38 +116,38 @@ trait Item
     public function setQuantity($quantity, $unit = 'PCE')
     {
         $this->isAllowed(
-        $unit,
-        [
-        'CMK',
-        'CMQ',
-        'CMT',
-        'DZN',
-        'GRM',
-        'HLT',
-        'KGM',
-        'KTM',
-        'LTR',
-        'MMT',
-        'MTK',
-        'MTQ',
-        'MTR',
-        'NRL',
-        'PCE',
-        'PR',
-        'SET',
-        'TNE',
-      ]
-    );
+            $unit,
+            [
+                'CMK',
+                'CMQ',
+                'CMT',
+                'DZN',
+                'GRM',
+                'HLT',
+                'KGM',
+                'KTM',
+                'LTR',
+                'MMT',
+                'MTK',
+                'MTQ',
+                'MTR',
+                'NRL',
+                'PCE',
+                'PR',
+                'SET',
+                'TNE',
+            ]
+        );
 
         $this->quantity = [
-      'QTY',
-      [
-        '12',
-          (string) $quantity,
-        //        EdiFactNumber::convert($quantity, 3, EdiFactNumber::DECIMAL_POINT),
-        $unit,
-      ],
-    ];
+            'QTY',
+            [
+                '12',
+                (string)$quantity,
+                //        EdiFactNumber::convert($quantity, 3, EdiFactNumber::DECIMAL_POINT),
+                $unit,
+            ],
+        ];
 
         return $this;
     }
@@ -168,17 +167,17 @@ trait Item
             $temp = '';
         }
         return [
-      'IMD',
-      '',
-      '',
-      [
-        $type,
-        '',
-        $organisation,
-        substr($description, 0, 35),
-        $temp
-      ],
-    ];
+            'IMD',
+            '',
+            '',
+            [
+                $type,
+                '',
+                $organisation,
+                substr($description, 0, 35),
+                $temp
+            ],
+        ];
     }
 
     /**
@@ -365,16 +364,16 @@ trait Item
 
     /**
      * @param string|\DateTime $deliveryNoteDate
-     * @param int              $type
-     * @param int              $formatQuantifier
+     * @param int $type
+     * @param int $formatQuantifier
      *
      * @return Item
      */
     public function setDeliveryNoteDate(
-      $deliveryNoteDate,
-      $type = EdifactDate::TYPE_DELIVERY_DATE_REQUESTED,
-      $formatQuantifier = EdifactDate::DATE
-  ) {
+        $deliveryNoteDate,
+        $type = EdifactDate::TYPE_DELIVERY_DATE_REQUESTED,
+        $formatQuantifier = EdifactDate::DATE
+    ) {
         $this->deliveryNoteDate = $this->addDTMSegment($deliveryNoteDate, $type, $formatQuantifier);
 
         return $this;

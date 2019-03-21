@@ -8,6 +8,7 @@ namespace EDI\Generator;
  */
 class Segment
 {
+    /** @var array */
     protected $aComposed = [];
 
     /**

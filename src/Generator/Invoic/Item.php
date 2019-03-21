@@ -65,7 +65,7 @@ class Item extends Base
                 EdiFactNumber::convert($value),
                 '',
                 '',
-                (string) $priceBase,
+                (string)$priceBase,
                 $priceBaseUnit
             ]
         ];
@@ -136,7 +136,7 @@ class Item extends Base
                     '',
                     '3',
                     EdiFactNumber::convert(abs($value))
-                    ]
+                ]
             ];
             $this->addKeyToCompose($index);
         }

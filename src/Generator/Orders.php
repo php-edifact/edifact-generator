@@ -138,7 +138,18 @@ class Orders extends Message
     public function setOrderNumber($orderNumber, $documentType = '120')
     {
         $this->isAllowed($documentType, [
-            '120', '220', '221', '226', '227', '228', '126', 'YA8', 'YS8', 'YK8', '248', '447'
+            '120',
+            '220',
+            '221',
+            '226',
+            '227',
+            '228',
+            '126',
+            'YA8',
+            'YS8',
+            'YK8',
+            '248',
+            '447'
         ]);
         $this->orderNumber = ['BGM', $documentType, $orderNumber];
         return $this;

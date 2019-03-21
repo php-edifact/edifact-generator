@@ -38,10 +38,10 @@ class EquipmentDetails extends Segment
     /**
      * Set Equipment Identification (C237).
      *
-     * @param mixed $sEquipmentIdentifier           (8260)
-     * @param mixed $sCodeListIdentificationCode    (1131)
+     * @param mixed $sEquipmentIdentifier (8260)
+     * @param mixed $sCodeListIdentificationCode (1131)
      * @param mixed $sCodeListResponsibleAgencyCode (3055)
-     * @param mixed $sCountryIdentifier             (3207)
+     * @param mixed $sCountryIdentifier (3207)
      *
      * @return self $this
      */
@@ -86,9 +86,9 @@ class EquipmentDetails extends Segment
      * Set Equipment Size And Type (C224).
      *
      * @param mixed $sEquipmentSizeAndTypeDescriptionCode (8155)
-     * @param mixed $sCodeListIdentificationCode          (1131)
-     * @param mixed $sCodeListResponsibleAgencyCode       (3055)
-     * @param mixed $sEquipmentSizeAndTypeDescription     (8154)
+     * @param mixed $sCodeListIdentificationCode (1131)
+     * @param mixed $sCodeListResponsibleAgencyCode (3055)
+     * @param mixed $sEquipmentSizeAndTypeDescription (8154)
      *
      * @return self $this
      */

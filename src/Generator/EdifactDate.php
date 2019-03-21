@@ -31,7 +31,7 @@ class EdifactDate
      * returns an valid edifact date format
      *
      * @param string $string
-     * @param int    $format
+     * @param int $format
      *
      * @return string
      * @throws EdifactException
@@ -42,25 +42,25 @@ class EdifactDate
             return "";
         }
         switch ($format) {
-      case self::DATE:
-        $dateFormat = self::DATE_FORMAT;
-        break;
+            case self::DATE:
+                $dateFormat = self::DATE_FORMAT;
+                break;
 
-      case self::DATETIME:
-        $dateFormat = self::DATETIME_FORMAT;
-        break;
+            case self::DATETIME:
+                $dateFormat = self::DATETIME_FORMAT;
+                break;
 
-      case self::SHIPPING_WEEK:
-        $dateFormat = self::SHIPPING_WEEK_FORMAT;
-        break;
+            case self::SHIPPING_WEEK:
+                $dateFormat = self::SHIPPING_WEEK_FORMAT;
+                break;
 
-      case self::SHIPPING_UNDEFINED:
-        $dateFormat = self::SHIPPING_UNDEFINED_FORMAT;
-        break;
+            case self::SHIPPING_UNDEFINED:
+                $dateFormat = self::SHIPPING_UNDEFINED_FORMAT;
+                break;
 
-      default:
-        $dateFormat = self::DATE_FORMAT;
-    }
+            default:
+                $dateFormat = self::DATE_FORMAT;
+        }
         $dateTime = self::parseFormat($string, $format);
         if (!$dateTime) {
             throw new EdifactException('invalid date provided: ' . $string);
@@ -71,7 +71,7 @@ class EdifactDate
 
     /**
      * @param string|\DateTime $string
-     * @param integer          $format
+     * @param integer $format
      *
      * @return bool|\DateTime
      */
@@ -83,19 +83,19 @@ class EdifactDate
 
         $parseFormat = 'Y-m-d';
         switch ($format) {
-      case self::DATE:
-        $string = substr($string, 0, 10);
-        $parseFormat = 'Y-m-d';
-        break;
-      case
+            case self::DATE:
+                $string = substr($string, 0, 10);
+                $parseFormat = 'Y-m-d';
+                break;
+            case
 
-      self::DATETIME:
-        $parseFormat = 'Y-m-d H:i:s';
-        if (strlen($string) === 16) {
-            $parseFormat = 'Y-m-d H:i';
+            self::DATETIME:
+                $parseFormat = 'Y-m-d H:i:s';
+                if (strlen($string) === 16) {
+                    $parseFormat = 'Y-m-d H:i';
+                }
+                break;
         }
-        break;
-    }
 
         return \DateTime::createFromFormat($parseFormat, $string);
     }
