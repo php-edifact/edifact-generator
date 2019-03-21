@@ -2,14 +2,29 @@
 
 namespace EDI\Generator;
 
-class Message
+/**
+ * Class Message
+ * @package EDI\Generator
+ */
+class Message extends Base
 {
+    /** @var string */
     protected $messageID;
+
     protected $messageContent;
 
+    /** @var array string */
     protected $messageType;
-    protected $composed;
 
+    /**
+     * Message constructor.
+     * @param $identifier
+     * @param $version
+     * @param null $release
+     * @param null $controllingAgency
+     * @param null $messageID
+     * @param null $association
+     */
     public function __construct($identifier, $version, $release = null, $controllingAgency = null, $messageID = null, $association = null)
     {
         $this->messageType = [$identifier, $version];
@@ -34,56 +49,34 @@ class Message
     }
 
     /**
-     * Get Composed.
-     *
-     * @return array $this->aComposed
-     */
-    public function getComposed(): array
-    {
-        return $this->aComposed;
-    }
-
-    /**
-     * Set Composed.
-     *
-     * @param array $aComposed
-     */
-    public function setComposed(array $aComposed): void
-    {
-        $this->aComposed = $aComposed;
-    }
-
-    /**
      * Compose.
-     *
-     * @param mixed $sMessageFunctionCode (1225)
-     * @param mixed $sDocumentNameCode    (1001)
-     * @param mixed $sDocumentIdentifier  (1004)
-     *
-     * @return self $this
+     * @throws \EDI\Generator\EdifactException
      */
-    public function compose(?string $sMessageFunctionCode, ?string $sDocumentNameCode, ?string $sDocumentIdentifier): self
+    public function compose()
     {
         $aComposed = [];
 
         // Message Header
         $aComposed[] = ['UNH', $this->messageID, $this->messageType];
 
-        // Segments
+        if (count($this->messageContent) == 0) {
+            throw new EdifactException('no content available for message');
+        }
 
+        // Segments
         foreach ($this->messageContent as $i) {
             $aComposed[] = $i;
         }
 
         // Message Trailer
-        $aComposed[] = ['UNT', (2 + count($this->messageContent)), $this->messageID];
+        $aComposed[] = ['UNT', (string)(2 + count($this->messageContent)), $this->messageID];
 
-        $this->setComposed($aComposed);
+        $this->composed = $aComposed;
 
         return $this;
     }
 
-    /*
+    /**
      * DTM segment
      * $type = 7 (actual date time), 132 (estimated date time), 137 (message date time), 798 (weight date time)
      * $format = 203 (CCYYMMDDHHII)
@@ -93,7 +86,7 @@ class Message
         return ['DTM', [$type, $dtmString, $format]];
     }
 
-    /*
+    /**
      * RFF segment
      * $functionCode = DE 1153
      * $identifier = max 35 alphanumeric chars
@@ -103,7 +96,7 @@ class Message
         return ['RFF', [$functionCode, $identifier]];
     }
 
-    /*
+    /**
      * LOC segment
      * $qualifier = DE 3227
      * $firstLoc = preferred [locode, 139, 6]
@@ -119,7 +112,7 @@ class Message
         return $loc;
     }
 
-    /*
+    /**
      * EQD segment
      * $eqpType = DE 8053 (for a container CN)
      * $eqpIdentification = for a container [A-Z]{3}U\d{7}
@@ -144,7 +137,7 @@ class Message
         return $eqd;
     }
 
-    /*
+    /**
      * TDT segment
      * $stageQualifier = DE 8051
      * $journeyIdentifier = max 17 alphanumeric chars
@@ -160,8 +153,31 @@ class Message
         return ['TDT', $stageQualifier, $journeyIdentifier, $modeOfTransport, $transportMeans, $carrier, $transitDirection, $excessTransportation, $transportationIdentification];
     }
 
+    /**
+     * @param $stageQualifier
+     * @param $journeyIdentifier
+     * @param $modeOfTransport
+     * @param $transportMeans
+     * @return array
+     */
     public static function tdtShortSegment($stageQualifier, $journeyIdentifier, $modeOfTransport, $transportMeans)
     {
         return ['TDT', $stageQualifier, $journeyIdentifier, $modeOfTransport, $transportMeans];
+    }
+
+    /**
+     * @param string $text
+     * @param string $qualifier
+     * @param string $reference
+     * @return array
+     */
+    public static function addFTXSegment($text, $qualifier, $reference = '')
+    {
+        $textLines = str_split($text, 70);
+        if (count($textLines) > 5) {
+            $textLines = array_slice($textLines, 0, 5);
+        }
+
+        return ['FTX', $qualifier, '', [$reference, '89'], $textLines];
     }
 }

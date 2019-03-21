@@ -32,7 +32,7 @@ class Codeco extends Message
             $sMessageControllingAgencyCoded, $sMessageReferenceNumber, $sAssociationAssignedCode);
     }
 
-    /*
+    /**
      *
      */
     public function setSenderAndReceiver($sender, $receiver)
@@ -43,7 +43,7 @@ class Codeco extends Message
         return $this;
     }
 
-    /*
+    /**
      * $line: Master Liner Codes List
      */
     public function setCarrier($line)

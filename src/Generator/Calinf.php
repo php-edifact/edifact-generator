@@ -38,7 +38,7 @@ class Calinf extends Message
         $this->dtmSend = self::dtmSegment(137, date('YmdHi'));
     }
 
-    /*
+    /**
      * Date of the message submission
      *
      */
@@ -49,7 +49,7 @@ class Calinf extends Message
         return $this;
     }
 
-    /*
+    /**
      * Message sender (usually the vessel agent)
      *
      */
@@ -60,7 +60,7 @@ class Calinf extends Message
         return $this;
     }
 
-    /*
+    /**
      * Message receiver (usually the terminal)
      *
      */
@@ -71,7 +71,7 @@ class Calinf extends Message
         return $this;
     }
 
-    /*
+    /**
      * Vessel call information
      *
      */
@@ -83,7 +83,7 @@ class Calinf extends Message
         return $this;
     }
 
-    /*
+    /**
      * Estimated Time of Arrival
      *
      */
@@ -94,7 +94,7 @@ class Calinf extends Message
         return $this;
     }
 
-    /*
+    /**
      * Estimated Time of Departure
      *
      */

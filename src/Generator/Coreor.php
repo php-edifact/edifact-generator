@@ -2,27 +2,91 @@
 
 namespace EDI\Generator;
 
+/**
+ * Class Coreor
+ * @package EDI\Generator
+ */
 class Coreor extends Message
 {
+    /**
+     * @var array
+     */
     private $dtmSend;
+    /**
+     * @var
+     */
     private $releaseNumber;
+    /**
+     * @var
+     */
     private $dtmExpiration;
+    /**
+     * @var
+     */
     private $previousMessage;
+    /**
+     * @var
+     */
     private $vessel;
+    /**
+     * @var
+     */
     private $pol;
+    /**
+     * @var
+     */
     private $pod;
+    /**
+     * @var
+     */
     private $eta;
+    /**
+     * @var
+     */
     private $sender;
+    /**
+     * @var
+     */
     private $carrier;
+    /**
+     * @var
+     */
     private $forwarder;
+    /**
+     * @var
+     */
     private $customsBroker;
+    /**
+     * @var
+     */
     private $container;
+    /**
+     * @var
+     */
     private $bkg;
+    /**
+     * @var
+     */
     private $tare;
+    /**
+     * @var
+     */
     private $cargoWeight;
+    /**
+     * @var
+     */
     private $seal;
+    /**
+     * @var
+     */
     private $cargoCategory;
+    /**
+     * @var
+     */
     private $emptyDepot;
+    /**
+     * @var
+     */
     private $freightPayer;
 
     /**
@@ -49,9 +113,13 @@ class Coreor extends Message
         $this->dtmSend = self::dtmSegment(137, date('YmdHi'));
     }
 
-    /*
+    /**
      * $size = 22G1, 42G1, ecc
      * 2 = export, 5 = full
+     *
+     * @param $number
+     * @param $expiration
+     * @return $this
      */
     public function setReleaseNumberAndExpiration($number, $expiration)
     {
@@ -61,6 +129,10 @@ class Coreor extends Message
         return $this;
     }
 
+    /**
+     * @param $number
+     * @return $this
+     */
     public function setPreviousMessage($number)
     {
         $this->previousMessage = self::rffSegment('ACW', $number);
@@ -68,9 +140,14 @@ class Coreor extends Message
         return $this;
     }
 
-    /*
+    /**
      * Vessel information
      *
+     * @param $extVoyage
+     * @param $line
+     * @param $vslName
+     * @param $callsign
+     * @return $this
      */
     public function setVessel($extVoyage, $line, $vslName, $callsign)
     {
@@ -79,9 +156,11 @@ class Coreor extends Message
         return $this;
     }
 
-    /*
+    /**
      * Port of Loading
      *
+     * @param $loc
+     * @return $this
      */
     public function setPOL($loc)
     {
@@ -90,9 +169,12 @@ class Coreor extends Message
         return $this;
     }
 
-    /*
+    /**
      * Release terminal
      *
+     * @param $loc
+     * @param $terminal
+     * @return $this
      */
     public function setPOD($loc, $terminal)
     {
@@ -101,9 +183,11 @@ class Coreor extends Message
         return $this;
     }
 
-    /*
+    /**
      * Estimated Time of Arrival
      *
+     * @param $dtm
+     * @return $this
      */
     public function setETA($dtm)
     {
@@ -115,6 +199,10 @@ class Coreor extends Message
     /*
      *
      */
+    /**
+     * @param $sender
+     * @return $this
+     */
     public function setSender($sender)
     {
         $this->sender = ['NAD', 'MS', $sender];
@@ -125,6 +213,10 @@ class Coreor extends Message
     /*
      * $line: Master Liner Codes List
      */
+    /**
+     * @param $line
+     * @return $this
+     */
     public function setCarrier($line)
     {
         $this->carrier = ['NAD', 'CA', [$line, 172, 20]];
@@ -132,6 +224,13 @@ class Coreor extends Message
         return $this;
     }
 
+    /**
+     * @param $code
+     * @param $name
+     * @param $address
+     * @param $postalCode
+     * @return $this
+     */
     public function setForwarder($code, $name, $address, $postalCode)
     {
         $name = str_split($name, 35);
@@ -142,6 +241,13 @@ class Coreor extends Message
         return $this;
     }
 
+    /**
+     * @param $code
+     * @param $name
+     * @param $address
+     * @param $postalCode
+     * @return $this
+     */
     public function setCustomsBroker($code, $name, $address, $postalCode)
     {
         $name = str_split($name, 35);
@@ -152,27 +258,31 @@ class Coreor extends Message
         return $this;
     }
 
-    /*
-     *
+
+    /**
+     * @param $number
+     * @param $size
+     * @return $this
      */
     public function setContainer($number, $size)
     {
-        $this->container = \EDI\Generator\Message::eqdSegment('CN', $number, [$size, '102', '5'], '', '', 5);
+        $this->container = Message::eqdSegment('CN', $number, [$size, '102', '5'], '', '', 5);
 
         return $this;
     }
 
-    /*
-     *
+    /**
+     * @param $bl
+     * @return $this
      */
     public function setBillOfLading($bl)
     {
-        $this->bkg = \EDI\Generator\Message::rffSegment('BM', $bl);
+        $this->bkg = Message::rffSegment('BM', $bl);
 
         return $this;
     }
 
-    /*
+    /**
      * Weight information
      * $type = T (tare), AET (gross weight)
      *
@@ -184,6 +294,10 @@ class Coreor extends Message
         return $this;
     }
 
+    /**
+     * @param $weight
+     * @return $this
+     */
     public function setCargoWeight($weight)
     {
         $this->cargoWeight = ['MEA', 'AAE', 'AET', ['KGM', $weight]];
@@ -191,7 +305,7 @@ class Coreor extends Message
         return $this;
     }
 
-    /*
+    /**
      * $seal = free text
      * $sealIssuer = DE 9303
      */
@@ -202,9 +316,11 @@ class Coreor extends Message
         return $this;
     }
 
-    /*
+    /**
      * Cargo category
      *
+     * @param $text
+     * @return $this
      */
     public function setCargoCategory($text)
     {
@@ -213,9 +329,12 @@ class Coreor extends Message
         return $this;
     }
 
-    /*
+    /**
      * Redelivery facility
      *
+     * @param $loc
+     * @param $terminal
+     * @return $this
      */
     public function setEmptyDepot($loc, $terminal)
     {
@@ -224,6 +343,13 @@ class Coreor extends Message
         return $this;
     }
 
+    /**
+     * @param $code
+     * @param $name
+     * @param $address
+     * @param $postalCode
+     * @return $this
+     */
     public function setFreightPayer($code, $name, $address, $postalCode)
     {
         $name = str_split($name, 35);

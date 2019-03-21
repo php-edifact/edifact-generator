@@ -71,7 +71,7 @@ class Container
         $name = str_split($name, 35);
         $address = str_split($address, 35);
 
-        $this->shipFrom = ['NAD', 'SF', [$code, 160, 'ZZZ'], array_merge($name, $address), '', '', '', '', $postalCode];
+        $this->shipFrom = ['NAD', 'SF', [$code , 160, 'ZZZ'], array_merge($name, $address), '', '', '', '', $postalCode];
 
         return $this;
     }
