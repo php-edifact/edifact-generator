@@ -2,6 +2,10 @@
 
 namespace EDI\Generator;
 
+/**
+ * Class Copino
+ * @package EDI\Generator
+ */
 class Copino extends Message
 {
     private $sender;
@@ -17,12 +21,12 @@ class Copino extends Message
     /**
      * Construct.
      *
-     * @param mixed  $sMessageReferenceNumber        (0062)
-     * @param string $sMessageType                   (0065)
-     * @param string $sMessageVersionNumber          (0052)
-     * @param string $sMessageReleaseNumber          (0054)
+     * @param mixed $sMessageReferenceNumber (0062)
+     * @param string $sMessageType (0065)
+     * @param string $sMessageVersionNumber (0052)
+     * @param string $sMessageReleaseNumber (0054)
      * @param string $sMessageControllingAgencyCoded (0051)
-     * @param string $sAssociationAssignedCode       (0057)
+     * @param string $sAssociationAssignedCode (0057)
      */
     public function __construct(
         $sMessageReferenceNumber = null,
@@ -32,10 +36,21 @@ class Copino extends Message
         $sMessageControllingAgencyCoded = 'UN',
         $sAssociationAssignedCode = 'ITG13'
     ) {
-        parent::__construct($sMessageType, $sMessageVersionNumber, $sMessageReleaseNumber,
-            $sMessageControllingAgencyCoded, $sMessageReferenceNumber, $sAssociationAssignedCode);
+        parent::__construct(
+            $sMessageType,
+            $sMessageVersionNumber,
+            $sMessageReleaseNumber,
+            $sMessageControllingAgencyCoded,
+            $sMessageReferenceNumber,
+            $sAssociationAssignedCode
+        );
     }
 
+    /**
+     * @param $sender
+     * @param $receiver
+     * @return $this
+     */
     public function setSenderAndReceiver($sender, $receiver)
     {
         $this->sender = ['NAD', 'MS', $sender];
@@ -44,8 +59,15 @@ class Copino extends Message
         return $this;
     }
 
-    /*
+    /**
      * trucker
+     * @param $transRef
+     * @param $modeOfTransport
+     * @param $meansOfTransport
+     * @param $carrierName
+     * @param $plate
+     * @param $driver
+     * @return \EDI\Generator\Copino
      */
     public function setTransporter($transRef, $modeOfTransport, $meansOfTransport, $carrierName, $plate, $driver)
     {
@@ -54,8 +76,12 @@ class Copino extends Message
         return $this;
     }
 
-    /*
+    /**
      * vessel
+     * @param $carrierName
+     * @param $callsign
+     * @param $vesselName
+     * @return \EDI\Generator\Copino
      */
 
     public function setVessel($carrierName, $callsign, $vesselName)
@@ -65,8 +91,10 @@ class Copino extends Message
         return $this;
     }
 
-    /*
+    /**
      *$type = 7 (actual date time), 132 (estimated date time)
+     * @param $dtm
+     * @return \EDI\Generator\Copino
      */
     public function setDTM($dtm)
     {
@@ -75,9 +103,14 @@ class Copino extends Message
         return $this;
     }
 
-    /*
+    /**
      * $size = 22G1, 42G1, ecc
      * 2 = export, 5 = full
+     * @param $number
+     * @param $size
+     * @param $booking
+     * @param $sequence
+     * @return \EDI\Generator\Copino
      */
     public function setContainer($number, $size, $booking, $sequence)
     {
@@ -91,10 +124,14 @@ class Copino extends Message
         return $this;
     }
 
-    /*
+    /**
      * $weightMode = DE 6313
      * $weight = free text
      * $unit = KGM or LBS
+     * @param $weightMode
+     * @param $weight
+     * @param string $unit
+     * @return \EDI\Generator\Copino
      */
     public function setMeasures($weightMode, $weight, $unit = 'KGM')
     {
@@ -103,8 +140,11 @@ class Copino extends Message
         return $this;
     }
 
-    /*
+    /**
      * $type = 88 (place of receipt)
+     * @param $locode
+     * @param $terminal
+     * @return \EDI\Generator\Copino
      */
     public function setPort($locode, $terminal)
     {
@@ -113,8 +153,10 @@ class Copino extends Message
         return $this;
     }
 
-    /*
+    /**
      * $type = 7 (place of delivery)
+     * @param $locode
+     * @return \EDI\Generator\Copino
      */
     public function setDestination($locode)
     {
@@ -127,10 +169,11 @@ class Copino extends Message
      * Compose.
      *
      * @param mixed $sMessageFunctionCode (1225)
-     * @param mixed $sDocumentNameCode    (1001)
-     * @param mixed $sDocumentIdentifier  (1004)
+     * @param mixed $sDocumentNameCode (1001)
+     * @param mixed $sDocumentIdentifier (1004)
      *
-     * @return parent::compose()
+     * @return \EDI\Generator\Message ::compose()
+     * @throws \EDI\Generator\EdifactException
      */
     public function compose(?string $sMessageFunctionCode = "9", ?string $sDocumentNameCode = "661", ?string $sDocumentIdentifier = null): parent
     {

@@ -2,8 +2,13 @@
 
 namespace EDI\Generator;
 
+/**
+ * Class Segment
+ * @package EDI\Generator
+ */
 class Segment
 {
+    /** @var array */
     protected $aComposed = [];
 
     /**

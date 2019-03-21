@@ -35,10 +35,10 @@ class Measurements extends Segment
     /**
      * Set Measurement Details (C502).
      *
-     * @param mixed $sMeasuredAttributeCode          (6313)
-     * @param mixed $sMeasurementSignificanceCode    (6321)
+     * @param mixed $sMeasuredAttributeCode (6313)
+     * @param mixed $sMeasurementSignificanceCode (6321)
      * @param mixed $sNonDiscreteMeasurementNameCode (6155)
-     * @param mixed $sNonDiscreteMeasurementName     (6154)
+     * @param mixed $sNonDiscreteMeasurementName (6154)
      *
      * @return self $this
      */

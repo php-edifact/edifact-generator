@@ -1,0 +1,12 @@
+.idea/
+codeCoverage/
+vendor/
+composer.lock
+.php_cs.cache
+_ide_helper.php
+.phpstorm.meta.php
+coverage
+coverage.xml
+phpunit.local.xml
+composer.lock
+/tests/_output

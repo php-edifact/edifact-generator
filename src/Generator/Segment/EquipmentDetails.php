@@ -38,10 +38,10 @@ class EquipmentDetails extends Segment
     /**
      * Set Equipment Identification (C237).
      *
-     * @param mixed $sEquipmentIdentifier           (8260)
-     * @param mixed $sCodeListIdentificationCode    (1131)
+     * @param mixed $sEquipmentIdentifier (8260)
+     * @param mixed $sCodeListIdentificationCode (1131)
      * @param mixed $sCodeListResponsibleAgencyCode (3055)
-     * @param mixed $sCountryIdentifier             (3207)
+     * @param mixed $sCountryIdentifier (3207)
      *
      * @return self $this
      */
@@ -86,9 +86,9 @@ class EquipmentDetails extends Segment
      * Set Equipment Size And Type (C224).
      *
      * @param mixed $sEquipmentSizeAndTypeDescriptionCode (8155)
-     * @param mixed $sCodeListIdentificationCode          (1131)
-     * @param mixed $sCodeListResponsibleAgencyCode       (3055)
-     * @param mixed $sEquipmentSizeAndTypeDescription     (8154)
+     * @param mixed $sCodeListIdentificationCode (1131)
+     * @param mixed $sCodeListResponsibleAgencyCode (3055)
+     * @param mixed $sEquipmentSizeAndTypeDescription (8154)
      *
      * @return self $this
      */
@@ -136,7 +136,7 @@ class EquipmentDetails extends Segment
     /**
      * Set Equipment Supplier Code.
      *
-     * @param array $sEquipmentSupplierCode (8077)
+     * @param string $sEquipmentSupplierCode (8077)
      *
      * @return self $this
      */
@@ -150,7 +150,7 @@ class EquipmentDetails extends Segment
     /**
      * Set Equipment Status Code.
      *
-     * @param array $sEquipmentStatusCode (8249)
+     * @param string $sEquipmentStatusCode (8249)
      *
      * @return self $this
      */
@@ -164,7 +164,7 @@ class EquipmentDetails extends Segment
     /**
      * Set Full Or Empty Indicator Code.
      *
-     * @param array $sFullOrEmptyIndicatorCode (8169)
+     * @param string $sFullOrEmptyIndicatorCode (8169)
      *
      * @return self $this
      */
@@ -178,7 +178,7 @@ class EquipmentDetails extends Segment
     /**
      * Set Marking Instructions Code.
      *
-     * @param array $sMarkingInstructionsCode (4233)
+     * @param string $sMarkingInstructionsCode (4233)
      *
      * @return self $this
      */

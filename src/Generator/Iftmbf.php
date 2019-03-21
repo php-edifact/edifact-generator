@@ -2,6 +2,10 @@
 
 namespace EDI\Generator;
 
+/**
+ * Class Iftmbf
+ * @package EDI\Generator
+ */
 class Iftmbf extends Message
 {
     private $messageSender;
@@ -33,12 +37,12 @@ class Iftmbf extends Message
     /**
      * Construct.
      *
-     * @param mixed  $sMessageReferenceNumber        (0062)
-     * @param string $sMessageType                   (0065)
-     * @param string $sMessageVersionNumber          (0052)
-     * @param string $sMessageReleaseNumber          (0054)
+     * @param mixed $sMessageReferenceNumber (0062)
+     * @param string $sMessageType (0065)
+     * @param string $sMessageVersionNumber (0052)
+     * @param string $sMessageReleaseNumber (0054)
      * @param string $sMessageControllingAgencyCoded (0051)
-     * @param string $sAssociationAssignedCode       (0057)
+     * @param string $sAssociationAssignedCode (0057)
      */
     public function __construct(
         $sMessageReferenceNumber = null,
@@ -48,12 +52,23 @@ class Iftmbf extends Message
         $sMessageControllingAgencyCoded = 'UN',
         $sAssociationAssignedCode = '2.0'
     ) {
-        parent::__construct($sMessageType, $sMessageVersionNumber, $sMessageReleaseNumber,
-            $sMessageControllingAgencyCoded, $sMessageReferenceNumber, $sAssociationAssignedCode);
+        parent::__construct(
+            $sMessageType,
+            $sMessageVersionNumber,
+            $sMessageReleaseNumber,
+            $sMessageControllingAgencyCoded,
+            $sMessageReferenceNumber,
+            $sAssociationAssignedCode
+        );
 
         $this->dtmSend = self::dtmSegment(137, date('YmdHi'));
     }
 
+    /**
+     * @param string $name
+     * @param $email
+     * @return $this|\EDI\Generator\Message
+     */
     public function setSender($name, $email)
     {
         $this->messageSender = ['CTA', 'IC', ['', $name]];
@@ -65,6 +80,8 @@ class Iftmbf extends Message
     /**
      * Transport type requested
      * $tsr DE 4065.
+     * @param $tsr
+     * @return \EDI\Generator\Iftmbf
      */
     public function setTransportRequirements($tsr)
     {
@@ -76,6 +93,8 @@ class Iftmbf extends Message
     /**
      * Free text instructions
      * $ftx Max 512*5 chars.
+     * @param $ftx
+     * @return \EDI\Generator\Iftmbf
      */
     public function setFreeTextInstructions($ftx)
     {
@@ -87,6 +106,8 @@ class Iftmbf extends Message
     /**
      * Cargo nature
      * $cargo DE 7085.
+     * @param $cargo
+     * @return \EDI\Generator\Iftmbf
      */
     public function setCargoNature($cargo)
     {
@@ -95,6 +116,10 @@ class Iftmbf extends Message
         return $this;
     }
 
+    /**
+     * @param $porLocode
+     * @return $this
+     */
     public function setPlaceOfReceipt($porLocode)
     {
         $this->placeOfReceipt = self::locSegment(88, [$porLocode, 181, 6]);
@@ -102,6 +127,10 @@ class Iftmbf extends Message
         return $this;
     }
 
+    /**
+     * @param $podLocode
+     * @return $this
+     */
     public function setPlaceOfDelivery($podLocode)
     {
         $this->placeOfDelivery = self::locSegment(7, [$podLocode, 181, 6]);
@@ -109,6 +138,10 @@ class Iftmbf extends Message
         return $this;
     }
 
+    /**
+     * @param $bkgLocode
+     * @return $this
+     */
     public function setBookingOffice($bkgLocode)
     {
         $this->bookingOffice = self::locSegment(197, [$bkgLocode, 181, 6]);
@@ -116,6 +149,10 @@ class Iftmbf extends Message
         return $this;
     }
 
+    /**
+     * @param $ctNumber
+     * @return $this
+     */
     public function setContractNumber($ctNumber)
     {
         $this->contractNumber = self::rffSegment('CT', $ctNumber);
@@ -123,6 +160,10 @@ class Iftmbf extends Message
         return $this;
     }
 
+    /**
+     * @param $siNumber
+     * @return $this
+     */
     public function setShipmentReference($siNumber)
     {
         $this->shipmentReference = self::rffSegment('SI', $siNumber);
@@ -130,13 +171,18 @@ class Iftmbf extends Message
         return $this;
     }
 
-    /*
+    /**
      * Vessel call information
      *
      * $extVoyage Common voyage reference
      * $scac SCAC code for the liner
      * $imonumber Vessel IMO number (7 digits)
      * $vslName Vessel name
+     * @param $extVoyage
+     * @param $scac
+     * @param $vslName
+     * @param $imonumber
+     * @return \EDI\Generator\Iftmbf
      */
     public function setVessel($extVoyage, $scac, $vslName, $imonumber)
     {
@@ -145,9 +191,10 @@ class Iftmbf extends Message
         return $this;
     }
 
-    /*
+    /**
      * Port of Loading
-     *
+     * @param $loc
+     * @return \EDI\Generator\Iftmbf
      */
     public function setPOL($loc)
     {
@@ -156,9 +203,10 @@ class Iftmbf extends Message
         return $this;
     }
 
-    /*
+    /**
      * Port of Discharge
-     *
+     * @param $loc
+     * @return \EDI\Generator\Iftmbf
      */
     public function setPOD($loc)
     {
@@ -167,12 +215,17 @@ class Iftmbf extends Message
         return $this;
     }
 
-    /*
+    /**
      * Booking party
      * $code Code identifying the booking party
      * $name Company name (max 70 chars)
      * $address Address (max 105 chars)
      * $postalCode ZIP Code
+     * @param $code
+     * @param $name
+     * @param $address
+     * @param $postalCode
+     * @return \EDI\Generator\Iftmbf
      */
     public function setBookingParty($code, $name, $address, $postalCode)
     {
@@ -184,8 +237,10 @@ class Iftmbf extends Message
         return $this;
     }
 
-    /*
+    /**
      * $scac SCAC code for the liner
+     * @param $scac
+     * @return \EDI\Generator\Iftmbf
      */
     public function setCarrier($scac)
     {
@@ -194,6 +249,13 @@ class Iftmbf extends Message
         return $this;
     }
 
+    /**
+     * @param $code
+     * @param $name
+     * @param $address
+     * @param $postalCode
+     * @return $this
+     */
     public function setForwarder($code, $name, $address, $postalCode)
     {
         $name = str_split($name, 35);
@@ -204,6 +266,13 @@ class Iftmbf extends Message
         return $this;
     }
 
+    /**
+     * @param $code
+     * @param $name
+     * @param $address
+     * @param $postalCode
+     * @return $this
+     */
     public function setConsignor($code, $name, $address, $postalCode)
     {
         $name = str_split($name, 35);
@@ -214,6 +283,10 @@ class Iftmbf extends Message
         return $this;
     }
 
+    /**
+     * @param \EDI\Generator\Iftmbf\Container $container
+     * @return $this
+     */
     public function addContainer(Iftmbf\Container $container)
     {
         $this->containers[] = $container;
@@ -225,10 +298,11 @@ class Iftmbf extends Message
      * Compose.
      *
      * @param mixed $sMessageFunctionCode (1225)
-     * @param mixed $sDocumentNameCode    (1001)
-     * @param mixed $sDocumentIdentifier  (1004)
+     * @param mixed $sDocumentNameCode (1001)
+     * @param mixed $sDocumentIdentifier (1004)
      *
-     * @return parent::compose()
+     * @return \EDI\Generator\Message ::compose()
+     * @throws \EDI\Generator\EdifactException
      */
     public function compose(?string $sMessageFunctionCode = "5", ?string $sDocumentNameCode = "335", ?string $sDocumentIdentifier = null): parent
     {

@@ -2,6 +2,10 @@
 
 namespace EDI\Generator\Westim;
 
+/**
+ * Class Damage
+ * @package EDI\Generator\Westim
+ */
 class Damage
 {
     private $_damage;
@@ -12,8 +16,14 @@ class Damage
     {
     }
 
-    /*
+    /**
      * $line \d{2}
+     * @param $line
+     * @param $damageLocationCode
+     * @param $componentCode
+     * @param $damageTypeCode
+     * @param $componentMaterialCode
+     * @return \EDI\Generator\Westim\Damage
      */
     public function setDamage($line, $damageLocationCode, $componentCode, $damageTypeCode, $componentMaterialCode)
     {
@@ -22,8 +32,14 @@ class Damage
         return $this;
     }
 
-    /*
-     *
+    /**
+     * @param $repairMethodCode
+     * @param $measureUnit
+     * @param $length
+     * @param $width
+     * @param $height
+     * @param $quantity
+     * @return \EDI\Generator\Westim\Damage
      */
     public function setWork($repairMethodCode, $measureUnit, $length, $width, $height, $quantity)
     {
@@ -32,8 +48,12 @@ class Damage
         return $this;
     }
 
-    /*
-     *
+    /**
+     * @param $manHours
+     * @param $materialCost
+     * @param $responsibility
+     * @param $labourRate
+     * @return \EDI\Generator\Westim\Damage
      */
     public function setCost($manHours, $materialCost, $responsibility, $labourRate)
     {
@@ -42,6 +62,9 @@ class Damage
         return $this;
     }
 
+    /**
+     * @return array
+     */
     public function compose()
     {
         $composed = [];

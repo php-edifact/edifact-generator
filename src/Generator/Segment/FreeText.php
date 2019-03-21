@@ -51,9 +51,9 @@ class FreeText extends Segment
     /**
      * Set Text Reference (C107).
      *
-     * @param string $sFreeTextDescriptionCode       (4441)
-     * @param mixed  $sCodeListIdentificationCode    (1131)
-     * @param mixed  $sCodeListResponsibleAgencyCode (3055)
+     * @param string $sFreeTextDescriptionCode (4441)
+     * @param mixed $sCodeListIdentificationCode (1131)
+     * @param mixed $sCodeListResponsibleAgencyCode (3055)
      *
      * @return self $this
      */
@@ -88,6 +88,7 @@ class FreeText extends Segment
      * Set Text Literal (C108).
      *
      * @param array $aTextLiteral (4440)
+     * @return \EDI\Generator\Segment\FreeText
      */
     public function setTextLiteral(array $aTextLiteral): self
     {

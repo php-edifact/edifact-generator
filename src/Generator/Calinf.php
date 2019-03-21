@@ -2,6 +2,10 @@
 
 namespace EDI\Generator;
 
+/**
+ * Class Calinf
+ * @package EDI\Generator
+ */
 class Calinf extends Message
 {
     private $dtmSend;
@@ -17,12 +21,12 @@ class Calinf extends Message
     /**
      * Construct.
      *
-     * @param mixed  $sMessageReferenceNumber        (0062)
-     * @param string $sMessageType                   (0065)
-     * @param string $sMessageVersionNumber          (0052)
-     * @param string $sMessageReleaseNumber          (0054)
+     * @param mixed $sMessageReferenceNumber (0062)
+     * @param string $sMessageType (0065)
+     * @param string $sMessageVersionNumber (0052)
+     * @param string $sMessageReleaseNumber (0054)
      * @param string $sMessageControllingAgencyCoded (0051)
-     * @param string $sAssociationAssignedCode       (0057)
+     * @param string $sAssociationAssignedCode (0057)
      */
     public function __construct(
         $sMessageReferenceNumber = null,
@@ -32,15 +36,22 @@ class Calinf extends Message
         $sMessageControllingAgencyCoded = 'UN',
         $sAssociationAssignedCode = 'SMDG20'
     ) {
-        parent::__construct($sMessageType, $sMessageVersionNumber, $sMessageReleaseNumber,
-            $sMessageControllingAgencyCoded, $sMessageReferenceNumber, $sAssociationAssignedCode);
+        parent::__construct(
+            $sMessageType,
+            $sMessageVersionNumber,
+            $sMessageReleaseNumber,
+            $sMessageControllingAgencyCoded,
+            $sMessageReferenceNumber,
+            $sAssociationAssignedCode
+        );
 
         $this->dtmSend = self::dtmSegment(137, date('YmdHi'));
     }
 
-    /*
+    /**
      * Date of the message submission
-     *
+     * @param $dtm
+     * @return \EDI\Generator\Calinf
      */
     public function setDTMMessageSendingTime($dtm)
     {
@@ -49,9 +60,11 @@ class Calinf extends Message
         return $this;
     }
 
-    /*
+    /**
      * Message sender (usually the vessel agent)
-     *
+     * @param $code
+     * @param $name
+     * @return \EDI\Generator\Calinf
      */
     public function setSender($code, $name)
     {
@@ -60,9 +73,11 @@ class Calinf extends Message
         return $this;
     }
 
-    /*
+    /**
      * Message receiver (usually the terminal)
-     *
+     * @param $code
+     * @param $name
+     * @return \EDI\Generator\Calinf
      */
     public function setReceiver($code, $name)
     {
@@ -71,9 +86,14 @@ class Calinf extends Message
         return $this;
     }
 
-    /*
+    /**
      * Vessel call information
-     *
+     * @param $extVoyage
+     * @param $line
+     * @param $imoNumber
+     * @param $vslName
+     * @param $callsign
+     * @return \EDI\Generator\Calinf
      */
     public function setVessel($extVoyage, $line, $imoNumber, $vslName, $callsign)
     {
@@ -83,9 +103,10 @@ class Calinf extends Message
         return $this;
     }
 
-    /*
+    /**
      * Estimated Time of Arrival
-     *
+     * @param $dtm
+     * @return \EDI\Generator\Calinf
      */
     public function setEta($dtm)
     {
@@ -94,9 +115,10 @@ class Calinf extends Message
         return $this;
     }
 
-    /*
+    /**
      * Estimated Time of Departure
-     *
+     * @param $dtm
+     * @return \EDI\Generator\Calinf
      */
     public function setEtd($dtm)
     {
@@ -109,12 +131,13 @@ class Calinf extends Message
      * Compose.
      *
      * @param mixed $sMessageFunctionCode (1225)
-     * @param mixed $sDocumentNameCode    (1001)
-     * @param mixed $sDocumentIdentifier  (1004)
+     * @param mixed $sDocumentNameCode (1001)
+     * @param mixed $sDocumentIdentifier (1004)
      *
-     * @return parent::compose()
+     * @return \EDI\Generator\Message ::compose()
+     * @throws \EDI\Generator\EdifactException
      */
-    public function compose(?string $sMessageFunctionCode = "5", ?string $sDocumentNameCode = "96", ?string $sDocumentIdentifier = null): parent
+    public function compose(?string $sMessageFunctionCode = '5', ?string $sDocumentNameCode = '96', ?string $sDocumentIdentifier = null): parent
     {
         $this->messageContent = [
             ['BGM', $sDocumentNameCode, $this->messageID, $sMessageFunctionCode],

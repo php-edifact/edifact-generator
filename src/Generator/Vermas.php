@@ -2,6 +2,10 @@
 
 namespace EDI\Generator;
 
+/**
+ * Class Vermas
+ * @package EDI\Generator
+ */
 class Vermas extends Message
 {
     private $dtmSend;
@@ -16,12 +20,12 @@ class Vermas extends Message
     /**
      * Construct.
      *
-     * @param mixed  $sMessageReferenceNumber        (0062)
-     * @param string $sMessageType                   (0065)
-     * @param string $sMessageVersionNumber          (0052)
-     * @param string $sMessageReleaseNumber          (0054)
+     * @param mixed $sMessageReferenceNumber (0062)
+     * @param string $sMessageType (0065)
+     * @param string $sMessageVersionNumber (0052)
+     * @param string $sMessageReleaseNumber (0054)
      * @param string $sMessageControllingAgencyCoded (0051)
-     * @param string $sAssociationAssignedCode       (0057)
+     * @param string $sAssociationAssignedCode (0057)
      */
     public function __construct(
         $sMessageReferenceNumber = null,
@@ -31,15 +35,22 @@ class Vermas extends Message
         $sMessageControllingAgencyCoded = 'UN',
         $sAssociationAssignedCode = 'SMDG10'
     ) {
-        parent::__construct($sMessageType, $sMessageVersionNumber, $sMessageReleaseNumber,
-            $sMessageControllingAgencyCoded, $sMessageReferenceNumber, $sAssociationAssignedCode);
+        parent::__construct(
+            $sMessageType,
+            $sMessageVersionNumber,
+            $sMessageReleaseNumber,
+            $sMessageControllingAgencyCoded,
+            $sMessageReferenceNumber,
+            $sAssociationAssignedCode
+        );
 
         $this->dtmSend = self::dtmSegment(137, date('YmdHi'));
     }
 
-    /*
+    /**
      * Date of the message submission
-     *
+     * @param $dtm
+     * @return \EDI\Generator\Vermas
      */
     public function setDTMMessageSendingTime($dtm)
     {
@@ -48,8 +59,10 @@ class Vermas extends Message
         return $this;
     }
 
-    /*
+    /**
      * $line: Master Liner Codes List
+     * @param $line
+     * @return \EDI\Generator\Vermas
      */
     public function setCarrier($line)
     {
@@ -58,22 +71,28 @@ class Vermas extends Message
         return $this;
     }
 
-    /*
+    /**
      * $cntFunctionCode: DE 3139
      * $cntIdentifier: free text
      * $cntName: free text
+     * @param $companyName
+     * @return \EDI\Generator\Vermas
      */
     public function setMessageSenderCompany($companyName)
     {
-        $this->messageSenderCompany = ['NAD', 'TB',  $companyName];
+        $this->messageSenderCompany = ['NAD', 'TB', $companyName];
 
         return $this;
     }
 
-    /*
+    /**
      * $cntFunctionCode: DE 3139
      * $cntIdentifier: free text
      * $cntName: free text
+     * @param $cntFunctionCode
+     * @param $cntIdentifier
+     * @param $cntName
+     * @return \EDI\Generator\Vermas
      */
     public function setMessageSender($cntFunctionCode, $cntIdentifier, $cntName)
     {
@@ -82,9 +101,12 @@ class Vermas extends Message
         return $this;
     }
 
-    /*
+    /**
      * $comType: DE 3155
      * $comData: free text
+     * @param $comType
+     * @param $comData
+     * @return \EDI\Generator\Vermas
      */
     public function setMessageSenderInformation($comType, $comData)
     {
@@ -93,6 +115,10 @@ class Vermas extends Message
         return $this;
     }
 
+    /**
+     * @param \EDI\Generator\Vermas\Container $container
+     * @return $this
+     */
     public function addContainer(Vermas\Container $container)
     {
         $this->containers[] = $container;
@@ -104,10 +130,11 @@ class Vermas extends Message
      * Compose.
      *
      * @param mixed $sMessageFunctionCode (1225)
-     * @param mixed $sDocumentNameCode    (1001)
-     * @param mixed $sDocumentIdentifier  (1004)
+     * @param mixed $sDocumentNameCode (1001)
+     * @param mixed $sDocumentIdentifier (1004)
      *
-     * @return parent::compose()
+     * @return \EDI\Generator\Message ::compose()
+     * @throws \EDI\Generator\EdifactException
      */
     public function compose(?string $sMessageFunctionCode = "5", ?string $sDocumentNameCode = "749", ?string $sDocumentIdentifier = null): parent
     {

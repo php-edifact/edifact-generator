@@ -2,6 +2,10 @@
 
 namespace EDI\Generator;
 
+/**
+ * Class Coparn
+ * @package EDI\Generator
+ */
 class Coparn extends Message
 {
     private $dtmSend;
@@ -34,12 +38,12 @@ class Coparn extends Message
     /**
      * Construct.
      *
-     * @param mixed  $sMessageReferenceNumber        (0062)
-     * @param string $sMessageType                   (0065)
-     * @param string $sMessageVersionNumber          (0052)
-     * @param string $sMessageReleaseNumber          (0054)
+     * @param mixed $sMessageReferenceNumber (0062)
+     * @param string $sMessageType (0065)
+     * @param string $sMessageVersionNumber (0052)
+     * @param string $sMessageReleaseNumber (0054)
      * @param string $sMessageControllingAgencyCoded (0051)
-     * @param string $sAssociationAssignedCode       (0057)
+     * @param string $sAssociationAssignedCode (0057)
      */
     public function __construct(
         $sMessageReferenceNumber = null,
@@ -49,14 +53,22 @@ class Coparn extends Message
         $sMessageControllingAgencyCoded = 'UN',
         $sAssociationAssignedCode = 'SMDG20'
     ) {
-        parent::__construct($sMessageType, $sMessageVersionNumber, $sMessageReleaseNumber,
-            $sMessageControllingAgencyCoded, $sMessageReferenceNumber, $sAssociationAssignedCode);
+        parent::__construct(
+            $sMessageType,
+            $sMessageVersionNumber,
+            $sMessageReleaseNumber,
+            $sMessageControllingAgencyCoded,
+            $sMessageReferenceNumber,
+            $sAssociationAssignedCode
+        );
 
         $this->dtmSend = self::dtmSegment(137, date('YmdHi'));
     }
 
-    /*
+    /**
      * $line: Master Liner Codes List
+     * @param $line
+     * @return \EDI\Generator\Coparn
      */
     public function setCarrier($line)
     {
@@ -66,9 +78,10 @@ class Coparn extends Message
         return $this;
     }
 
-    /*
+    /**
      * Date of the message submission
-     *
+     * @param $dtm
+     * @return \EDI\Generator\Coparn
      */
     public function setDTMMessageSendingTime($dtm)
     {
@@ -77,9 +90,11 @@ class Coparn extends Message
         return $this;
     }
 
-    /*
+    /**
      * Date of the message submission
-     *
+     * @param $booking
+     * @param $sequence
+     * @return \EDI\Generator\Coparn
      */
     public function setBooking($booking, $sequence)
     {
@@ -89,9 +104,10 @@ class Coparn extends Message
         return $this;
     }
 
-    /*
+    /**
      * Date of the message submission
-     *
+     * @param $atx
+     * @return \EDI\Generator\Coparn
      */
     public function setRFFOrder($atx)
     {
@@ -100,9 +116,13 @@ class Coparn extends Message
         return $this;
     }
 
-    /*
+    /**
      * Vessel call information
-     *
+     * @param $extVoyage
+     * @param $line
+     * @param $vslName
+     * @param $callsign
+     * @return \EDI\Generator\Coparn
      */
     public function setVessel($extVoyage, $line, $vslName, $callsign)
     {
@@ -112,9 +132,10 @@ class Coparn extends Message
         return $this;
     }
 
-    /*
+    /**
      * Estimated Time of Arrival
-     *
+     * @param $dtm
+     * @return \EDI\Generator\Coparn
      */
     public function setETA($dtm)
     {
@@ -123,9 +144,10 @@ class Coparn extends Message
         return $this;
     }
 
-    /*
+    /**
      * Estimated Time of Departure
-     *
+     * @param $dtm
+     * @return \EDI\Generator\Coparn
      */
     public function setETD($dtm)
     {
@@ -134,9 +156,10 @@ class Coparn extends Message
         return $this;
     }
 
-    /*
+    /**
      * Port of Loading
-     *
+     * @param $loc
+     * @return \EDI\Generator\Coparn
      */
     public function setPOL($loc)
     {
@@ -145,9 +168,10 @@ class Coparn extends Message
         return $this;
     }
 
-    /*
+    /**
      * Port of Discharge
-     *
+     * @param $loc
+     * @return \EDI\Generator\Coparn
      */
     public function setPOD($loc)
     {
@@ -156,9 +180,10 @@ class Coparn extends Message
         return $this;
     }
 
-    /*
+    /**
      * Final destination
-     *
+     * @param $loc
+     * @return \EDI\Generator\Coparn
      */
     public function setFND($loc)
     {
@@ -167,8 +192,11 @@ class Coparn extends Message
         return $this;
     }
 
-    /*
+    /**
      * $size = 22G1, 42G1, etc
+     * @param $number
+     * @param $size
+     * @return \EDI\Generator\Coparn
      */
     public function setContainer($number, $size)
     {
@@ -177,9 +205,10 @@ class Coparn extends Message
         return $this;
     }
 
-    /*
+    /**
      * How many containers need to be released
-     *
+     * @param $total
+     * @return \EDI\Generator\Coparn
      */
     public function setEquipmentQuantity($total)
     {
@@ -188,9 +217,11 @@ class Coparn extends Message
         return $this;
     }
 
-    /*
+    /**
      * VGM information
-     *
+     * @param $weight
+     * @param $weightTime
+     * @return \EDI\Generator\Coparn
      */
     public function setVGM($weight, $weightTime)
     {
@@ -200,9 +231,10 @@ class Coparn extends Message
         return $this;
     }
 
-    /*
+    /**
      * Weight information
-     *
+     * @param $weight
+     * @return \EDI\Generator\Coparn
      */
     public function setGrossWeight($weight)
     {
@@ -211,9 +243,10 @@ class Coparn extends Message
         return $this;
     }
 
-    /*
+    /**
      * Cargo category
-     *
+     * @param $text
+     * @return \EDI\Generator\Coparn
      */
     public function setCargoCategory($text)
     {
@@ -222,8 +255,11 @@ class Coparn extends Message
         return $this;
     }
 
-    /*
+    /**
      * DEPRECATED
+     * @param $hazardClass
+     * @param $hazardCode
+     * @return \EDI\Generator\Coparn
      */
     public function setDangerous($hazardClass, $hazardCode)
     {
@@ -232,6 +268,13 @@ class Coparn extends Message
         return $this;
     }
 
+    /**
+     * @param $hazardClass
+     * @param $hazardCode
+     * @param null $flashpoint
+     * @param null $packingGroup
+     * @return $this
+     */
     public function addDangerous($hazardClass, $hazardCode, $flashpoint = null, $packingGroup = null)
     {
         if ($this->dangerous === null) {
@@ -254,6 +297,10 @@ class Coparn extends Message
         return $this;
     }
 
+    /**
+     * @param $setDegrees
+     * @return $this
+     */
     public function setTemperature($setDegrees)
     {
         $this->temperature = ['TMP', '2', [$setDegrees, 'CEL']];
@@ -261,6 +308,10 @@ class Coparn extends Message
         return $this;
     }
 
+    /**
+     * @param $ventilation
+     * @return $this
+     */
     public function setVentilation($ventilation)
     {
         $this->ventilation = ['MEA', 'AAE', 'AAS', ['CBM', $ventilation]];
@@ -268,6 +319,10 @@ class Coparn extends Message
         return $this;
     }
 
+    /**
+     * @param $humidity
+     * @return $this
+     */
     public function setHumidity($humidity)
     {
         $this->humidity = ['MEA', 'AAE', 'AAO', ['PCT', $humidity]];
@@ -275,6 +330,14 @@ class Coparn extends Message
         return $this;
     }
 
+    /**
+     * @param string $front
+     * @param string $back
+     * @param string $right
+     * @param string $left
+     * @param string $height
+     * @return $this
+     */
     public function setOverDimensions($front = '', $back = '', $right = '', $left = '', $height = '')
     {
         $this->dim = [];
@@ -301,10 +364,11 @@ class Coparn extends Message
      * Compose.
      *
      * @param mixed $sMessageFunctionCode (1225)
-     * @param mixed $sDocumentNameCode    (1001)
-     * @param mixed $sDocumentIdentifier  (1004)
+     * @param mixed $sDocumentNameCode (1001)
+     * @param mixed $sDocumentIdentifier (1004)
      *
-     * @return parent::compose()
+     * @return \EDI\Generator\Message ::compose()
+     * @throws \EDI\Generator\EdifactException
      */
     public function compose(?string $sMessageFunctionCode = "5", ?string $sDocumentNameCode = "126", ?string $sDocumentIdentifier = null): parent
     {

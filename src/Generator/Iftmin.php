@@ -1,9 +1,13 @@
 <?php
+
 namespace EDI\Generator;
 
+/**
+ * Class Iftmin
+ * @package EDI\Generator
+ */
 class Iftmin extends Message
 {
-    
     private $messageSender;
     private $messageSenderInformation;
     private $dtmSend;
@@ -17,6 +21,15 @@ class Iftmin extends Message
     private $booking;
     private $bookingSequence;
 
+    /**
+     * Iftmin constructor.
+     * @param null $messageID
+     * @param string $identifier
+     * @param string $version
+     * @param string $release
+     * @param string $controllingAgency
+     * @param string $association
+     */
     public function __construct($messageID = null, $identifier = 'IFTMIN', $version = 'D', $release = '04A', $controllingAgency = 'UN', $association = 'BIG14')
     {
         parent::__construct($identifier, $version, $release, $controllingAgency, $messageID, $association);
@@ -26,6 +39,11 @@ class Iftmin extends Message
         $this->containers = [];
     }
 
+    /**
+     * @param string $name
+     * @param $email
+     * @return $this|\EDI\Generator\Message
+     */
     public function setSender($name, $email)
     {
         $this->messageSender = ['CTA', 'BK', ['', $name]];
@@ -33,12 +51,22 @@ class Iftmin extends Message
         return $this;
     }
 
+    /**
+     * @param $earliest
+     * @param $latest
+     * @return $this
+     */
     public function setPickupDateRange($earliest, $latest)
     {
         $this->pickupDate = [self::dtmSegment(234, $earliest), self::dtmSegment(235, $latest)];
         return $this;
     }
 
+    /**
+     * @param $earliest
+     * @param $latest
+     * @return $this
+     */
     public function setDeliveryDateRange($earliest, $latest)
     {
         $this->deliveryDate = [self::dtmSegment(64, $earliest), self::dtmSegment(63, $latest)];
@@ -47,6 +75,9 @@ class Iftmin extends Message
 
     /**
      * $currency ISO 4217-3
+     * @param $price
+     * @param $currency
+     * @return \EDI\Generator\Iftmin
      */
     public function setAgreedAmount($price, $currency)
     {
@@ -57,6 +88,8 @@ class Iftmin extends Message
     /**
      * Free text instructions
      * $ftx Max 512*5 chars
+     * @param $ftx
+     * @return \EDI\Generator\Iftmin
      */
     public function setFreeTextInstructions($ftx)
     {
@@ -64,10 +97,13 @@ class Iftmin extends Message
         return $this;
     }
 
-    /*
+    /**
      * Estimated weight in tonnes
+     * @param $weight
+     * @return \EDI\Generator\Iftmin
      */
-    public function setEstimatedWeight($weight) {
+    public function setEstimatedWeight($weight)
+    {
         $this->weight = ['CNT', ['7', $weight, 'TNE']];
         $this->weightKg = ['MEA', 'WT', 'AET', ['KGM', $weight]];
         return $this;
@@ -76,6 +112,8 @@ class Iftmin extends Message
     /**
      * Cargo nature
      * $cargo DE 7085
+     * @param $cargo
+     * @return \EDI\Generator\Iftmin
      */
     public function setCargoNature($cargo)
     {
@@ -83,12 +121,22 @@ class Iftmin extends Message
         return $this;
     }
 
+    /**
+     * @param $adn
+     * @return $this
+     */
     public function setTransportOrderNumber($adn)
     {
         $this->transportOrderNumber = self::rffSegment('ADN', $adn);
         return $this;
     }
 
+    /**
+     * @param $booking
+     * @param string $bookingType
+     * @param null $sequence
+     * @return $this
+     */
     public function setBooking($booking, $bookingType = 'BN', $sequence = null)
     {
         $this->booking = self::rffSegment($bookingType, $booking);
@@ -98,9 +146,13 @@ class Iftmin extends Message
         return $this;
     }
 
-    /*
+    /**
      * Vessel call information
-     *
+     * @param $extVoyage
+     * @param $line
+     * @param $vslName
+     * @param $callsign
+     * @return \EDI\Generator\Iftmin
      */
     public function setVessel($extVoyage, $line, $vslName, $callsign)
     {
@@ -108,13 +160,19 @@ class Iftmin extends Message
         return $this;
     }
 
-    /*
+    /**
      * Consignee / Consignor
      *
      * $what = CN (Consignee) / CZ (Consignor)
      * $code = usually VAT
      * $name
      * $address
+     * @param $what
+     * @param $code
+     * @param $name
+     * @param $address
+     * @param $postalCode
+     * @return \EDI\Generator\Iftmin
      */
     public function setConsignment($what, $code, $name, $address, $postalCode)
     {
@@ -125,6 +183,13 @@ class Iftmin extends Message
         return $this;
     }
 
+    /**
+     * @param string|null $sMessageFunctionCode
+     * @param string|null $sDocumentNameCode
+     * @param string|null $sDocumentIdentifier
+     * @return \EDI\Generator\Message
+     * @throws \EDI\Generator\EdifactException
+     */
     public function compose(?string $sMessageFunctionCode = "5", ?string $sDocumentNameCode = "171", ?string $sDocumentIdentifier = null): parent
     {
         $this->messageContent = [
