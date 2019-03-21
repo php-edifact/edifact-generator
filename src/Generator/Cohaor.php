@@ -2,6 +2,10 @@
 
 namespace EDI\Generator;
 
+/**
+ * Class Cohaor
+ * @package EDI\Generator
+ */
 class Cohaor extends Message
 {
     protected $aSegmentGroups = [];
@@ -31,9 +35,8 @@ class Cohaor extends Message
     /**
      * Add Segment Group.
      *
-     * @param int   $iSegmentGroupNumber
-     * @param array $aSegment
-     *
+     * @param int $iSegmentGroupNumber
+     * @param $aSegments
      * @return self $this
      */
     public function addSegmentGroup($iSegmentGroupNumber, $aSegments): self
@@ -47,10 +50,11 @@ class Cohaor extends Message
      * Compose.
      *
      * @param mixed $sMessageFunctionCode (1225)
-     * @param mixed $sDocumentNameCode    (1001)
-     * @param mixed $sDocumentIdentifier  (1004)
+     * @param mixed $sDocumentNameCode (1001)
+     * @param mixed $sDocumentIdentifier (1004)
      *
-     * @return parent::compose()
+     * @return \EDI\Generator\Message ::compose()
+     * @throws \EDI\Generator\EdifactException
      */
     public function compose(?string $sMessageFunctionCode = null, ?string $sDocumentNameCode = null, ?string $sDocumentIdentifier = null): parent
     {

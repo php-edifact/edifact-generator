@@ -2,6 +2,10 @@
 
 namespace EDI\Generator\Iftmbf;
 
+/**
+ * Class Container
+ * @package EDI\Generator\Iftmbf
+ */
 class Container
 {
     private $goodsID;
@@ -10,15 +14,21 @@ class Container
     private $weightEq;
     private $shipContact;
 
+    /**
+     * Container constructor.
+     * @param $goodsID
+     */
     public function __construct($goodsID)
     {
         $this->goodsID = $goodsID;
     }
 
-    /*
+    /**
      * $size = 22G1, 42G1, etc; 306 = smdg, 6436 = ISO spec
      * $statusCode = 1 (Continental), 2 (Export), 3 (Import)
      * $fullEmptyIndicator = 4 (Empty), 5 (Full)
+     * @param $size
+     * @return \EDI\Generator\Iftmbf\Container
      */
     public function setContainer($size)
     {
@@ -27,8 +37,10 @@ class Container
         return $this;
     }
 
-    /*
+    /**
      * Add the array counter as id for this group
+     * @param $id
+     * @return \EDI\Generator\Iftmbf\Container
      */
     public function setGoodsID($id)
     {
@@ -37,8 +49,10 @@ class Container
         return $this;
     }
 
-    /*
+    /**
      * Goods description
+     * @param $description
+     * @return \EDI\Generator\Iftmbf\Container
      */
     public function setGoodsDescription($description)
     {
@@ -48,8 +62,11 @@ class Container
         return $this;
     }
 
-    /*
+    /**
      * Goods weight
+     * @param $weight
+     * @param string $unit
+     * @return \EDI\Generator\Iftmbf\Container
      */
     public function setWeight($weight, $unit = 'KGM')
     {
@@ -59,12 +76,17 @@ class Container
         return $this;
     }
 
-    /*
+    /**
      * Goods pick up location
      * $code Code identifying the pick up location
      * $name Company name (max 70 chars)
      * $address Address (max 105 chars)
      * $postalCode ZIP Code
+     * @param $code
+     * @param $name
+     * @param $address
+     * @param $postalCode
+     * @return \EDI\Generator\Iftmbf\Container
      */
     public function setShipFrom($code, $name, $address, $postalCode)
     {
@@ -76,6 +98,10 @@ class Container
         return $this;
     }
 
+    /**
+     * @param $date
+     * @return $this
+     */
     public function setShipDate($date)
     {
         $this->shipDate = self::dtmSegment(200, $date);
@@ -83,11 +109,16 @@ class Container
         return $this;
     }
 
-    /*
+    /**
      * $cntType: RP = responsible person (DE 3139)
      * $cntTitle: free text
      * $comData: free text
      * $comType: DE 3155
+     * @param $cntType
+     * @param $cntTitle
+     * @param null $comType
+     * @param null $comData
+     * @return \EDI\Generator\Iftmbf\Container
      */
     public function setShipContact($cntType, $cntTitle, $comType = null, $comData = null)
     {
@@ -100,6 +131,9 @@ class Container
         return $this;
     }
 
+    /**
+     * @return array
+     */
     public function composeGoods()
     {
         $composed = [
@@ -111,6 +145,9 @@ class Container
         return $composed;
     }
 
+    /**
+     * @return array
+     */
     public function composeEquipment()
     {
         $composed = [

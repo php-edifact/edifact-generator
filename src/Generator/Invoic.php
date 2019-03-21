@@ -79,6 +79,15 @@ class Invoic extends Message
     protected $taxAmount;
 
 
+    /**
+     * Invoic constructor.
+     * @param null $messageId
+     * @param string $identifier
+     * @param string $version
+     * @param string $release
+     * @param string $controllingAgency
+     * @param string $association
+     */
     public function __construct(
         $messageId = null,
         $identifier = 'INVOIC',

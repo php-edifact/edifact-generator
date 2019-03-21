@@ -8,6 +8,10 @@ use EDI\Generator\Interchange;
 use EDI\Generator\Invoic;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Class InvoicTest
+ * @package GeneratorTest
+ */
 final class InvoicTest extends TestCase
 {
 
@@ -138,6 +142,7 @@ final class InvoicTest extends TestCase
 
     /**
      * @return \DateTime
+     * @throws \Exception
      */
     private function getDateTime()
     {

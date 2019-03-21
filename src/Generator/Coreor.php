@@ -196,7 +196,7 @@ class Coreor extends Message
         return $this;
     }
 
-    /*
+    /**
      *
      */
     /**
@@ -210,7 +210,7 @@ class Coreor extends Message
         return $this;
     }
 
-    /*
+    /**
      * $line: Master Liner Codes List
      */
     /**
@@ -285,7 +285,8 @@ class Coreor extends Message
     /**
      * Weight information
      * $type = T (tare), AET (gross weight)
-     *
+     * @param $weight
+     * @return \EDI\Generator\Coreor
      */
     public function setTare($weight)
     {
@@ -308,6 +309,8 @@ class Coreor extends Message
     /**
      * $seal = free text
      * $sealIssuer = DE 9303
+     * @param $seal
+     * @return \EDI\Generator\Coreor
      */
     public function setSeal($seal)
     {
@@ -364,10 +367,11 @@ class Coreor extends Message
      * Compose.
      *
      * @param mixed $sMessageFunctionCode (1225)
-     * @param mixed $sDocumentNameCode    (1001)
-     * @param mixed $sDocumentIdentifier  (1004)
+     * @param mixed $sDocumentNameCode (1001)
+     * @param mixed $sDocumentIdentifier (1004)
      *
-     * @return parent::compose()
+     * @return \EDI\Generator\Message ::compose()
+     * @throws \EDI\Generator\EdifactException
      */
     public function compose(?string $sMessageFunctionCode = "9", ?string $sDocumentNameCode = "129", ?string $sDocumentIdentifier = null): parent
     {

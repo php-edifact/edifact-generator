@@ -8,6 +8,10 @@ use EDI\Generator\EdifactException;
 use EDI\Generator\Interchange;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Class DesadvTest
+ * @package GeneratorTest
+ */
 final class DesadvTest extends TestCase
 {
     public function testDeliverNoteNumber()
@@ -29,6 +33,10 @@ final class DesadvTest extends TestCase
         ], $array);
     }
 
+    /**
+     * @return \DateTime|false
+     * @throws \Exception
+     */
     private function getDateTime()
     {
         return (new \DateTime())

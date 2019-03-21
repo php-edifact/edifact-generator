@@ -8,6 +8,10 @@ use EDI\Generator\Interchange;
 use EDI\Generator\Orders;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Class OrdersTest
+ * @package GeneratorTest
+ */
 class OrdersTest extends TestCase
 {
     public function testOrders()

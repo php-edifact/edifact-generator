@@ -6,6 +6,10 @@ namespace GeneratorTest;
 use EDI\Generator\EdifactDate;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Class EdifactDateTest
+ * @package GeneratorTest
+ */
 class EdifactDateTest extends TestCase
 {
 

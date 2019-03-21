@@ -80,6 +80,10 @@ class Message extends Base
      * DTM segment
      * $type = 7 (actual date time), 132 (estimated date time), 137 (message date time), 798 (weight date time)
      * $format = 203 (CCYYMMDDHHII)
+     * @param $type
+     * @param $dtmString
+     * @param int $format
+     * @return array
      */
     public static function dtmSegment($type, $dtmString, $format = 203)
     {
@@ -90,6 +94,9 @@ class Message extends Base
      * RFF segment
      * $functionCode = DE 1153
      * $identifier = max 35 alphanumeric chars
+     * @param $functionCode
+     * @param $identifier
+     * @return array
      */
     public static function rffSegment($functionCode, $identifier)
     {
@@ -101,6 +108,10 @@ class Message extends Base
      * $qualifier = DE 3227
      * $firstLoc = preferred [locode, 139, 6]
      * $secondaryLoc = preferred [locode, 139, 6] (if needed)
+     * @param $qualifier
+     * @param $firstLoc
+     * @param null $secondaryLoc
+     * @return array
      */
     public static function locSegment($qualifier, $firstLoc, $secondaryLoc = null)
     {
@@ -120,6 +131,13 @@ class Message extends Base
      * $supplier = DE 8077, but usually empty
      * $statusCode = DE 8249
      * $fullEmptyIndicatorCode = DE 8169
+     * @param $eqpType
+     * @param $eqpIdentification
+     * @param $dimension
+     * @param null $supplier
+     * @param null $statusCode
+     * @param null $fullEmptyIndicatorCode
+     * @return array
      */
     public static function eqdSegment($eqpType, $eqpIdentification, $dimension, $supplier = null, $statusCode = null, $fullEmptyIndicatorCode = null)
     {
@@ -147,6 +165,15 @@ class Message extends Base
      * $transitDirection = DE 8101 (not used)
      * $$excessTransportation = DE 8457 (not used)
      * $transportationIdentification
+     * @param $stageQualifier
+     * @param $journeyIdentifier
+     * @param $modeOfTransport
+     * @param $transportMeans
+     * @param $carrier
+     * @param $transitDirection
+     * @param $excessTransportation
+     * @param $transportationIdentification
+     * @return array
      */
     public static function tdtSegment($stageQualifier, $journeyIdentifier, $modeOfTransport, $transportMeans, $carrier, $transitDirection, $excessTransportation, $transportationIdentification)
     {

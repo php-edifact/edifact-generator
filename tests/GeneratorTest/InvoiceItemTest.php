@@ -6,6 +6,10 @@ use EDI\Encoder;
 use EDI\Generator\Invoic\Item;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Class InvoicItemTest
+ * @package Generator
+ */
 class InvoicItemTest extends TestCase{
 
 

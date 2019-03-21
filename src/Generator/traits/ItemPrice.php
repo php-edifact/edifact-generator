@@ -4,6 +4,10 @@ namespace EDI\Generator\Traits;
 use EDI\Generator\EdiFactNumber;
 
 
+/**
+ * Trait ItemPrice
+ * @package EDI\Generator\Traits
+ */
 trait ItemPrice {
 
     /** @var array */
@@ -43,12 +47,13 @@ trait ItemPrice {
 
     /**
      * @param string $grossPrice
-     * @return Item
+     * @return \EDI\Generator\Traits\ItemPrice
      */
     public function setGrossPrice($grossPrice)
     {
         $this->grossPrice = self::addPRISegment('GRP', $grossPrice);
         $this->addKeyToCompose('grossPrice');
+
         return $this;
     }
 
@@ -62,12 +67,13 @@ trait ItemPrice {
 
     /**
      * @param string $netPrice
-     * @return Item
+     * @return \EDI\Generator\Traits\ItemPrice
      */
     public function setNetPrice($netPrice)
     {
         $this->netPrice = self::addPRISegment('NTP', $netPrice);
         $this->addKeyToCompose('netPrice');
+
         return $this;
     }
 }

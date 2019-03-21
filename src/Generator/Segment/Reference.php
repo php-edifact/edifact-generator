@@ -22,7 +22,7 @@ class Reference extends Segment
     /**
      * Set Reference Code Qualifier.
      *
-     * @param int $sReferenceCodeQualifier (1153)
+     * @param string $sReferenceCodeQualifier (1153)
      *
      * @return self $this
      */
@@ -36,7 +36,7 @@ class Reference extends Segment
     /**
      * Set Reference Identifier.
      *
-     * @param int $sReferenceIdentifier (1154)
+     * @param string $sReferenceIdentifier (1154)
      *
      * @return self $this
      */
@@ -50,7 +50,7 @@ class Reference extends Segment
     /**
      * Set Document Line Identifier.
      *
-     * @param int $sDocumentLineIdentifier (1156)
+     * @param string $sDocumentLineIdentifier (1156)
      *
      * @return self $this
      */
@@ -64,7 +64,7 @@ class Reference extends Segment
     /**
      * Set Version Identifier.
      *
-     * @param int $sVersionIdentifier (1056)
+     * @param string $sVersionIdentifier (1056)
      *
      * @return self $this
      */
@@ -78,7 +78,7 @@ class Reference extends Segment
     /**
      * Set Revision Identifier.
      *
-     * @param int $sRevisionIdentifier (1060)
+     * @param string $sRevisionIdentifier (1060)
      *
      * @return self $this
      */

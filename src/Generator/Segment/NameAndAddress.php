@@ -105,7 +105,7 @@ class NameAndAddress extends Segment
     /**
      * Set Party Name Format Code.
      *
-     * @param array $sPartyNameFormatCode (3045)
+     * @param string $sPartyNameFormatCode (3045)
      *
      * @return self $this
      */

@@ -63,10 +63,9 @@ trait Item
       'deliveryNotePosition',
     ];
 
-  /**
-   * @return array
-   * @throws \EDI\Generator\EdifactException
-   */
+    /**
+     * @return array
+     */
   public function compose()
   {
     return $this->composeByKeys($this->composeKeys);
@@ -110,13 +109,12 @@ trait Item
     return $this->quantity;
   }
 
-  /**
-   * @param string $quantity
-   * @param        $unit
-   *
-   * @return Item
-   * @throws \EDI\Generator\EdifactException
-   */
+    /**
+     * @param string $quantity
+     * @param string $unit
+     *
+     * @return Item
+     */
   public function setQuantity($quantity, $unit = 'PCE')
   {
     $this->isAllowed(
@@ -309,9 +307,8 @@ trait Item
    * @param string $orderDate
    *
    * @return Item
-   * @throws \EDI\Generator\EdifactException
    */
-  public function setOrderDate($orderDate)
+    public function setOrderDate($orderDate)
   {
     $this->orderDate = $this->addDTMSegment($orderDate, '4');
 

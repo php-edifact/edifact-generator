@@ -2,6 +2,10 @@
 
 namespace EDI\Generator;
 
+/**
+ * Class Codeco
+ * @package EDI\Generator
+ */
 class Codeco extends Message
 {
     private $sender;
@@ -33,7 +37,9 @@ class Codeco extends Message
     }
 
     /**
-     *
+     * @param $sender
+     * @param $receiver
+     * @return \EDI\Generator\Codeco
      */
     public function setSenderAndReceiver($sender, $receiver)
     {
@@ -45,6 +51,8 @@ class Codeco extends Message
 
     /**
      * $line: Master Liner Codes List
+     * @param $line
+     * @return \EDI\Generator\Codeco
      */
     public function setCarrier($line)
     {
@@ -53,6 +61,10 @@ class Codeco extends Message
         return $this;
     }
 
+    /**
+     * @param \EDI\Generator\Codeco\Container $container
+     * @return $this
+     */
     public function addContainer(Codeco\Container $container)
     {
         $this->containers[] = $container;
@@ -64,10 +76,11 @@ class Codeco extends Message
      * Compose.
      *
      * @param mixed $sMessageFunctionCode (1225)
-     * @param mixed $sDocumentNameCode    (1001)
-     * @param mixed $sDocumentIdentifier  (1004)
+     * @param mixed $sDocumentNameCode (1001)
+     * @param mixed $sDocumentIdentifier (1004)
      *
-     * @return parent::compose()
+     * @return \EDI\Generator\Message ::compose()
+     * @throws \EDI\Generator\EdifactException
      */
     public function compose(?string $sMessageFunctionCode = "5", ?string $sDocumentNameCode = "34", ?string $sDocumentIdentifier = null): parent
     {

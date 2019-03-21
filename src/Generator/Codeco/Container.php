@@ -2,6 +2,10 @@
 
 namespace EDI\Generator\Codeco;
 
+/**
+ * Class Container
+ * @package EDI\Generator\Codeco
+ */
 class Container
 {
     private $cntr;
@@ -17,10 +21,15 @@ class Container
     {
     }
 
-    /*
+    /**
      * $size = 22G1, 42G1, etc; 306 = smdg, 6436 = ISO spec
      * $statusCode = 1 (Continental), 2 (Export), 3 (Import)
      * $fullEmptyIndicator = 4 (Empty), 5 (Full)
+     * @param $number
+     * @param $size
+     * @param $statusCode
+     * @param $fullEmptyIndicator
+     * @return \EDI\Generator\Codeco\Container
      */
     public function setContainer($number, $size, $statusCode, $fullEmptyIndicator)
     {
@@ -29,8 +38,10 @@ class Container
         return $this;
     }
 
-    /*
-     *
+    /**
+     * @param $booking
+     * @param null $sequence
+     * @return \EDI\Generator\Codeco\Container
      */
     public function setBooking($booking, $sequence = null)
     {
@@ -39,8 +50,9 @@ class Container
         return $this;
     }
 
-    /*
-     *
+    /**
+     * @param $bl
+     * @return \EDI\Generator\Codeco\Container
      */
     public function setBillOfLading($bl)
     {
@@ -49,9 +61,12 @@ class Container
         return $this;
     }
 
-    /*
+    /**
      * $seal = free text
      * $sealIssuer = DE 9303
+     * @param $seal
+     * @param $sealIssuer
+     * @return \EDI\Generator\Codeco\Container
      */
     public function setSeal($seal, $sealIssuer)
     {
@@ -60,8 +75,10 @@ class Container
         return $this;
     }
 
-    /*
+    /**
      * Date of the equipment event
+     * @param null $date
+     * @return \EDI\Generator\Codeco\Container
      */
     public function setEffectiveDate($date = null)
     {
@@ -73,9 +90,12 @@ class Container
         return $this;
     }
 
-    /*
+    /**
      * $transportMode = DE 8067 (2 = rail, 3 = road)
      * $transportMeans = DE 8179 (25 = train, 31 = truck)
+     * @param $transportMode
+     * @param $transportMeans
+     * @return \EDI\Generator\Codeco\Container
      */
     public function setModeOfTransport($transportMode, $transportMeans)
     {
@@ -84,8 +104,10 @@ class Container
         return $this;
     }
 
-    /*
+    /**
      * $type = 165 (place of delivery)
+     * @param $locode
+     * @return \EDI\Generator\Codeco\Container
      */
     public function setLocation($locode)
     {
@@ -94,10 +116,12 @@ class Container
         return $this;
     }
 
-    /*
+    /**
      * Weight information
      * $type = G (gross mass), VGM (verified gross mass)
-     *
+     * @param $type
+     * @param $weight
+     * @return \EDI\Generator\Codeco\Container
      */
     public function setWeight($type, $weight)
     {
@@ -106,6 +130,9 @@ class Container
         return $this;
     }
 
+    /**
+     * @return array
+     */
     public function compose()
     {
         $composed = [$this->cntr];

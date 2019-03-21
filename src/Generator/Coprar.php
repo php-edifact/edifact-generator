@@ -2,6 +2,10 @@
 
 namespace EDI\Generator;
 
+/**
+ * Class Coprar
+ * @package EDI\Generator
+ */
 class Coprar extends Message
 {
     private $vessel;
@@ -34,8 +38,10 @@ class Coprar extends Message
             $sMessageControllingAgencyCoded, $sMessageReferenceNumber, $sAssociationAssignedCode);
     }
 
-    /*
+    /**
      * $line: Master Liner Codes List
+     * @param $line
+     * @return \EDI\Generator\Coprar
      */
     public function setCarrier($line)
     {
@@ -44,9 +50,13 @@ class Coprar extends Message
         return $this;
     }
 
-    /*
+    /**
      * Vessel call information
-     *
+     * @param $extVoyage
+     * @param $line
+     * @param $vslName
+     * @param $callsign
+     * @return \EDI\Generator\Coprar
      */
     public function setVessel($extVoyage, $line, $vslName, $callsign)
     {
@@ -56,8 +66,12 @@ class Coprar extends Message
         return $this;
     }
 
-    /*
+    /**
      * $type = 9 (port of loading), 11 (port of discharge)
+     * @param $type
+     * @param $locode
+     * @param null $terminal
+     * @return \EDI\Generator\Coprar
      */
     public function setPort($type, $locode, $terminal = null)
     {
@@ -70,9 +84,10 @@ class Coprar extends Message
         return $this;
     }
 
-    /*
+    /**
      * Estimated Time of Arrival
-     *
+     * @param $dtm
+     * @return \EDI\Generator\Coprar
      */
     public function setEta($dtm)
     {
@@ -81,9 +96,10 @@ class Coprar extends Message
         return $this;
     }
 
-    /*
+    /**
      * Estimated Time of Departure
-     *
+     * @param $dtm
+     * @return \EDI\Generator\Coprar
      */
     public function setEtd($dtm)
     {
@@ -92,6 +108,10 @@ class Coprar extends Message
         return $this;
     }
 
+    /**
+     * @param \EDI\Generator\Coprar\Container $container
+     * @return $this
+     */
     public function addContainer(Coprar\Container $container)
     {
         $this->containers[] = $container;
@@ -99,6 +119,10 @@ class Coprar extends Message
         return $this;
     }
 
+    /**
+     * @param $container
+     * @return $this
+     */
     public function addContainerSegments($container)
     {
         $this->containers[] = $container;
@@ -110,10 +134,11 @@ class Coprar extends Message
      * Compose.
      *
      * @param mixed $sMessageFunctionCode (1225)
-     * @param mixed $sDocumentNameCode    (1001)
-     * @param mixed $sDocumentIdentifier  (1004)
+     * @param mixed $sDocumentNameCode (1001)
+     * @param mixed $sDocumentIdentifier (1004)
      *
-     * @return parent::compose()
+     * @return \EDI\Generator\Message ::compose()
+     * @throws \EDI\Generator\EdifactException
      */
     public function compose(?string $sMessageFunctionCode = "9", ?string $sDocumentNameCode = "45", ?string $sDocumentIdentifier = null): parent
     {

@@ -25,7 +25,6 @@ trait TransportData
      * @param string $trackingCode
      * @param int $type
      * @return self
-     * @throws EdifactException
      */
     public function setTransportData($trackingCode, $type = 30)
     {

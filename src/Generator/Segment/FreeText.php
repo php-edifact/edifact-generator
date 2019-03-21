@@ -88,6 +88,7 @@ class FreeText extends Segment
      * Set Text Literal (C108).
      *
      * @param array $aTextLiteral (4440)
+     * @return \EDI\Generator\Segment\FreeText
      */
     public function setTextLiteral(array $aTextLiteral): self
     {
