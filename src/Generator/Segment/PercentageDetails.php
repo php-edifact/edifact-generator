@@ -13,7 +13,7 @@ class PercentageDetails extends Segment
 {
     const SEGMENT_NAME = 'PCD';
 
-    protected $aPercentageDetails;
+    protected $aPercentageDetails = [];
     protected $sStatusDescriptionCode;
 
     /**
