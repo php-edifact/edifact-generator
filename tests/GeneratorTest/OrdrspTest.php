@@ -70,7 +70,7 @@ class OrdrspTest extends TestCase
         $message = str_replace("'", "'\n", $encoder->get());
 //        fwrite(STDOUT, "\n\nORDRSP\n" . $message);
 
-        $this->assertContains('UNT+11', $message);
+        $this->assertStringContainsString('UNT+11', $message);
     }
 
 
