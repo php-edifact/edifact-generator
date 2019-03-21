@@ -14,6 +14,7 @@ class Container
     private $seal;
     private $cargo;
     private $dangerous;
+    private $dgsAac;
     private $temperature;
     private $dimensions;
     private $containerOperator;
@@ -164,6 +165,13 @@ class Container
         return $this;
     }
 
+    public function setDangerousAdditionalInfo($addInfo)
+    {
+        $this->dgsAac = ['FTX', 'AAC', '', '', $addInfo];
+
+        return $this;
+    }
+
     public function setTemperature($setDegrees)
     {
         $this->temperature = ['TMP', '2', [$setDegrees, 'CEL']];
@@ -238,6 +246,9 @@ class Container
             foreach ($this->dangerous as $segment) {
                 $composed[] = $segment;
             }
+        }
+        if ($this->dgsAac !== null) {
+            $composed[] = $this->dgsAac;
         }
         $composed[] = $this->containerOperator;
 
