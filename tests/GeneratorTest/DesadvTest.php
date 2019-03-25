@@ -172,12 +172,12 @@ final class DesadvTest extends TestCase
             $message = str_replace("'", "'\n", $encoder->get());
             //fwrite(STDOUT, "\n\nDESADV\n" . $message);
 
-            $this->assertContains('UNT+15', $message);
-            $this->assertContains('DTM+137', $message);
-            $this->assertContains('DTM+11', $message);
-            $this->assertContains('DTM+17', $message);
-            $this->assertContains('CTA++', $message);
-            $this->assertContains('COM+', $message);
+            $this->assertStringContainsString('UNT+15', $message);
+            $this->assertStringContainsString('DTM+137', $message);
+            $this->assertStringContainsString('DTM+11', $message);
+            $this->assertStringContainsString('DTM+17', $message);
+            $this->assertStringContainsString('CTA++', $message);
+            $this->assertStringContainsString('COM+', $message);
         } catch (EdifactException $e) {
             fwrite(STDOUT, "\n\nDESADV\n" . $e->getMessage());
         }

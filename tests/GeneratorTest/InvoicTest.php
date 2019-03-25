@@ -132,7 +132,7 @@ final class InvoicTest extends TestCase
             $message = str_replace("'", "'\n", $encoder->get());
 //            fwrite(STDOUT, "\n\nINVOICE\n" . $message);
 
-            $this->assertContains('UNT+40', $message);
+            $this->assertStringContainsString('UNT+40', $message);
         } catch (EdifactException $e) {
             fwrite(STDOUT, "\n\nINVOICE\n" . $e->getMessage());
         }

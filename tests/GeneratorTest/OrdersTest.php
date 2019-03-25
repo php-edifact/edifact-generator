@@ -68,7 +68,7 @@ class OrdersTest extends TestCase
             $message = str_replace("'", "'\n", $encoder->get());
             //fwrite(STDOUT, "\n\nORDERS\n" . $message);
 
-            $this->assertContains('UNT+22', $message);
+            $this->assertStringContainsString('UNT+22', $message);
         } catch (EdifactException $e) {
             fwrite(STDOUT, "\n\nORDERS\n" . $e->getMessage());
         }
@@ -173,7 +173,7 @@ class OrdersTest extends TestCase
             $message = str_replace("'", "'\n", $encoder->get());
             //fwrite(STDOUT, "\n\nORDERS\n" . $message);
 
-            $this->assertContains('UNT+26', $message);
+            $this->assertStringContainsString('UNT+26', $message);
         } catch (EdifactException $e) {
             fwrite(STDOUT, "\n\nORDERS\n" . $e->getMessage());
         }
