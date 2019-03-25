@@ -6,13 +6,14 @@ use EDI\Generator\EdiFactNumber;
 
 /**
  * Trait ItemPrice
+ * @url http://www.unece.org/trade/untdid/d96b/uncl/uncl5125.htm
  * @package EDI\Generator\Traits
  */
 trait ItemPrice
 {
-
     /** @var array */
     protected $grossPrice;
+
     /** @var array */
     protected $netPrice;
 
@@ -32,7 +33,7 @@ trait ItemPrice
                 EdiFactNumber::convert($value),
                 '',
                 '',
-                $priceBase,
+                (string)$priceBase,
                 $priceBaseUnit
             ]
         ];
@@ -48,11 +49,11 @@ trait ItemPrice
 
     /**
      * @param string $grossPrice
-     * @return \EDI\Generator\Traits\ItemPrice
+     * @return $this
      */
     public function setGrossPrice($grossPrice)
     {
-        $this->grossPrice = self::addPRISegment('GRP', $grossPrice);
+        $this->grossPrice = self::addPRISegment('AAB', $grossPrice);
         $this->addKeyToCompose('grossPrice');
 
         return $this;
@@ -68,11 +69,11 @@ trait ItemPrice
 
     /**
      * @param string $netPrice
-     * @return \EDI\Generator\Traits\ItemPrice
+     * @return $this
      */
     public function setNetPrice($netPrice)
     {
-        $this->netPrice = self::addPRISegment('NTP', $netPrice);
+        $this->netPrice = self::addPRISegment('AAA', $netPrice);
         $this->addKeyToCompose('netPrice');
 
         return $this;

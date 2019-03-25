@@ -68,7 +68,112 @@ class OrdersTest extends TestCase
             $message = str_replace("'", "'\n", $encoder->get());
             //fwrite(STDOUT, "\n\nORDERS\n" . $message);
 
-            $this->assertstringContainsString('UNT+20', $message);
+            $this->assertStringContainsString('UNT+22', $message);
+        } catch (EdifactException $e) {
+            fwrite(STDOUT, "\n\nORDERS\n" . $e->getMessage());
+        }
+    }
+
+    public function testOrders96AEancom()
+    {
+        $interchange = new Interchange(
+            'UNB-Identifier-Sender',
+            'UNB-Identifier-Receiver',
+            null,
+            null,
+            'Control1'
+        );
+        $interchange
+            ->setCharset('UNOA', '2');
+        $orders = new Orders(null, 'ORDERS', 'D', '96A', 'UN', 'EAN008');
+
+        try {
+            $orders
+                ->setDeliveryDate(new \DateTime())
+                ->setDocumentDate(new \DateTime())
+                ->setDeliveryDateLatest(new \DateTime())
+                ->setDeliveryDateEarliest(new \DateTime())
+                ->setBuyerAddress(
+                    'Supplier 123'
+                )
+                ->setSupplierAddress(
+                    'Napp',
+                    '',
+                    '',
+                    'Vestagervej 1',
+                    '2100',
+                    'Copenhagen',
+                    'DK',
+                    '9'
+                )
+                ->setDeliveryPartyAddress(
+                    'Jens Jensen'
+                )
+                ->setInvoiceAddress(
+                    'Customer Name 1',
+                    '',
+                    '',
+                    'Streetname 22',
+                    '2200',
+                    'cph',
+                    'DK'
+                )
+                ->setVatNumber('DK22003344')
+                ->setCurrency('EUR')
+                ->setOrderNumber('AB76104')
+                ->setDeliveryAddress(
+                    'Customer Name 1',
+                    '',
+                    '',
+                    'Streetname 22',
+                    '2200',
+                    'cph',
+                    'DK'
+                )
+                ->setDeliveryTerms('CAF');
+
+            $item = new Orders\Item();
+            $item
+                ->setPosition(
+                    '1',
+                    '8290123',
+                    'EN'
+                )
+                ->setQuantity('3')
+                ->setNetPrice(1222);
+            $orders->addItem($item);
+
+            $item = new Orders\Item();
+            $item
+                ->setPosition(
+                    '2',
+                    '313122',
+                    'EN'
+                )
+                ->setQuantity('213')
+                ->setGrossPrice(22.12);
+            $orders->addItem($item);
+
+            $item = new Orders\Item();
+            $item
+                ->setPosition(
+                    '3',
+                    '44557711qa',
+                    'EN'
+                )
+                ->setQuantity('1')
+                ->setGrossPrice(99);
+            $orders->addItem($item);
+
+
+            $orders->compose();
+            $encoder = new Encoder($interchange->addMessage($orders)->getComposed(), true);
+            $encoder->setUNA(":+,? '");
+
+            $message = str_replace("'", "'\n", $encoder->get());
+            //fwrite(STDOUT, "\n\nORDERS\n" . $message);
+
+            $this->assertStringContainsString('UNT+26', $message);
         } catch (EdifactException $e) {
             fwrite(STDOUT, "\n\nORDERS\n" . $e->getMessage());
         }

@@ -11,4 +11,5 @@ use EDI\Generator\Base;
 class Item extends Base
 {
     use \EDI\Generator\Traits\Item;
+    use \EDI\Generator\Traits\ItemPrice;
 }

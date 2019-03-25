@@ -8,5 +8,6 @@ _ide_helper.php
 coverage
 coverage.xml
 phpunit.local.xml
+.phpunit.result.cache
 composer.lock
 /tests/_output

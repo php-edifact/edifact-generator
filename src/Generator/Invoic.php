@@ -5,6 +5,7 @@ namespace EDI\Generator;
 use EDI\Generator\Invoic\Item;
 use EDI\Generator\Traits\ContactPerson;
 use EDI\Generator\Traits\NameAndAddress;
+use EDI\Generator\traits\VatAndCurrency;
 
 /**
  * Class Invoic
@@ -13,9 +14,7 @@ use EDI\Generator\Traits\NameAndAddress;
  */
 class Invoic extends Message
 {
-    use
-        ContactPerson,
-        NameAndAddress;
+    use ContactPerson, NameAndAddress, VatAndCurrency;
 
     const TYPE_INVOICE = '380';
     const TYPE_CREDIT_NOTE = '381';
@@ -34,13 +33,7 @@ class Invoic extends Message
     /** @var array */
     protected $reductionOfFeesText;
     /** @var array */
-    protected $excludingVatText;
-    /** @var array */
     protected $invoiceDescription;
-    /** @var array */
-    protected $vatNumber;
-    /** @var array */
-    protected $currency;
 
     /** @var array */
     protected $composeKeys = [
@@ -229,23 +222,7 @@ class Invoic extends Message
         return $this;
     }
 
-    /**
-     * @return array
-     */
-    public function getExcludingVatText()
-    {
-        return $this->excludingVatText;
-    }
 
-    /**
-     * @param string $excludingVatText
-     * @return Invoic
-     */
-    public function setExcludingVatText($excludingVatText)
-    {
-        $this->excludingVatText = self::addFTXSegment($excludingVatText, 'OSI', 'ROU');
-        return $this;
-    }
 
     /**
      * @return array
@@ -264,49 +241,6 @@ class Invoic extends Message
         $this->invoiceDescription = self::addFTXSegment($invoiceDescription, 'OSI');
         return $this;
     }
-
-    /**
-     * @return array
-     */
-    public function getVatNumber()
-    {
-        return $this->vatNumber;
-    }
-
-    /**
-     * @param string $vatNumber
-     * @return Invoic
-     */
-    public function setVatNumber($vatNumber)
-    {
-        $this->vatNumber = self::addRFFSegment('VA', str_replace(' ', '', $vatNumber));
-        return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function getCurrency()
-    {
-        return $this->currency;
-    }
-
-    /**
-     * @param string $currency
-     * @return Invoic
-     */
-    public function setCurrency($currency = 'EUR')
-    {
-        $this->currency = [
-            'CUX',
-            [
-                '2',
-                $currency
-            ]
-        ];
-        return $this;
-    }
-
 
     /**
      * @return Invoic

@@ -43,7 +43,7 @@ final class InvoicTest extends TestCase
     public function testCurrency()
     {
         $this->assertEquals(
-            'CUX+2:EUR\'',
+            'CUX+2:EUR:9\'',
             (new Encoder([
                 (new Invoic)->setCurrency()->getCurrency()]))->get()
         );
