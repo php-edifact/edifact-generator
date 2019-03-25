@@ -6,6 +6,7 @@ use EDI\Generator\Orders\Item;
 use EDI\Generator\Traits\ContactPerson;
 use EDI\Generator\Traits\NameAndAddress;
 use EDI\Generator\Traits\TransportData;
+use EDI\Generator\traits\VatAndCurrency;
 
 /**
  * Class Orders
@@ -16,44 +17,78 @@ class Orders extends Message
 {
     use ContactPerson,
         NameAndAddress,
-        TransportData;
+        TransportData,
+        VatAndCurrency;
 
     /** @var array */
     protected $orderNumber;
+
     /** @var array */
     protected $orderDate;
+
+    /** @var array */
+    protected $documentDate;
+
     /** @var array */
     protected $deliveryDate;
+
+    /** @var array */
+    protected $deliveryDateLatest;
+
+    /** @var array */
+    protected $deliveryDateEarliest;
+
     /** @var array */
     protected $collectiveOrderNumber;
+
     /** @var array */
     protected $internalIdentifier;
+
     /** @var array */
     protected $objectNumber;
+
     /** @var array */
     protected $objectDescription1;
+
     /** @var array */
     protected $objectDescription2;
+
     /** @var array */
     protected $orderDescription;
+
     /** @var array */
     protected $orderNotification;
+
     /** @var array */
     protected $deliveryTerms;
 
     /** @var array */
     protected $items;
 
+    /** @var array */
     protected $composeKeys = [
         'orderNumber',
         'orderDate',
+        'documentDate',
         'deliveryDate',
+        'deliveryDateLatest',
+        'deliveryDateEarliest',
+        'buyerAddress',
+        'consigneeAddress',
+        'deliveryPartyAddress',
+        'messageRecipientAddress',
+        'documentMessageSenderAddress',
+        'storeKeeperAddress',
+        'invoiceAddress',
+        'supplierAddress',
         'orderDescription',
         'orderNotification',
         'internalIdentifier',
         'objectNumber',
         'objectDescription1',
         'objectDescription2',
+        'vatNumber',
+        'currency',
         'manufacturerAddress',
         'wholesalerAddress',
         'contactPerson',
@@ -64,7 +99,6 @@ class Orders extends Message
         'transportData',
         'deliveryTerms',
     ];
-
 
     /**
      * Orders constructor.
@@ -117,6 +151,10 @@ class Orders extends Message
             }
         }
 
+        // Segment Group 11 : Separator & Control Total
+        $this->messageContent[] = ['UNS', 'S'];
+        $this->messageContent[] = ['CNT', '2', (string)count($this->items)];
+
         parent::compose();
         return $this;
     }
@@ -151,7 +189,7 @@ class Orders extends Message
             '248',
             '447'
         ]);
-        $this->orderNumber = ['BGM', $documentType, $orderNumber];
+        $this->orderNumber = ['BGM', $documentType, $orderNumber, '9'];
         return $this;
     }
 
@@ -177,6 +215,26 @@ class Orders extends Message
     /**
      * @return array
      */
+    public function getDocumentDate()
+    {
+        return $this->documentDate;
+    }
+
+    /**
+     * @param string|\DateTime $documentDate
+     * @param int $formatQuantifier
+     * @return $this
+     * @throws \EDI\Generator\EdifactException
+     */
+    public function setDocumentDate($documentDate, $formatQuantifier = EdifactDate::DATETIME)
+    {
+        $this->documentDate = $this->addDTMSegment($documentDate, '137', $formatQuantifier);
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
     public function getDeliveryDate()
     {
         return $this->deliveryDate;
@@ -184,14 +242,57 @@ class Orders extends Message
 
     /**
      * @param string|\DateTime $deliveryDate
+     * @param int $formatQuantifier
      * @return $this
-     * @throws EdifactException
+     * @throws \EDI\Generator\EdifactException
      */
-    public function setDeliveryDate($deliveryDate)
+    public function setDeliveryDate($deliveryDate, $formatQuantifier = EdifactDate::DATETIME)
     {
-        $this->deliveryDate = $this->addDTMSegment($deliveryDate, '2');
+        $this->deliveryDate = $this->addDTMSegment($deliveryDate, '2', $formatQuantifier);
         return $this;
     }
+
+    /**
+     * @return array
+     */
+    public function getDeliveryDateLatest()
+    {
+        return $this->deliveryDateLatest;
+    }
+
+    /**
+     * @param $deliveryDate
+     * @param int $formatQuantifier
+     * @return $this
+     * @throws \EDI\Generator\EdifactException
+     */
+    public function setDeliveryDateLatest($deliveryDate, $formatQuantifier = EdifactDate::DATETIME)
+    {
+        $this->deliveryDateLatest = $this->addDTMSegment($deliveryDate, '63', $formatQuantifier);
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getDeliveryDateEarliest()
+    {
+        return $this->deliveryDateEarliest;
+    }
+
+    /**
+     * @param string|\DateTime $deliveryDateEarliest
+     * @param int $formatQuantifier
+     * @return $this
+     * @throws \EDI\Generator\EdifactException
+     */
+    public function setDeliveryDateEarliest($deliveryDateEarliest, $formatQuantifier = EdifactDate::DATETIME)
+    {
+        $this->deliveryDateEarliest = $this->addDTMSegment($deliveryDateEarliest, '64', $formatQuantifier);
+        return $this;
+    }
+
+
 
     /**
      * @return array

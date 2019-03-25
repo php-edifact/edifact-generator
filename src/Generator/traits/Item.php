@@ -144,7 +144,6 @@ trait Item
             [
                 '12',
                 (string)$quantity,
-                //        EdiFactNumber::convert($quantity, 3, EdiFactNumber::DECIMAL_POINT),
                 $unit,
             ],
         ];
