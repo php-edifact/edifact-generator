@@ -164,7 +164,7 @@ UNT+31+M5C5201079DE48'
 UNZ+1+I5C5201079DADD'
 ```
 
-```
+
 CODECO
 ------
 Container move report. Multiple containers per message. Each message can be for gate in or for gate out.
@@ -335,7 +335,7 @@ COHAOR
 ------
 Container special handling order message
 
-```
+```php
 $oInterchange = (new \EDI\Generator\Interchange('ME', 'YOU'));
 
 $sMessageReferenceNumber = 'ROW' . str_pad(1, 11, 0, STR_PAD_LEFT);
@@ -489,4 +489,67 @@ RNG+5+CEL:10.00:15.00'
 CNT+16:1'
 UNT+12+ROW00000000001'
 UNZ+1+I5C51F7D31CFF8'
+```
+
+
+ORDERS
+------
+Purchase order. 
+
+```php
+$interchange = new \EDI\Generator\Interchange('UNB-Identifier-Sender','UNB-Identifier-Receiver');
+$interchange->setCharset('UNOC', '3');
+
+$orders = new \EDI\Generator\Orders();
+$orders
+    ->setOrderNumber('AB76104')
+    ->setContactPerson('John Doe')
+    ->setMailAddress('john.doe@company.com')
+    ->setPhoneNumber('+49123456789')
+    ->setDeliveryDate(new \DateTime())
+    ->setDeliveryAddress(
+        'Name 1',
+        'Name 2',
+        'Name 3',
+        'Street',
+        '99999',
+        'city',
+        'DE'
+    )
+    ->setDeliveryTerms('CAF');
+
+// adding order items
+$item = new \EDI\Generator\Orders\Item();
+$item->setPosition('1', '8290123', 'EN')->setQuantity(3);
+$orders->addItem($item);
+
+$item = new \EDI\Generator\Orders\Item();
+$item->setPosition('2', 'AB992233', 'EN')->setQuantity(1);
+$orders->addItem($item);
+
+$orders->compose();
+
+$encoder = new \EDI\Encoder($interchange->addMessage($orders)->getComposed(), true);
+$encoder->setUNA(":+,? '");
+echo $encoder->get();
+```
+
+```
+UNB+UNOC:3+UNB-Identifier-Sender+UNB-Identifier-Receiver+190325:1242+I5C98CCC536C91'
+UNH+M5C98CCC536CA2+ORDERS:D:96B:UN:ITEK35'
+BGM+120+AB76104+9'
+DTM+2:201903251242:203'
+CTA++:John Doe'
+COM+john.doe@company.com:EM'
+COM+?+49123456789:TE'
+NAD+ST+::ZZZ++Name 1:Name 2:Name 3+Street+city++99999+DE'
+TOD+6++CAF'
+LIN+1++8290123:EN'
+QTY+12:3:PCE'
+LIN+2++AB992233:EN'
+QTY+12:1:PCE'
+UNS+S'
+CNT+2+2'
+UNT+15+M5C98CCC536CA2'
+UNZ+1+I5C98CCC536C91'
 ```
