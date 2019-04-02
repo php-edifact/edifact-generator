@@ -27,6 +27,12 @@ class Orders extends Message
     protected $orderDate;
 
     /** @var array */
+    protected $orderContact;
+
+    /** @var array */
+    protected $purchasingContact;
+
+    /** @var array */
     protected $documentDate;
 
     /** @var array */
@@ -37,6 +43,9 @@ class Orders extends Message
 
     /** @var array */
     protected $deliveryDateEarliest;
+
+    /** @var array */
+    protected $accountNumber;
 
     /** @var array */
     protected $collectiveOrderNumber;
@@ -73,6 +82,11 @@ class Orders extends Message
         'deliveryDate',
         'deliveryDateLatest',
         'deliveryDateEarliest',
+        'orderDescription',
+        'orderNotification',
+        'accountNumber',
+        'orderContact',
+        'purchasingContact',
         'buyerAddress',
         'consigneeAddress',
         'deliveryPartyAddress',
@@ -81,8 +95,6 @@ class Orders extends Message
         'storeKeeperAddress',
         'invoiceAddress',
         'supplierAddress',
-        'orderDescription',
-        'orderNotification',
         'internalIdentifier',
         'objectNumber',
         'objectDescription1',
@@ -215,6 +227,44 @@ class Orders extends Message
     /**
      * @return array
      */
+    public function getOrderContact()
+    {
+        return $this->orderContact;
+    }
+
+    /**
+     * @param string $name
+     * @param string $identifier
+     * @return Orders
+     */
+    public function setOrderContact($name, $identifier = '')
+    {
+        $this->orderContact = ['CTA', 'OC', [$identifier, $name]];
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPurchasingContact()
+    {
+        return $this->purchasingContact;
+    }
+
+    /**
+     * @param string $name
+     * @param string $identifier
+     * @return Orders
+     */
+    public function setPurchasingContact($name, $identifier = '')
+    {
+        $this->purchasingContact = ['CTA', 'PD', [$identifier, $name]];
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
     public function getDocumentDate()
     {
         return $this->documentDate;
@@ -292,7 +342,24 @@ class Orders extends Message
         return $this;
     }
 
+    /**
+     * @param $accountNumber
+     * @return Orders
+     * @throws \EDI\Generator\EdifactException
+     */
+    public function setAccountNumber($accountNumber)
+    {
+        $this->accountNumber = $this->addRFFSegment('ADE', $accountNumber);
+        return $this;
+    }
 
+    /**
+     * @return array
+     */
+    public function getAccountNumber()
+    {
+        return $this->accountNumber;
+    }
 
     /**
      * @return array
@@ -442,7 +509,7 @@ class Orders extends Message
     {
         $this->isAllowed(
             $deliveryTerms,
-            ['CAF', 'DDP', 'DAF', 'FCA', 'CAI', 'ZZZ']
+            ['CAF', 'CIP', 'CPT', 'DDP', 'DAF', 'FCA', 'CAI', 'ZZZ']
         );
         $this->deliveryTerms = ['TOD', '6', '', $deliveryTerms];
         return $this;
