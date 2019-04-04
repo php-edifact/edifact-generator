@@ -63,8 +63,6 @@ class Ordrsp extends Message
       'transportDocumentNumber',
       'beneficiaryReference',
       'beneficiaryReference2',
-      'allowanceOrCharge',
-      'allowanceOrChargeMoa',
       'orderInstruction',
       'manufacturerAddress',
       'manufacturerAddressContactPerson',
@@ -81,6 +79,8 @@ class Ordrsp extends Message
       'deliveryAddressMailAddress',
       'deliveryAddressPhoneNumber',
       'deliveryAddressFaxNumber',
+      'allowanceOrCharge',
+      'allowanceOrChargeMoa',
       'positionSeparator',
     ];
 
@@ -383,12 +383,11 @@ class Ordrsp extends Message
   {
     $this->allowanceOrCharge = [
       'ALC',
-      '',
       floatval($value) > 0 ? 'C' : 'A',
       '',
       '',
       '',
-      'SF',
+      'DL',
     ];
 
     $this->allowanceOrChargeMoa = self::addMOASegment('8', abs($value));
