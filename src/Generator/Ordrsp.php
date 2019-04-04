@@ -44,6 +44,10 @@ class Ordrsp extends Message
   protected $beneficiaryReference;
   /** @var array */
   protected $beneficiaryReference2;
+  /** @var array */
+  protected $allowanceOrCharge;
+  /** @var array */
+  protected $allowanceOrChargeMoa;
 
   /** @var array */
   protected $items = [];
@@ -59,6 +63,8 @@ class Ordrsp extends Message
       'transportDocumentNumber',
       'beneficiaryReference',
       'beneficiaryReference2',
+      'allowanceOrCharge',
+      'allowanceOrChargeMoa',
       'orderInstruction',
       'manufacturerAddress',
       'manufacturerAddressContactPerson',
@@ -359,5 +365,35 @@ class Ordrsp extends Message
     $this->beneficiaryReference2 = self::addRFFSegment('AFP', $beneficiaryReference2);
     return $this;
   }
+
+  /**
+   * @return array
+   */
+  public function getAllowanceOrCharge()
+  {
+    return $this->allowanceOrCharge;
+  }
+
+  /**
+   * @param float $value
+   *
+   * @return Ordrsp
+   */
+  public function setAllowanceOrCharge($value)
+  {
+    $this->allowanceOrCharge = [
+      'ALC',
+      '',
+      floatval($value) > 0 ? 'C' : 'A',
+      '',
+      '',
+      '',
+      'SF',
+    ];
+
+    $this->allowanceOrChargeMoa = self::addMOASegment('8', abs($value));
+    return $this;
+  }
+
 
 }
