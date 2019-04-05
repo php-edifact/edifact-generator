@@ -185,22 +185,46 @@ class Orders extends Message
      * @return Orders
      * @throws EdifactException
      */
-    public function setOrderNumber($orderNumber, $documentType = '120')
+    public function setOrderNumber($orderNumber, $documentType = '220')
     {
         $this->isAllowed($documentType, [
             '120',
+            '126',
             '220',
             '221',
+            '224',
+            '225',
             '226',
             '227',
             '228',
-            '126',
+            '248',
+            '258',
+            '348',
+            '350',
+            '400',
+            '401',
+            '402',
+            '447',
+            '452',
             'YA8',
             'YS8',
             'YK8',
-            '248',
-            '447'
+            '22B',
+            '22E',
+            '23E'
         ]);
+        $this->orderNumber = ['BGM', $documentType, $orderNumber, '9'];
+        return $this;
+    }
+
+    /**
+     * Order number without documentType validation
+     * @param $orderNumber
+     * @param string $documentType
+     * @return $this
+     */
+    public function setCustomOrderNumber($orderNumber, $documentType = '220')
+    {
         $this->orderNumber = ['BGM', $documentType, $orderNumber, '9'];
         return $this;
     }
