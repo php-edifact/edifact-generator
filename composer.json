@@ -2,7 +2,7 @@
   "name": "duesentrieb26/edifact-generator",
   "description": "EDIFACT message generators",
   "type": "library",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "keywords": [
     "EDI",
     "EDIFACT",
@@ -20,7 +20,7 @@
     ]
   },
   "require": {
-    "sabas/edifact": "^0.3.0"
+    "sabas/edifact": "^0.4.0"
   },
   "require-dev": {
     "phpunit/phpunit": "6.1.*"
