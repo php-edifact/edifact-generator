@@ -68,17 +68,8 @@ trait NameAndAddress
    *
    * @return array
    */
-  public function addNameAndAddress(
-    $name1,
-    $name2,
-    $name3,
-    $street,
-    $zipCode,
-    $city,
-    $countryCode,
-    $managingOrganisation,
-    $type,
-    $sender = ''
+  public function addNameAndAddress($name1, $name2, $name3, $street, $zipCode, $city, $countryCode,
+    $managingOrganisation, $type, $sender = ''
   ) {
     if (is_null($sender)) {
       $sender = $this->sender;
@@ -139,10 +130,8 @@ trait NameAndAddress
    *
    * @return $this
    */
-  public function setManufacturerAddress($name1, $name2 = '', $name3 = '',
-    $street = '', $zipCode = '',
-    $city = '', $countryCode = 'DE', $managingOrganisation = 'ZZZ',
-    $sender = null
+  public function setManufacturerAddress($name1, $name2 = '', $name3 = '', $street = '', $zipCode = '',
+    $city = '', $countryCode = 'DE', $managingOrganisation = 'ZZZ', $sender = null
   ) {
     $this->manufacturerAddress = $this->addNameAndAddress(
       $name1,
@@ -182,10 +171,8 @@ trait NameAndAddress
    *
    * @return $this
    */
-  public function setWholesalerAddress($name1, $name2 = '', $name3 = '',
-    $street = '', $zipCode = '',
-    $city = '', $countryCode = 'DE', $managingOrganisation = 'ZZZ',
-    $sender = null
+  public function setWholesalerAddress($name1, $name2 = '', $name3 = '', $street = '', $zipCode = '',
+    $city = '', $countryCode = 'DE', $managingOrganisation = 'ZZZ', $sender = null
   ) {
     $this->wholesalerAddress = $this->addNameAndAddress(
       $name1,
@@ -223,10 +210,8 @@ trait NameAndAddress
    *
    * @return $this
    */
-  public function setDeliveryAddress($name1, $name2 = '', $name3 = '',
-    $street = '', $zipCode = '',
-    $city = '', $countryCode = 'DE', $managingOrganisation = 'ZZZ',
-    $sender = null
+  public function setDeliveryAddress($name1, $name2 = '', $name3 = '', $street = '',
+    $zipCode = '', $city = '', $countryCode = 'DE', $managingOrganisation = 'ZZZ', $sender = null
   ) {
     $this->deliveryAddress = $this->addNameAndAddress(
       $name1,
@@ -252,12 +237,12 @@ trait NameAndAddress
    * @param string $city
    * @param string $countryCode
    * @param string $managingOrganisation
+   * @param string $sender
    *
    * @return $this
    */
-  public function setInvoiceAddress($name1, $name2 = '', $name3 = '',
-    $street = '', $zipCode = '',
-    $city = '', $countryCode = 'DE', $managingOrganisation = 'ZZZ'
+  public function setInvoiceAddress($name1, $name2 = '', $name3 = '', $street = '', $zipCode = '',
+    $city = '', $countryCode = 'DE', $managingOrganisation = 'ZZZ', $sender = null
   ) {
     $this->invoiceAddress = $this->addNameAndAddress(
       $name1,
@@ -268,7 +253,8 @@ trait NameAndAddress
       $city,
       $countryCode,
       $managingOrganisation,
-      'IV'
+      'IV',
+      $sender
     );
     return $this;
   }
