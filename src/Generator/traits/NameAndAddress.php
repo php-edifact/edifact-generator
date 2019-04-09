@@ -75,6 +75,15 @@ trait NameAndAddress
       $sender = $this->sender;
     }
 
+    $partyId = '';
+    if ($sender){
+      $partyId = [
+        self::maxChars($sender),
+        '',
+        $managingOrganisation,
+      ];
+    }
+
     $name = [
       self::maxChars($name1),
     ];
@@ -87,11 +96,7 @@ trait NameAndAddress
     return [
       'NAD',
       $type,
-      [
-        self::maxChars($sender),
-        '',
-        $managingOrganisation,
-      ],
+      $partyId,
       '',
       $name,
       str_split($street, 35),
@@ -104,6 +109,24 @@ trait NameAndAddress
       ],
       [
         self::maxChars($countryCode, 2),
+      ],
+    ];
+  }
+
+  /**
+   * @param $gln
+   * @param $type
+   *
+   * @return array
+   */
+  public function addAddressGln($gln, $type){
+    return [
+      'NAD',
+      $type,
+      [
+        $gln,
+        '',
+        9,
       ],
     ];
   }
@@ -187,6 +210,35 @@ trait NameAndAddress
       $sender
     );
     return $this;
+  }
+
+  /**
+   * @param $gln
+   */
+  public function setManufacturerAddressGln($gln)
+  {
+    $this->manufacturerAddress = $this->addAddressGln($gln, 'SU');
+  }
+
+  public function setWholesalerAddressGln($gln)
+  {
+    $this->wholesalerAddress = $this->addAddressGln($gln, 'WS');
+  }
+
+  /**
+   * @param $gln
+   */
+  public function setDeliveryAddressGln($gln)
+  {
+    $this->deliveryAddress = $this->addAddressGln($gln, 'ST');
+  }
+
+  /**
+   * @param $gln
+   */
+  public function setInvoiceAddressGln($gln)
+  {
+    $this->invoiceAddress = $this->addAddressGln($gln, 'IV');
   }
 
   /**

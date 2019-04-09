@@ -40,6 +40,10 @@ trait ContactPerson
       $var = $prefix . ucfirst($var);
     }
 
+    if (empty($contactPerson)){
+      return $this;
+    }
+
     $this->{$var} = [
       'CTA',
       $section,
@@ -73,6 +77,11 @@ trait ContactPerson
     if ($prefix) {
       $var = $prefix . ucfirst($var);
     }
+
+    if (empty($mailAddress)){
+      return $this;
+    }
+
     $this->{$var} = [
       'COM',
       [
@@ -104,6 +113,11 @@ trait ContactPerson
     if ($prefix) {
       $var = $prefix . ucfirst($var);
     }
+
+    if (empty($phoneNumber)){
+      return $this;
+    }
+
     $this->{$var} = [
       'COM',
       [
@@ -134,6 +148,10 @@ trait ContactPerson
     $var = "faxNumber";
     if ($prefix) {
       $var = $prefix . ucfirst($var);
+    }
+
+    if (empty($faxNumber)){
+      return $this;
     }
 
     $this->{$var} = [
