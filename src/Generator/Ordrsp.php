@@ -48,7 +48,8 @@ class Ordrsp extends Message
   protected $allowanceOrCharge;
   /** @var array */
   protected $allowanceOrChargeMoa;
-
+  /** @var array */
+  protected $transportData;
   /** @var array */
   protected $items = [];
   /** @var array */
@@ -81,6 +82,7 @@ class Ordrsp extends Message
       'deliveryAddressFaxNumber',
       'allowanceOrCharge',
       'allowanceOrChargeMoa',
+      'transportData',
       'positionSeparator',
     ];
 
@@ -207,8 +209,9 @@ class Ordrsp extends Message
    * @return Ordrsp
    * @throws EdifactException
    */
-  public function setDeliveryDate($deliveryDate, $type = EdifactDate::TYPE_DELIVERY_DATE_REQUESTED, $formatQuantifier = EdifactDate::DATE)
-  {
+  public function setDeliveryDate($deliveryDate, $type = EdifactDate::TYPE_DELIVERY_DATE_REQUESTED,
+    $formatQuantifier = EdifactDate::DATE
+  ) {
     $this->deliveryDate = $this->addDTMSegment($deliveryDate, $type, $formatQuantifier);
     return $this;
   }
@@ -394,5 +397,31 @@ class Ordrsp extends Message
     return $this;
   }
 
+  /**
+   * @return array
+   */
+  public function getTransportData()
+  {
+    return $this->transportData;
+  }
+
+  /**
+   *
+   * @param int $modeOfTransport
+   * @param int $stageQualifier
+   *
+   * @return Ordrsp
+   */
+  public function setTransportData($modeOfTransport, $stageQualifier = 13)
+  {
+    $this->transportData = [
+      'TDT',
+      $stageQualifier,
+      '',
+      $modeOfTransport,
+    ];
+
+    return $this;
+  }
 
 }
