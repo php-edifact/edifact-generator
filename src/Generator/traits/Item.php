@@ -11,9 +11,11 @@ use EDI\Generator\EdifactDate;
  */
 trait Item
 {
-
     /** @var array */
     protected $position;
+
+    /** @var array */
+    protected $additionalProductId;
 
     /** @var array */
     protected $quantity;
@@ -52,6 +54,7 @@ trait Item
     protected $composeKeys
         = [
             'position',
+            'additionalProductId',
             'quantity',
             'deliveryNoteDate',
             'orderNumberWholesaler',
@@ -94,6 +97,34 @@ trait Item
                 $articleNumber,
                 $numberType,
             ],
+        ];
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAdditionalProductId()
+    {
+        return $this->additionalProductId;
+    }
+
+    /**
+     * @param string $identifier
+     * @param string $qualifier
+     * @param string $code
+     * @return $this
+     */
+    public function setAdditionalProductId(string $identifier, string $qualifier = '1', string $code = 'SRV')
+    {
+        $this->additionalProductId = [
+            'PIA',
+            $qualifier,
+            [
+                $identifier,
+                $code
+            ]
         ];
 
         return $this;

@@ -6,7 +6,7 @@ use EDI\Generator\Base;
 
 /**
  * Class Item
- * @package EDI\Generator\Ordrsp
+ * @package EDI\Generator\Orders
  */
 class Item extends Base
 {

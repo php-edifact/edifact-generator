@@ -150,6 +150,7 @@ class OrdersTest extends TestCase
                     '313122',
                     'EN'
                 )
+                ->setAdditionalProductId('1', '313322', 'SA')
                 ->setQuantity('213')
                 ->setGrossPrice(22.12);
             $orders->addItem($item);
@@ -173,7 +174,7 @@ class OrdersTest extends TestCase
             $message = str_replace("'", "'\n", $encoder->get());
             //fwrite(STDOUT, "\n\nORDERS\n" . $message);
 
-            $this->assertStringContainsString('UNT+26', $message);
+            $this->assertStringContainsString('UNT+27', $message);
         } catch (EdifactException $e) {
             fwrite(STDOUT, "\n\nORDERS\n" . $e->getMessage());
         }
