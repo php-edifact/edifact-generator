@@ -51,4 +51,20 @@ class EdifactNumberTest extends TestCase
             EdiFactNumber::convert('-100,223')
         );
     }
+
+    public function testDecimalSeparator()
+    {
+        $this->assertEquals(
+            '100.22',
+            EdiFactNumber::convert('100,223', 2, '.')
+        );
+    }
+
+    public function testDecimals()
+    {
+        $this->assertEquals(
+            '100,2230',
+            EdiFactNumber::convert('100,223', 4)
+        );
+    }
 }

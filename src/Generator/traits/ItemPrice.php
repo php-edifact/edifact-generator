@@ -22,15 +22,17 @@ trait ItemPrice
      * @param $value
      * @param int $priceBase
      * @param string $priceBaseUnit
+     * @param int $decimals
+     * @param string $format
      * @return array
      */
-    public static function addPRISegment($qualifier, $value, $priceBase = 1, $priceBaseUnit = 'PCE')
+    public static function addPRISegment($qualifier, $value, $priceBase = 1, $priceBaseUnit = 'PCE', $decimals = 2, $format = EdiFactNumber::DECIMAL_COMMA)
     {
         return [
             'PRI',
             [
                 $qualifier,
-                EdiFactNumber::convert($value),
+                EdiFactNumber::convert($value, $decimals, $format),
                 '',
                 '',
                 (string)$priceBase,
@@ -49,11 +51,13 @@ trait ItemPrice
 
     /**
      * @param string $grossPrice
+     * @param string $format
+     * @param int $decimals
      * @return $this
      */
-    public function setGrossPrice($grossPrice)
+    public function setGrossPrice($grossPrice, $format = EdiFactNumber::DECIMAL_COMMA, $decimals = 2)
     {
-        $this->grossPrice = self::addPRISegment('AAB', $grossPrice);
+        $this->grossPrice = self::addPRISegment('AAB', $grossPrice, 1, 'PCE', $decimals, $format);
         $this->addKeyToCompose('grossPrice');
 
         return $this;
@@ -69,11 +73,13 @@ trait ItemPrice
 
     /**
      * @param string $netPrice
+     * @param string $format
+     * @param int $decimals
      * @return $this
      */
-    public function setNetPrice($netPrice)
+    public function setNetPrice($netPrice, $format = EdiFactNumber::DECIMAL_COMMA, $decimals = 2)
     {
-        $this->netPrice = self::addPRISegment('AAA', $netPrice);
+        $this->netPrice = self::addPRISegment('AAA', $netPrice, 1, 'PCE', $decimals, $format);
         $this->addKeyToCompose('netPrice');
 
         return $this;

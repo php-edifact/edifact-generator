@@ -180,6 +180,25 @@ class OrdersTest extends TestCase
         }
     }
 
+    public function testUSAStyle()
+    {
+        $interchange = new Interchange('UNB-Identifier-Sender','UNB-Identifier-Receiver');
+        $interchange->setCharset('UNOA', '2');
+        $orders = new Orders();
+
+        $item = new Orders\Item();
+        $item->setNetPrice('1,8562', '.');
+        $orders->addItem($item);
+
+        $orders->compose();
+        $encoder = new Encoder($interchange->addMessage($orders)->getComposed(), true);
+        $encoder->setUNA(":+.? '");
+
+        $message = str_replace("'", "'\n", $encoder->get());
+        $this->assertStringContainsString('PRI+AAA:1.86:::1:PCE', $message);
+
+    }
+
 
     public function testFreeText()
     {
