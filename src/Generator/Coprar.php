@@ -11,6 +11,7 @@ class Coprar extends Message
     private $vessel;
     private $port;
     private $messageCA;
+    private $messageDate;
     private $eta;
     private $etd;
 
@@ -30,9 +31,9 @@ class Coprar extends Message
         $sMessageReferenceNumber = null,
         $sMessageType = 'COPRAR',
         $sMessageVersionNumber = 'D',
-        $sMessageReleaseNumber = '95B',
+        $sMessageReleaseNumber = '00B',
         $sMessageControllingAgencyCoded = 'UN',
-        $sAssociationAssignedCode = 'SMDG16'
+        $sAssociationAssignedCode = 'SMDG21'
     ) {
         parent::__construct(
             $sMessageType,
@@ -42,6 +43,20 @@ class Coprar extends Message
             $sMessageReferenceNumber,
             $sAssociationAssignedCode
         );
+
+        $this->messageDate = self::dtmSegment(137, date('YmdHi'));
+    }
+
+    /**
+     * Message date
+     * @param $dtm
+     * @return \EDI\Generator\Coprar
+     */
+    public function setMessageDate($dtm)
+    {
+        $this->messageDate = self::dtmSegment(137, $dtm);
+
+        return $this;
     }
 
     /**
@@ -140,19 +155,20 @@ class Coprar extends Message
      * Compose.
      *
      * @param mixed $sMessageFunctionCode (1225)
-     * @param mixed $sDocumentNameCode (1001)
+     * @param mixed $sDocumentNameCode (1001) in D00B 118 discharge, 121 loading, in D95B 43 discharge, 45 loading
      * @param mixed $sDocumentIdentifier (1004)
      *
      * @return \EDI\Generator\Message ::compose()
      * @throws \EDI\Generator\EdifactException
      */
-    public function compose(?string $sMessageFunctionCode = "9", ?string $sDocumentNameCode = "45", ?string $sDocumentIdentifier = null): parent
+    public function compose(?string $sMessageFunctionCode = "9", ?string $sDocumentNameCode = "121", ?string $sDocumentIdentifier = null): parent
     {
         $this->messageContent = [
             ['BGM', $sDocumentNameCode, $this->messageID, $sMessageFunctionCode],
             self::rffSegment('XXX', 1),
         ];
 
+        $this->messageContent[] = $this->messageDate;
         $this->messageContent[] = $this->vessel;
         $this->messageContent[] = $this->port;
         $this->messageContent[] = $this->eta;
