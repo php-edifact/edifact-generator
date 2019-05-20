@@ -43,7 +43,7 @@ class Coreor extends Message
     /**
      * @var
      */
-    private $sender;
+    private $messageSender;
     /**
      * @var
      */
@@ -209,9 +209,9 @@ class Coreor extends Message
      * @param $sender
      * @return $this
      */
-    public function setSender($sender)
+    public function setMessageSender($sender)
     {
-        $this->sender = ['NAD', 'MS', $sender];
+        $this->messageSender = ['NAD', 'MS', $sender];
 
         return $this;
     }
@@ -397,7 +397,7 @@ class Coreor extends Message
         $this->messageContent[] = $this->pol;
         $this->messageContent[] = $this->pod;
         $this->messageContent[] = $this->eta;
-        $this->messageContent[] = $this->sender;
+        $this->messageContent[] = $this->messageSender;
         $this->messageContent[] = $this->carrier;
         $this->messageContent[] = $this->forwarder;
         $this->messageContent[] = $this->customsBroker;

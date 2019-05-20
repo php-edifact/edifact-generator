@@ -44,7 +44,7 @@ class Iftmin extends Message
      * @param $email
      * @return $this|\EDI\Generator\Message
      */
-    public function setSender($name, $email)
+    public function setSenderInformation($name, $email)
     {
         $this->messageSender = ['CTA', 'BK', ['', $name]];
         $this->messageSenderInformation = ['COM', [$email, 'EM']];
