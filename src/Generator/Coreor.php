@@ -1,222 +1,403 @@
 <?php
+
 namespace EDI\Generator;
 
+/**
+ * Class Coreor
+ * @package EDI\Generator
+ */
 class Coreor extends Message
 {
+    /**
+     * @var array
+     */
     private $dtmSend;
+    /**
+     * @var
+     */
     private $releaseNumber;
+    /**
+     * @var
+     */
     private $dtmExpiration;
+    /**
+     * @var
+     */
     private $previousMessage;
+    /**
+     * @var
+     */
     private $vessel;
+    /**
+     * @var
+     */
     private $pol;
+    /**
+     * @var
+     */
     private $pod;
+    /**
+     * @var
+     */
     private $eta;
-    private $sender;
+    /**
+     * @var
+     */
+    private $messageSender;
+    /**
+     * @var
+     */
     private $carrier;
+    /**
+     * @var
+     */
     private $forwarder;
+    /**
+     * @var
+     */
     private $customsBroker;
+    /**
+     * @var
+     */
     private $container;
+    /**
+     * @var
+     */
     private $bkg;
+    /**
+     * @var
+     */
     private $tare;
+    /**
+     * @var
+     */
     private $cargoWeight;
+    /**
+     * @var
+     */
     private $seal;
+    /**
+     * @var
+     */
     private $cargoCategory;
+    /**
+     * @var
+     */
     private $emptyDepot;
+    /**
+     * @var
+     */
     private $freightPayer;
 
-    public function __construct($messageID = null, $identifier = 'COREOR', $version = 'D', $release = '00B', $controllingAgency = 'UN', $association = 'SMDG20')
-    {
-        parent::__construct($identifier, $version, $release, $controllingAgency, $messageID, $association);
+    /**
+     * Construct.
+     *
+     * @param mixed $sMessageReferenceNumber (0062)
+     * @param string $sMessageType (0065)
+     * @param string $sMessageVersionNumber (0052)
+     * @param string $sMessageReleaseNumber (0054)
+     * @param string $sMessageControllingAgencyCoded (0051)
+     * @param string $sAssociationAssignedCode (0057)
+     */
+    public function __construct(
+        $sMessageReferenceNumber = null,
+        $sMessageType = 'COREOR',
+        $sMessageVersionNumber = 'D',
+        $sMessageReleaseNumber = '00B',
+        $sMessageControllingAgencyCoded = 'UN',
+        $sAssociationAssignedCode = 'SMDG20'
+    ) {
+        parent::__construct(
+            $sMessageType,
+            $sMessageVersionNumber,
+            $sMessageReleaseNumber,
+            $sMessageControllingAgencyCoded,
+            $sMessageReferenceNumber,
+            $sAssociationAssignedCode
+        );
 
         $this->dtmSend = self::dtmSegment(137, date('YmdHi'));
     }
 
-    /*
+    /**
      * $size = 22G1, 42G1, ecc
      * 2 = export, 5 = full
+     *
+     * @param $number
+     * @param $expiration
+     * @return $this
      */
     public function setReleaseNumberAndExpiration($number, $expiration)
     {
         $this->releaseNumber = self::rffSegment('RE', $number);
         $this->dtmExpiration = self::dtmSegment(36, $expiration);
+
         return $this;
     }
 
+    /**
+     * @param $number
+     * @return $this
+     */
     public function setPreviousMessage($number)
     {
         $this->previousMessage = self::rffSegment('ACW', $number);
+
         return $this;
     }
 
-    /*
+    /**
      * Vessel information
      *
+     * @param $extVoyage
+     * @param $line
+     * @param $vslName
+     * @param $callsign
+     * @return $this
      */
     public function setVessel($extVoyage, $line, $vslName, $callsign)
     {
         $this->vessel = self::tdtSegment(20, $extVoyage, '', '', [$line, 172, 20], '', '', [$callsign, 146, 11, $vslName]);
+
         return $this;
     }
 
-    /*
+    /**
      * Port of Loading
      *
+     * @param $loc
+     * @return $this
      */
     public function setPOL($loc)
     {
         $this->pol = self::locSegment(9, [$loc, 139, 6]);
+
         return $this;
     }
 
-    /*
+    /**
      * Release terminal
      *
+     * @param $loc
+     * @param $terminal
+     * @return $this
      */
     public function setPOD($loc, $terminal)
     {
         $this->pod = self::locSegment(11, [$loc, 139, 6], [$terminal, 72, 'ZZZ']);
+
         return $this;
     }
 
-    /*
+    /**
      * Estimated Time of Arrival
      *
+     * @param $dtm
+     * @return $this
      */
     public function setETA($dtm)
     {
         $this->eta = self::dtmSegment(132, $dtm);
+
         return $this;
     }
 
-    /*
+    /**
      *
      */
-    public function setSender($sender)
+    /**
+     * @param $sender
+     * @return $this
+     */
+    public function setMessageSender($sender)
     {
-        $this->sender = ['NAD', 'MS', $sender];
+        $this->messageSender = ['NAD', 'MS', $sender];
+
         return $this;
     }
 
-    /*
+    /**
      * $line: Master Liner Codes List
+     */
+    /**
+     * @param $line
+     * @return $this
      */
     public function setCarrier($line)
     {
         $this->carrier = ['NAD', 'CA', [$line, 172, 20]];
+
         return $this;
     }
 
+    /**
+     * @param $code
+     * @param $name
+     * @param $address
+     * @param $postalCode
+     * @return $this
+     */
     public function setForwarder($code, $name, $address, $postalCode)
     {
         $name = str_split($name, 35);
         $address = str_split($address, 35);
 
         $this->forwarder = ['NAD', 'FW', [$code, 160, 'ZZZ'], array_merge($name, $address), '', '', '', '', $postalCode];
+
         return $this;
     }
 
+    /**
+     * @param $code
+     * @param $name
+     * @param $address
+     * @param $postalCode
+     * @return $this
+     */
     public function setCustomsBroker($code, $name, $address, $postalCode)
     {
         $name = str_split($name, 35);
         $address = str_split($address, 35);
 
         $this->customsBroker = ['NAD', 'CB', [$code, 160, 'ZZZ'], array_merge($name, $address), '', '', '', '', $postalCode];
+
         return $this;
     }
 
-    /*
-     *
+
+    /**
+     * @param $number
+     * @param $size
+     * @return $this
      */
     public function setContainer($number, $size)
     {
-        $this->container = \EDI\Generator\Message::eqdSegment('CN', $number, [$size, '102', '5'], '', '', 5);
+        $this->container = Message::eqdSegment('CN', $number, [$size, '102', '5'], '', '', 5);
+
         return $this;
     }
 
-    /*
-     *
+    /**
+     * @param $bl
+     * @return $this
      */
     public function setBillOfLading($bl)
     {
-        $this->bkg = \EDI\Generator\Message::rffSegment('BM', $bl);
+        $this->bkg = Message::rffSegment('BM', $bl);
+
         return $this;
     }
 
-    /*
+    /**
      * Weight information
      * $type = T (tare), AET (gross weight)
-     *
+     * @param $weight
+     * @return \EDI\Generator\Coreor
      */
     public function setTare($weight)
     {
         $this->tare = ['MEA', 'AAE', 'T', ['KGM', $weight]];
+
         return $this;
     }
 
+    /**
+     * @param $weight
+     * @return $this
+     */
     public function setCargoWeight($weight)
     {
         $this->cargoWeight = ['MEA', 'AAE', 'AET', ['KGM', $weight]];
+
         return $this;
     }
 
-    /*
+    /**
      * $seal = free text
      * $sealIssuer = DE 9303
+     * @param $seal
+     * @return \EDI\Generator\Coreor
      */
     public function setSeal($seal)
     {
         $this->seal = ['SEL', $seal];
+
         return $this;
     }
 
-    /*
+    /**
      * Cargo category
      *
+     * @param $text
+     * @return $this
      */
     public function setCargoCategory($text)
     {
         $this->cargoCategory = ['FTX', 'AAA', '', '', $text];
+
         return $this;
     }
 
-    /*
+    /**
      * Redelivery facility
      *
+     * @param $loc
+     * @param $terminal
+     * @return $this
      */
     public function setEmptyDepot($loc, $terminal)
     {
         $this->emptyDepot = self::locSegment(99, [$loc, 139, 6], [$terminal, 72, 'ZZZ']);
+
         return $this;
     }
 
+    /**
+     * @param $code
+     * @param $name
+     * @param $address
+     * @param $postalCode
+     * @return $this
+     */
     public function setFreightPayer($code, $name, $address, $postalCode)
     {
         $name = str_split($name, 35);
         $address = str_split($address, 35);
 
         $this->freightPayer = ['NAD', 'FP', [$code, 160, 'ZZZ'], array_merge($name, $address), '', '', '', '', $postalCode];
+
         return $this;
     }
 
-     /*
-     * $documentCode = 129 (Transport cargo release order)
+    /**
+     * Compose.
+     *
+     * @param mixed $sMessageFunctionCode (1225)
+     * @param mixed $sDocumentNameCode (1001)
+     * @param mixed $sDocumentIdentifier (1004)
+     *
+     * @return \EDI\Generator\Message ::compose()
+     * @throws \EDI\Generator\EdifactException
      */
-    public function compose($msgStatus = 9, $documentCode = 129)
+    public function compose(?string $sMessageFunctionCode = "9", ?string $sDocumentNameCode = "129", ?string $sDocumentIdentifier = null): parent
     {
         $this->messageContent = [
-            ['BGM', $documentCode, $this->messageID, $msgStatus]
+            ['BGM', $sDocumentNameCode, $this->messageID, $sMessageFunctionCode],
         ];
+
         $this->messageContent[] = $this->dtmSend;
         $this->messageContent[] = $this->releaseNumber;
         $this->messageContent[] = $this->dtmExpiration;
+
         if ($this->previousMessage !== null) {
             $this->messageContent[] = $this->previousMessage;
         }
+
         $this->messageContent[] = $this->vessel;
         $this->messageContent[] = $this->pol;
         $this->messageContent[] = $this->pod;
         $this->messageContent[] = $this->eta;
-        $this->messageContent[] = $this->sender;
+        $this->messageContent[] = $this->messageSender;
         $this->messageContent[] = $this->carrier;
         $this->messageContent[] = $this->forwarder;
         $this->messageContent[] = $this->customsBroker;
@@ -230,7 +411,6 @@ class Coreor extends Message
         $this->messageContent[] = $this->freightPayer;
         $this->messageContent[] = ['CNT', [16, 1]];
 
-        parent::compose();
-        return $this;
+        return parent::compose($sMessageFunctionCode, $sDocumentNameCode, $sDocumentIdentifier);
     }
 }

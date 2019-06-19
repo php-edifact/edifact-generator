@@ -7,6 +7,16 @@
     "autoload": {
         "psr-4": {
             "EDI\\Generator\\": "src/Generator/"
-        }
+        },
+        "classmap": [
+            "src/"
+        ]
+    },
+    "require": {
+    },
+    "require-dev": {
+        "sabas/edifact": "^0.4.1",
+        "phpunit/phpunit": "~8.0",
+        "friendsofphp/php-cs-fixer": "^2.14"
     }
 }

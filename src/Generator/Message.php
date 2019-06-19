@@ -1,14 +1,30 @@
 <?php
+
 namespace EDI\Generator;
 
-class Message
+/**
+ * Class Message
+ * @package EDI\Generator
+ */
+class Message extends Base
 {
+    /** @var string */
     protected $messageID;
+
     protected $messageContent;
 
+    /** @var array string */
     protected $messageType;
-    protected $composed;
 
+    /**
+     * Message constructor.
+     * @param $identifier
+     * @param $version
+     * @param null $release
+     * @param null $controllingAgency
+     * @param null $messageID
+     * @param null $association
+     */
     public function __construct($identifier, $version, $release = null, $controllingAgency = null, $messageID = null, $association = null)
     {
         $this->messageType = [$identifier, $version];
@@ -26,57 +42,76 @@ class Message
         }
 
         if ($messageID === null) {
-            $this->messageID = 'M'.strtoupper(uniqid());
+            $this->messageID = 'M' . strtoupper(uniqid());
         } else {
             $this->messageID = $messageID;
         }
     }
 
-    public function compose($msgStatus = null)
+    /**
+     * Compose.
+     * @throws \EDI\Generator\EdifactException
+     */
+    public function compose()
     {
-        $temp=[];
-        $temp[]=['UNH', $this->messageID, $this->messageType];
+        $aComposed = [];
 
-        foreach ($this->messageContent as $i) {
-            $temp[] = $i;
+        // Message Header
+        $aComposed[] = ['UNH', $this->messageID, $this->messageType];
+
+        if (count($this->messageContent) == 0) {
+            throw new EdifactException('no content available for message');
         }
 
-        $temp[]=['UNT', (2 + count($this->messageContent)), $this->messageID];
+        // Segments
+        foreach ($this->messageContent as $i) {
+            $aComposed[] = $i;
+        }
 
-        $this->composed = $temp;
+        // Message Trailer
+        $aComposed[] = ['UNT', (string)(2 + count($this->messageContent)), $this->messageID];
+
+        $this->composed = $aComposed;
+
         return $this;
     }
 
-    public function getComposed()
-    {
-        return $this->composed;
-    }
-
-    /*
+    /**
      * DTM segment
      * $type = 7 (actual date time), 132 (estimated date time), 137 (message date time), 798 (weight date time)
      * $format = 203 (CCYYMMDDHHII)
+     * @param $type
+     * @param $dtmString
+     * @param int $format
+     * @return array
      */
     public static function dtmSegment($type, $dtmString, $format = 203)
     {
         return ['DTM', [$type, $dtmString, $format]];
     }
 
-    /*
+    /**
      * RFF segment
      * $functionCode = DE 1153
      * $identifier = max 35 alphanumeric chars
+     * @param $functionCode
+     * @param $identifier
+     * @return array
      */
     public static function rffSegment($functionCode, $identifier)
     {
         return ['RFF', [$functionCode, $identifier]];
     }
 
-    /*
+    /**
      * LOC segment
      * $qualifier = DE 3227
      * $firstLoc = preferred [locode, 139, 6]
      * $secondaryLoc = preferred [locode, 139, 6] (if needed)
+     * @param $qualifier
+     * @param $firstLoc
+     * @param null $secondaryLoc
+     * @return array
      */
     public static function locSegment($qualifier, $firstLoc, $secondaryLoc = null)
     {
@@ -84,10 +119,11 @@ class Message
         if ($secondaryLoc !== null) {
             $loc[] = $secondaryLoc;
         }
+
         return $loc;
     }
 
-    /*
+    /**
      * EQD segment
      * $eqpType = DE 8053 (for a container CN)
      * $eqpIdentification = for a container [A-Z]{3}U\d{7}
@@ -95,6 +131,13 @@ class Message
      * $supplier = DE 8077, but usually empty
      * $statusCode = DE 8249
      * $fullEmptyIndicatorCode = DE 8169
+     * @param $eqpType
+     * @param $eqpIdentification
+     * @param $dimension
+     * @param null $supplier
+     * @param null $statusCode
+     * @param null $fullEmptyIndicatorCode
+     * @return array
      */
     public static function eqdSegment($eqpType, $eqpIdentification, $dimension, $supplier = null, $statusCode = null, $fullEmptyIndicatorCode = null)
     {
@@ -108,10 +151,11 @@ class Message
         if ($fullEmptyIndicatorCode !== null) {
             $eqd[] = $fullEmptyIndicatorCode;
         }
+
         return $eqd;
     }
 
-    /*
+    /**
      * TDT segment
      * $stageQualifier = DE 8051
      * $journeyIdentifier = max 17 alphanumeric chars
@@ -121,14 +165,46 @@ class Message
      * $transitDirection = DE 8101 (not used)
      * $$excessTransportation = DE 8457 (not used)
      * $transportationIdentification
+     * @param $stageQualifier
+     * @param $journeyIdentifier
+     * @param $modeOfTransport
+     * @param $transportMeans
+     * @param $carrier
+     * @param $transitDirection
+     * @param $excessTransportation
+     * @param $transportationIdentification
+     * @return array
      */
     public static function tdtSegment($stageQualifier, $journeyIdentifier, $modeOfTransport, $transportMeans, $carrier, $transitDirection, $excessTransportation, $transportationIdentification)
     {
         return ['TDT', $stageQualifier, $journeyIdentifier, $modeOfTransport, $transportMeans, $carrier, $transitDirection, $excessTransportation, $transportationIdentification];
     }
 
+    /**
+     * @param $stageQualifier
+     * @param $journeyIdentifier
+     * @param $modeOfTransport
+     * @param $transportMeans
+     * @return array
+     */
     public static function tdtShortSegment($stageQualifier, $journeyIdentifier, $modeOfTransport, $transportMeans)
     {
         return ['TDT', $stageQualifier, $journeyIdentifier, $modeOfTransport, $transportMeans];
+    }
+
+    /**
+     * @param string $text
+     * @param string $qualifier
+     * @param string $reference
+     * @return array
+     */
+    public static function addFTXSegment($text, $qualifier, $reference = '')
+    {
+        $textLines = str_split($text, 70);
+        if (count($textLines) > 5) {
+            $textLines = array_slice($textLines, 0, 5);
+        }
+
+        return ['FTX', $qualifier, '', [$reference, '89'], $textLines];
     }
 }
