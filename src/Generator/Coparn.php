@@ -84,7 +84,7 @@ class Coparn extends Message
      */
     public function setVessel($extVoyage, $line, $vslName, $callsign)
     {
-        $this->vessel = self::tdtSegment(20, $extVoyage, '', '', [$line, 172, 20], '', '', [$callsign, 146, 11, $vslName]);
+        $this->vessel = self::tdtSegment(20, $extVoyage, '', '', [$line, 172, 20], '', '', [$callsign, 103, 11, $vslName]);
         $this->callsign = self::rffSegment('VM', $callsign);
         return $this;
     }
