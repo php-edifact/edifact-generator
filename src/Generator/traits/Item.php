@@ -173,7 +173,7 @@ trait Item
         $this->quantity = [
             'QTY',
             [
-                '12',
+                '21',
                 (string)$quantity,
                 $unit,
             ],
