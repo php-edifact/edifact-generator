@@ -165,7 +165,7 @@ class Orders extends Message
 
         // Segment Group 11 : Separator & Control Total
         $this->messageContent[] = ['UNS', 'S'];
-        $this->messageContent[] = ['CNT', '2', (string)count($this->items)];
+        $this->messageContent[] = ['CNT', ['2', (string)count($this->items)]];
 
         parent::compose();
         return $this;
