@@ -141,10 +141,11 @@ trait Item
     /**
      * @param string $quantity
      * @param string $unit
+     * @param string $qualifier
      *
      * @return Item
      */
-    public function setQuantity($quantity, $unit = 'PCE')
+    public function setQuantity($quantity, $unit = 'PCE', $qualifier = '21')
     {
         $this->isAllowed(
             $unit,
@@ -173,7 +174,7 @@ trait Item
         $this->quantity = [
             'QTY',
             [
-                '21',
+                (string)$qualifier,
                 (string)$quantity,
                 $unit,
             ],
