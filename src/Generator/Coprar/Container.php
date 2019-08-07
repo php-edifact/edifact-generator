@@ -17,6 +17,7 @@ class Container
     private $weightTime;
     private $seal;
     private $cargo;
+    private $specialInstructions;
     private $dangerous;
     private $dgsAac;
     private $temperature;
@@ -151,6 +152,18 @@ class Container
     public function setCargoCategory($text)
     {
         $this->cargo = ['FTX', 'AAA', '', '', $text];
+
+        return $this;
+    }
+
+    /**
+     * Special instructions
+     * @param $text
+     * @return \EDI\Generator\Coprar\Container
+     */
+    public function setSpecialInstructions($text)
+    {
+        $this->specialInstructions = ['FTX', 'SIN', '', '', $text];
 
         return $this;
     }
@@ -294,6 +307,9 @@ class Container
         }
         if ($this->cargo !== null) {
             $composed[] = $this->cargo;
+        }
+        if ($this->specialInstructions !== null) {
+            $composed[] = $this->specialInstructions;
         }
         if ($this->dangerous !== null) {
             foreach ($this->dangerous as $segment) {
