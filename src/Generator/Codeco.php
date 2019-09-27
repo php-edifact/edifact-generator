@@ -8,8 +8,8 @@ namespace EDI\Generator;
  */
 class Codeco extends Message
 {
-    private $sender;
-    private $receiver;
+    private $messageSender;
+    private $messageReceiver;
     private $messageCF;
 
     private $containers = [];
@@ -43,14 +43,14 @@ class Codeco extends Message
     }
 
     /**
-     * @param $sender
-     * @param $receiver
+     * @param $messageSender
+     * @param $messageReceiver
      * @return \EDI\Generator\Codeco
      */
-    public function setSenderAndReceiver($sender, $receiver)
+    public function setSenderAndReceiver($messageSender, $messageReceiver)
     {
-        $this->sender = ['NAD', 'MS', $sender];
-        $this->receiver = ['NAD', 'MR', $receiver];
+        $this->messageSender = ['NAD', 'MS', $messageSender];
+        $this->messageReceiver = ['NAD', 'MR', $messageReceiver];
 
         return $this;
     }
@@ -94,11 +94,11 @@ class Codeco extends Message
             ['BGM', $sDocumentNameCode, $this->messageID, $sMessageFunctionCode],
         ];
 
-        if ($this->sender !== null) {
-            $this->messageContent[] = $this->sender;
+        if ($this->messageSender !== null) {
+            $this->messageContent[] = $this->messageSender;
         }
-        if ($this->receiver !== null) {
-            $this->messageContent[] = $this->receiver;
+        if ($this->messageReceiver !== null) {
+            $this->messageContent[] = $this->messageReceiver;
         }
         if ($this->messageCF !== null) {
             $this->messageContent[] = $this->messageCF;
