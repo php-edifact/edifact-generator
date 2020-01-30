@@ -96,10 +96,12 @@ class Coparn extends Message
      * @param $sequence
      * @return \EDI\Generator\Coparn
      */
-    public function setBooking($booking, $sequence)
+    public function setBooking($booking, $sequence = null)
     {
         $this->booking = self::rffSegment('BN', $booking);
-        $this->bookingSequence = self::rffSegment('SQ', $sequence);
+        if ($sequence !== null) {
+            $this->bookingSequence = self::rffSegment('SQ', $sequence);
+        }
 
         return $this;
     }
@@ -196,11 +198,13 @@ class Coparn extends Message
      * $size = 22G1, 42G1, etc
      * @param $number
      * @param $size
-     * @return \EDI\Generator\Coparn
+     * @param $statusCode
+     * @param $fullEmptyIndicator
+     * @return \EDI\Generator\Codeco\Container
      */
-    public function setContainer($number, $size)
+    public function setContainer($number, $size, $statusCode = 2, $fullEmptyIndicator = 5)
     {
-        $this->cntr = self::eqdSegment('CN', $number, [$size, '102', '5'], '', 2, 5);
+        $this->cntr = self::eqdSegment('CN', $number, [$size, '102', '5'], '', $statusCode, $fullEmptyIndicator);
 
         return $this;
     }
@@ -391,7 +395,9 @@ class Coparn extends Message
         $this->messageContent[] = $this->messageSender;
         $this->messageContent[] = $this->messageCF;
         $this->messageContent[] = $this->cntr;
-        $this->messageContent[] = $this->bookingSequence;
+        if ($this->bookingSequence !== null) {
+            $this->messageContent[] = $this->bookingSequence;
+        }
 
         if ($this->cntr === '') {
             $this->messageContent[] = $this->cntrAmount;
