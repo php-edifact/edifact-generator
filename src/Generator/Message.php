@@ -48,6 +48,16 @@ class Message extends Base
         }
     }
 
+    public function setMessageContent($messageContent)
+    {
+        $this->messageContent = $messageContent;
+    }
+
+    public function getMessageID()
+    {
+        return $this->messageID;
+    }
+
     /**
      * Compose.
      * @throws \EDI\Generator\EdifactException
@@ -187,9 +197,13 @@ class Message extends Base
      * @param $transportMeans
      * @return array
      */
-    public static function tdtShortSegment($stageQualifier, $journeyIdentifier, $modeOfTransport, $transportMeans)
+    public static function tdtShortSegment($stageQualifier, $journeyIdentifier, $modeOfTransport, $transportMeans, $carrier = null)
     {
-        return ['TDT', $stageQualifier, $journeyIdentifier, $modeOfTransport, $transportMeans];
+        $tdt = ['TDT', $stageQualifier, $journeyIdentifier, $modeOfTransport, $transportMeans];
+        if ($carrier !== null) {
+            $tdt[] = $carrier;
+        }
+        return $tdt;
     }
 
     /**
