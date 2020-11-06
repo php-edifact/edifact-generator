@@ -417,8 +417,8 @@ class Coparn extends Message
             $this->messageContent[] = $this->fnd;
         }
         $this->messageContent[] = $this->pol;
-        if ($this->fnd !== null) {
-            $this->messageContent[] = $this->fnd;
+        if ($this->pod !== null) {
+            $this->messageContent[] = $this->pod;
         }
         $this->messageContent[] = $this->weight;
 
