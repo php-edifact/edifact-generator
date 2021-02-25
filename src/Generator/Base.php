@@ -14,7 +14,8 @@ namespace EDI\Generator;
  * @package EDI\Generator
  * @property array $composeKeys
  */
-class Base {
+class Base
+{
 
   /** @var array */
   protected $messageContent = [];
@@ -34,7 +35,8 @@ class Base {
   /**
    * @param $keyName
    */
-  public function addKeyToCompose($keyName) {
+  public function addKeyToCompose($keyName)
+  {
     array_push($this->composeKeys, $keyName);
   }
 
@@ -46,7 +48,8 @@ class Base {
    * @return array
    * @throws EdifactException
    */
-  public function composeByKeys($keys = null) {
+  public function composeByKeys($keys = null)
+  {
     if (is_null($keys)) {
       $keys = $this->composeKeys;
     }
@@ -74,14 +77,16 @@ class Base {
   /**
    * @return array
    */
-  public function getComposed() {
+  public function getComposed()
+  {
     return $this->composed;
   }
 
   /**
    * @return string
    */
-  public function getSender() {
+  public function getSender()
+  {
     return $this->sender;
   }
 
@@ -90,7 +95,8 @@ class Base {
    *
    * @return $this
    */
-  public function setSender($sender) {
+  public function setSender($sender)
+  {
     $this->sender = $sender;
 
     return $this;
@@ -99,7 +105,8 @@ class Base {
   /**
    * @return string
    */
-  public function getReceiver() {
+  public function getReceiver()
+  {
     return $this->receiver;
   }
 
@@ -108,7 +115,8 @@ class Base {
    *
    * @return $this
    */
-  public function setReceiver($receiver) {
+  public function setReceiver($receiver)
+  {
     $this->receiver = $receiver;
 
     return $this;
@@ -121,7 +129,8 @@ class Base {
    *
    * @return array|bool
    */
-  protected function addRFFSegment($functionCode, $identifier) {
+  protected function addRFFSegment($functionCode, $identifier)
+  {
     if (empty($identifier)) {
       return false;
     }
@@ -140,11 +149,12 @@ class Base {
    * @param     $type
    * @param int $formatQualifier
    *
-   * @see https://www.stylusstudio.com/edifact/D94A/2379.htm
    * @return array
    * @throws EdifactException
+   * @see https://www.stylusstudio.com/edifact/D94A/2379.htm
    */
-  protected function addDTMSegment($dateString, $type, $formatQualifier = EdifactDate::DATE) {
+  protected function addDTMSegment($dateString, $type, $formatQualifier = EdifactDate::DATE)
+  {
     $data = [];
     array_push($data, $type);
     if (!empty($dateString)) {
@@ -164,7 +174,8 @@ class Base {
    *
    * @return array
    */
-  public static function addBGMSegment($documentNumber, $type) {
+  public static function addBGMSegment($documentNumber, $type, $x = Invoic::TYPE_ORIGINAL)
+  {
     return [
       'BGM',
       [
@@ -173,6 +184,7 @@ class Base {
         '89',
       ],
       $documentNumber,
+      $x,
     ];
   }
 
@@ -184,9 +196,10 @@ class Base {
    *
    * @return string
    */
-  protected static function maxChars($string, $length = 35) {
+  protected static function maxChars($string, $length = 35)
+  {
     if (empty($string)) {
-      return;
+      return '';
     }
 
     return mb_substr($string, 0, $length);
@@ -200,7 +213,8 @@ class Base {
    *
    * @throws EdifactException
    */
-  protected function isAllowed($value, $array, $errorMessage = null) {
+  protected function isAllowed($value, $array, $errorMessage = null)
+  {
     if (is_null($errorMessage)) {
       $errorMessage = 'value: ' . $value . ' is not in allowed values: ' .
         ' [' . implode(', ', $array) . '] in ' . get_class($this) . '->' .
@@ -218,7 +232,8 @@ class Base {
    *
    * @return array
    */
-  public static function addMOASegment($qualifier, $value) {
+  public static function addMOASegment($qualifier, $value)
+  {
     return [
       'MOA',
       [
@@ -228,5 +243,80 @@ class Base {
       ],
     ];
   }
+
+
+  const PAT_VALUTA = '3';
+  const PAT_SKONTO = '22';
+  const PAT_NET_PAYMENT_TARGET = 'ZZZ';
+  const PAT_TIME_INVOICE_DATE = 5;
+
+  /**
+   * @param     $type
+   * @param int $value
+   *
+   * @return array
+   */
+  public static function addPATSegment($type, $value = self::PAT_TIME_INVOICE_DATE, $days = null)
+  {
+    $valueArray = [
+      $value,
+    ];
+
+    if ($days) {
+      $valueArray[] = '';
+      $valueArray[] = '';
+      $valueArray[] = $days;
+    }
+
+    return [
+      'PAT',
+      [
+        $type,
+      ],
+      '',
+      $valueArray,
+    ];
+  }
+
+
+  const PCD_CASH_DISCOUNT = '12';
+
+  /**
+   * Prozentangaben
+   *
+   * @return array
+   */
+  public static function addPCDSegment($value)
+  {
+    return [
+      'PCD',
+      [
+        self::PCD_CASH_DISCOUNT,
+        EdiFactNumber::convert($value),
+      ],
+    ];
+  }
+
+  const PIA_ADDITIONAL_INFORMATION = 1;
+
+  /**
+   * EAN Nummer
+   *
+   * @return array
+   */
+  public static function addPIASegment($ean)
+  {
+    return [
+      'PIA',
+      [
+        self::PIA_ADDITIONAL_INFORMATION,
+      ],
+      [
+        $ean,
+        'EN',
+      ],
+    ];
+  }
+
 
 }
