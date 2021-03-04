@@ -224,6 +224,8 @@ final class InvoicTest extends TestCase
       $invoice->addItem($item);
 
 
+      $invoice->addCharges('149');
+
       $invoice
         ->setTotalPositionsAmount(100.22)
         ->setBasisAmount(80)
@@ -232,14 +234,18 @@ final class InvoicTest extends TestCase
         ->setTax(19, 19.11);
 
 
+
+
       $invoice->compose();
       $encoder = new Encoder($interchange->addMessage($invoice)->getComposed(), true);
       $encoder->setUNA(":+,? '");
       $message = str_replace("'", "'\n", $encoder->get());
 //            fwrite(STDOUT, "\n\nINVOICE\n" . $message);
 
-      $this->assertContains('UNT+38', $message);
+      $this->assertContains('UNT+40', $message);
       $this->assertContains('TAX+7+VAT+++:::19,00', $message);
+      $this->assertContains('ALC+C++++DL', $message);
+      $this->assertContains('MOA+8:149,00', $message);
 
     } catch (EdifactException $e) {
       fwrite(STDOUT, "\n\nINVOICE\n" . $e->getMessage());

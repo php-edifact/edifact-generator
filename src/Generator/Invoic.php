@@ -125,7 +125,7 @@ class Invoic extends Message
   /**
    * Invoic constructor.
    *
-   * @param null $messageId
+   * @param null   $messageId
    * @param string $identifier
    * @param string $version
    * @param string $release
@@ -214,12 +214,12 @@ class Invoic extends Message
   {
     $this->isAllowed(
       $documentType, [
-      self::TYPE_INVOICE,
-      self::TYPE_CREDIT_NOTE,
-      self::TYPE_SERVICE_CREDIT,
-      self::TYPE_SERVICE_INVOICE,
-      self::TYPE_BONUS,
-    ]
+        self::TYPE_INVOICE,
+        self::TYPE_CREDIT_NOTE,
+        self::TYPE_SERVICE_CREDIT,
+        self::TYPE_SERVICE_INVOICE,
+        self::TYPE_BONUS,
+      ]
     );
     $this->invoiceNumber = self::addBGMSegment(
       $invoiceNumber,
@@ -530,6 +530,7 @@ class Invoic extends Message
 
   /**
    * Nettosumme
+   *
    * @param string $date
    * @param string $value
    *
@@ -548,6 +549,40 @@ class Invoic extends Message
     $this->index++;
   }
 
+
+  const CHARGES_TYPE_FEES = 'ABW';
+  const CHARGES_TYPE_NOTARIZATION = 'AU';
+  const CHARGES_TYPE_CARGO = 'DL';
+  const CHARGES_TYPE_INSURANCE = 'IN';
+  const CHARGES_TYPE_PACKING = 'PC';
+  const CHARGES_TYPE_CUSTOM = 'ZZZ';
+
+  /**
+   * @param $value
+   * @param $type
+   *
+   * @return $this
+   */
+  public function addCharges($value, $type = self::CHARGES_TYPE_CARGO)
+  {
+    $index = 'charges' . $this->index++;
+    $this->{$index} = [
+      'ALC',
+      floatval($value) > 0 ? 'C' : 'A',
+      '',
+      '',
+      '',
+      $type,
+    ];
+    $this->addKeyToCompose($index);
+
+    $index = 'charges' . $this->index++;
+    $this->{$index} = self::addMOASegment('8', EdiFactNumber::convert(abs($value)));
+    $this->addKeyToCompose($index);
+
+
+    return $this;
+  }
 
 
 }
