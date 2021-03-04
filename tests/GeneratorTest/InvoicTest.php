@@ -219,8 +219,7 @@ final class InvoicTest extends TestCase
         ->setDeliveryNotePosition(20)
         ->setDeliveryNoteNumber('deliverNoteNumber')
         ->setDeliveryNoteDate($this->getDateTime());
-      $item->addDiscount(-20.34, Invoic\Item::DISCOUNT_TYPE_ABSOLUTE);
-      $item->addDiscount(3);
+      $item->addDiscount(-20.34, 30, Invoic\Item::DISCOUNT_TYPE_ABSOLUTE);
 
       $invoice->addItem($item);
 
@@ -239,7 +238,8 @@ final class InvoicTest extends TestCase
       $message = str_replace("'", "'\n", $encoder->get());
 //            fwrite(STDOUT, "\n\nINVOICE\n" . $message);
 
-      $this->assertContains('UNT+40', $message);
+      $this->assertContains('UNT+38', $message);
+      $this->assertContains('TAX+7+VAT+++:::19,00', $message);
 
     } catch (EdifactException $e) {
       fwrite(STDOUT, "\n\nINVOICE\n" . $e->getMessage());

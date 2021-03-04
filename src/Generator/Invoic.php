@@ -496,7 +496,7 @@ class Invoic extends Message
         '',
         '',
         '',
-        EdiFactNumber::convert($value, 0),
+        EdiFactNumber::convert($value, 2),
       ],
     ];
     $this->taxAmount = self::addMOASegment('150', $amount);

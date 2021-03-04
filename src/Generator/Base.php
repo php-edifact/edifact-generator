@@ -237,7 +237,6 @@ class Base
     return [
       'MOA',
       [
-        '',
         $qualifier,
         EdiFactNumber::convert($value),
       ],

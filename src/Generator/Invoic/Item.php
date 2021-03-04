@@ -123,17 +123,17 @@ class Item extends Base
   }
 
   /**
-   * @param        $value
+   * @param float  $value
+   * @param float  $total
    * @param string $discountType
    *
    * @return Item
    */
-  public function addDiscount($value, $discountType = self::DISCOUNT_TYPE_PERCENT)
+  public function addDiscount($value, $total, $discountType = self::DISCOUNT_TYPE_PERCENT)
   {
     $index = 'discount' . $this->discountIndex++;
     $this->{$index} = [
       'ALC',
-      '',
       floatval($value) > 0 ? 'C' : 'A',
       '',
       '',
@@ -142,24 +142,39 @@ class Item extends Base
     ];
     $this->addKeyToCompose($index);
 
-    if ($discountType == self::DISCOUNT_TYPE_PERCENT) {
-      $index = 'discount' . $this->discountIndex++;
-      $this->{$index} = [
-        'PCD',
-        [
-          '',
-          '3',
-          EdiFactNumber::convert(abs($value)),
-        ],
-      ];
-      $this->addKeyToCompose($index);
-    }
-
     $index = 'discount' . $this->discountIndex++;
-    $this->{$index} = self::addMOASegment('8', abs($value));
+    if ($discountType == self::DISCOUNT_TYPE_PERCENT) {
+      $discount = $total * (abs($value) / 100);
+    } else {
+      $discount = abs($value);
+    }
+    $this->{$index} = [
+      'PCD',
+      [
+        '3',
+        EdiFactNumber::convert($discount),
+      ],
+    ];
     $this->addKeyToCompose($index);
 
+    $index = 'discount' . $this->discountIndex++;
+    $this->{$index} = self::addMOASegment('8', abs($total));
+    $this->addKeyToCompose($index);
+
+
     return $this;
+  }
+
+
+  /**
+   * @param     $total
+   * @param int $segment
+   */
+  public function setTotal($total, $segment = 8)
+  {
+    $index = 'discount' . $this->discountIndex++;
+    $this->{$index} = self::addMOASegment($segment, $total);
+    $this->addKeyToCompose($index);
   }
 
 
@@ -168,7 +183,7 @@ class Item extends Base
    *
    * @param $ean
    *
-   * @return array
+   * @return self
    */
   public function addProductInformation($ean)
   {
