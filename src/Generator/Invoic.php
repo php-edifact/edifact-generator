@@ -549,7 +549,6 @@ class Invoic extends Message
     $this->index++;
   }
 
-
   const CHARGES_TYPE_FEES = 'ABW';
   const CHARGES_TYPE_NOTARIZATION = 'AU';
   const CHARGES_TYPE_CARGO = 'DL';

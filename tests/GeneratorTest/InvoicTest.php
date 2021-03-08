@@ -233,9 +233,6 @@ final class InvoicTest extends TestCase
         ->setPayableAmount(100.22)
         ->setTax(19, 19.11);
 
-
-
-
       $invoice->compose();
       $encoder = new Encoder($interchange->addMessage($invoice)->getComposed(), true);
       $encoder->setUNA(":+,? '");
