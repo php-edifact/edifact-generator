@@ -53,14 +53,13 @@ final class InvoicTest extends TestCase
     );
   }
 
-
   /**
    *
    */
   public function testFreeText()
   {
     $this->assertEquals(
-      'FTX+OSI++HAE:89+reduction of fees text\'',
+      'FTX+OSI++HAE::89+reduction of fees text\'',
       (new Encoder(
         [
           Invoic::addFTXSegment(
@@ -183,7 +182,10 @@ final class InvoicTest extends TestCase
           'Street',
           '99999',
           'city',
-          'DE'
+          'DE',
+          '9',
+          'MFADDRESS',
+          'DE123456789MF'
         )->setWholesalerAddress(
           'Name 1',
           'Name 2',
@@ -237,12 +239,14 @@ final class InvoicTest extends TestCase
       $encoder = new Encoder($interchange->addMessage($invoice)->getComposed(), true);
       $encoder->setUNA(":+,? '");
       $message = str_replace("'", "'\n", $encoder->get());
-//            fwrite(STDOUT, "\n\nINVOICE\n" . $message);
+//      fwrite(STDOUT, "\n\nINVOICE\n" . $message);
 
-      $this->assertContains('UNT+40', $message);
-      $this->assertContains('TAX+7+VAT+++:::19,00', $message);
+
+      $this->assertContains("NAD+SU+MFADDRESS::9++Name 1:Name 2:Name 3+Street+city++99999+DE'\nRFF+VA:DE123456789MF'\n", $message);
+      $this->assertContains("TAX+7+VAT+++:::19,00'\nMOA+150:19,11", $message);
       $this->assertContains('ALC+C++++DL', $message);
       $this->assertContains('MOA+8:149,00', $message);
+      $this->assertContains('UNT+41', $message);
 
     } catch (EdifactException $e) {
       fwrite(STDOUT, "\n\nINVOICE\n" . $e->getMessage());

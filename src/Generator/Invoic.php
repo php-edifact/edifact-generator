@@ -109,9 +109,13 @@ class Invoic extends Message
       'excludingVatText',
       'invoiceDescription',
       'manufacturerAddress',
+      'manufacturerAddressVatId',
       'wholesalerAddress',
+      'wholesalerAddressVatId',
       'deliveryAddress',
+      'deliveryAddressVatId',
       'invoiceAddress',
+      'invoiceAddressVatId',
       'contactPerson',
       'mailAddress',
       'phoneNumber',
@@ -120,6 +124,17 @@ class Invoic extends Message
       'customerVatNumber',
       'currency',
     ];
+
+  protected $composeKeysAfterPositions = [
+    'positionSeparator',
+    'totalPositionsAmount',
+    'basisAmount',
+    'taxableAmount',
+    'payableAmount',
+    'tax',
+    'taxAmount',
+  ];
+
 
 
   /**
@@ -179,17 +194,7 @@ class Invoic extends Message
     }
 
     $this->setPositionSeparator();
-    $this->composeByKeys(
-      [
-        'positionSeparator',
-        'totalPositionsAmount',
-        'basisAmount',
-        'taxableAmount',
-        'payableAmount',
-        'tax',
-        'taxAmount',
-      ]
-    );
+    $this->composeByKeys( $this->composeKeysAfterPositions);
 
     parent::compose();
     return $this;
@@ -573,15 +578,16 @@ class Invoic extends Message
       '',
       $type,
     ];
-    $this->addKeyToCompose($index);
+    $this->addKeyToCompose($index, $this->composeKeysAfterPositions);
+
 
     $index = 'charges' . $this->index++;
     $this->{$index} = self::addMOASegment('8', EdiFactNumber::convert(abs($value)));
-    $this->addKeyToCompose($index);
-
+    $this->addKeyToCompose($index, $this->composeKeysAfterPositions);
+//    fwrite(STDOUT, "\n\nARRAY\n" . implode(',', $this->composeKeys));
+//    fwrite(STDOUT, "\n\nARRAY\n" . implode(',', $this->composeKeysAfterPositions));
 
     return $this;
   }
-
 
 }

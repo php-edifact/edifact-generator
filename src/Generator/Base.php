@@ -29,16 +29,19 @@ class Base
   /** @var string */
   protected $receiver;
 
-  /** @var string */
-//    protected $managingOrganisation = '89';
-
   /**
-   * @param $keyName
+   * @param string     $keyName
+   * @param array|null $array
    */
-  public function addKeyToCompose($keyName)
+  public function addKeyToCompose($keyName, &$array = null)
   {
-    array_push($this->composeKeys, $keyName);
+    if (!$array) {
+      array_push($this->composeKeys, $keyName);
+    } else {
+      array_push($array, $keyName);
+    }
   }
+
 
   /**
    * compose message by keys givven in an ordered array

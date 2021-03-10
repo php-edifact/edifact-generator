@@ -49,7 +49,7 @@ trait ContactPerson
       $section,
       [
         $section,
-        $contactPerson,
+        trim($contactPerson),
       ],
     ];
 

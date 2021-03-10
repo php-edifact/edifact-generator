@@ -19,6 +19,8 @@ trait NameAndAddress
   protected $manufacturerAddressPhoneNumber;
   /** @var array */
   protected $manufacturerAddressFaxNumber;
+  /** @var array */
+  protected $manufacturerAddressVatId;
 
   /** @var array */
   protected $wholesalerAddress;
@@ -30,6 +32,8 @@ trait NameAndAddress
   protected $wholesalerAddressPhoneNumber;
   /** @var array */
   protected $wholesalerAddressFaxNumber;
+  /** @var array */
+  protected $wholesalerAddressVatId;
 
   /** @var array */
   protected $deliveryAddress;
@@ -41,6 +45,8 @@ trait NameAndAddress
   protected $deliveryAddressPhoneNumber;
   /** @var array */
   protected $deliveryAddressFaxNumber;
+  /** @var array */
+  protected $deliveryAddressVatId;
 
   /** @var array */
   protected $invoiceAddress;
@@ -52,6 +58,8 @@ trait NameAndAddress
   protected $invoiceAddressPhoneNumber;
   /** @var array */
   protected $invoiceAddressFaxNumber;
+  /** @var array */
+  protected $invoiceAddressVatId;
 
   /**
    * @param string $name1
@@ -64,9 +72,10 @@ trait NameAndAddress
    * @param string $managingOrganisation
    * @param string $type
    * @param string $sender
-   * @url http://www.unece.org/trade/untdid/d96b/trsd/trsdnad.htm
    *
    * @return array
+   * @url http://www.unece.org/trade/untdid/d96b/trsd/trsdnad.htm
+   *
    */
   public function addNameAndAddress($name1, $name2, $name3, $street, $zipCode, $city, $countryCode,
     $managingOrganisation, $type, $sender = ''
@@ -141,39 +150,6 @@ trait NameAndAddress
   }
 
   /**
-   * @param string $name1
-   * @param string $name2
-   * @param string $name3
-   * @param string $street
-   * @param string $zipCode
-   * @param string $city
-   * @param string $countryCode
-   * @param string $managingOrganisation
-   * @param string $sender
-   *
-   * @return $this
-   */
-  public function setManufacturerAddress($name1, $name2 = '', $name3 = '', $street = '', $zipCode = '',
-    $city = '', $countryCode = 'DE', $managingOrganisation = 'ZZZ', $sender = null
-  ) {
-    $this->manufacturerAddress = $this->addNameAndAddress(
-      $name1,
-      $name2,
-      $name3,
-      $street,
-      $zipCode,
-      $city,
-      $countryCode,
-      $managingOrganisation,
-      'SU',
-      $sender
-    );
-
-    return $this;
-  }
-
-
-  /**
    * @return array
    */
   public function getWholesalerAddress()
@@ -181,36 +157,6 @@ trait NameAndAddress
     return $this->wholesalerAddress;
   }
 
-  /**
-   * @param string $name1
-   * @param string $name2
-   * @param string $name3
-   * @param string $street
-   * @param string $zipCode
-   * @param string $city
-   * @param string $countryCode
-   * @param string $managingOrganisation
-   * @param string $sender
-   *
-   * @return $this
-   */
-  public function setWholesalerAddress($name1, $name2 = '', $name3 = '', $street = '', $zipCode = '',
-    $city = '', $countryCode = 'DE', $managingOrganisation = 'ZZZ', $sender = null
-  ) {
-    $this->wholesalerAddress = $this->addNameAndAddress(
-      $name1,
-      $name2,
-      $name3,
-      $street,
-      $zipCode,
-      $city,
-      $countryCode,
-      $managingOrganisation,
-      'WS',
-      $sender
-    );
-    return $this;
-  }
 
   /**
    * @param $gln
@@ -250,22 +196,23 @@ trait NameAndAddress
   }
 
   /**
-   * @param string $name1
-   * @param string $name2
-   * @param string $name3
-   * @param string $street
-   * @param string $zipCode
-   * @param string $city
-   * @param string $countryCode
-   * @param string $managingOrganisation
-   * @param string $sender
+   * @param string      $name1
+   * @param string      $name2
+   * @param string      $name3
+   * @param string      $street
+   * @param string      $zipCode
+   * @param string      $city
+   * @param string      $countryCode
+   * @param string      $managingOrganisation
+   * @param string      $sender
+   * @param string|null $vatId
    *
    * @return $this
    */
-  public function setDeliveryAddress($name1, $name2 = '', $name3 = '', $street = '',
-    $zipCode = '', $city = '', $countryCode = 'DE', $managingOrganisation = 'ZZZ', $sender = null
+  public function setManufacturerAddress($name1, $name2 = '', $name3 = '', $street = '', $zipCode = '',
+    $city = '', $countryCode = 'DE', $managingOrganisation = 'ZZZ', $sender = null, $vatId = null
   ) {
-    $this->deliveryAddress = $this->addNameAndAddress(
+    $this->manufacturerAddress = $this->addNameAndAddress(
       $name1,
       $name2,
       $name3,
@@ -274,9 +221,13 @@ trait NameAndAddress
       $city,
       $countryCode,
       $managingOrganisation,
-      'ST',
+      'SU',
       $sender
     );
+    if ($vatId){
+      $this->manufacturerAddressVatId = self::addRFFSegment('VA', str_replace(' ', '', $vatId));
+    }
+
     return $this;
   }
 
@@ -290,11 +241,87 @@ trait NameAndAddress
    * @param string $countryCode
    * @param string $managingOrganisation
    * @param string $sender
+   * @param null   $vatId
+   * @param null   $gln
+   *
+   * @return $this
+   */
+  public function setWholesalerAddress($name1, $name2 = '', $name3 = '', $street = '', $zipCode = '',
+    $city = '', $countryCode = 'DE', $managingOrganisation = 'ZZZ', $sender = null, $vatId = null
+  ) {
+    $this->wholesalerAddress = $this->addNameAndAddress(
+      $name1,
+      $name2,
+      $name3,
+      $street,
+      $zipCode,
+      $city,
+      $countryCode,
+      $managingOrganisation,
+      'WS',
+      $sender
+    );
+    if ($vatId){
+      $this->wholesalerAddressVatId = self::addRFFSegment('VA', str_replace(' ', '', $vatId));
+    }
+
+    return $this;
+  }
+
+  /**
+   * @param string $name1
+   * @param string $name2
+   * @param string $name3
+   * @param string $street
+   * @param string $zipCode
+   * @param string $city
+   * @param string $countryCode
+   * @param string $managingOrganisation
+   * @param string $sender
+   * @param null   $vatId
+   * @param null   $gln
+   *
+   * @return $this
+   */
+  public function setDeliveryAddress($name1, $name2 = '', $name3 = '', $street = '',
+    $zipCode = '', $city = '', $countryCode = 'DE', $managingOrganisation = 'ZZZ', $sender = null, $vatId = null
+  ) {
+    $this->deliveryAddress = $this->addNameAndAddress(
+      $name1,
+      $name2,
+      $name3,
+      $street,
+      $zipCode,
+      $city,
+      $countryCode,
+      $managingOrganisation,
+      'ST',
+      $sender
+    );
+
+    if ($vatId){
+      $this->deliveryAddressVatId = self::addRFFSegment('VA', str_replace(' ', '', $vatId));
+    }
+
+    return $this;
+  }
+
+  /**
+   * @param string $name1
+   * @param string $name2
+   * @param string $name3
+   * @param string $street
+   * @param string $zipCode
+   * @param string $city
+   * @param string $countryCode
+   * @param string $managingOrganisation
+   * @param string $sender
+   * @param string $vatId
    *
    * @return $this
    */
   public function setInvoiceAddress($name1, $name2 = '', $name3 = '', $street = '', $zipCode = '',
-    $city = '', $countryCode = 'DE', $managingOrganisation = 'ZZZ', $sender = null
+    $city = '', $countryCode = 'DE', $managingOrganisation = 'ZZZ', $sender = null, $vatId = null
   ) {
     $this->invoiceAddress = $this->addNameAndAddress(
       $name1,
@@ -308,6 +335,9 @@ trait NameAndAddress
       'IV',
       $sender
     );
+    if ($vatId){
+      $this->invoiceAddressVatId = self::addRFFSegment('VA', str_replace(' ', '', $vatId));
+    }
     return $this;
   }
 
