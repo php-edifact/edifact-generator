@@ -128,14 +128,19 @@ final class InvoicTest extends TestCase
       'UNB-Identifier-Receiver'
     ))
       ->setCharset('UNOC')
+      ->setSenderQualifier(14)
+      ->setReceiverQualifier(14)
       ->setCharsetVersion('3');
     $invoice = new Invoic();
-    $invoice->addCashDiscount('2020-04-20', 3);
-    $invoice->addCashDiscount('2020-04-27', 1);
-    $invoice->addNetAmount(26, '2020-05-01');
+
     try {
+      $invoice
+        ->addCashDiscount('2020-04-20', 3)
+        ->addCashDiscount('2020-04-27', 1)
+        ->addNetAmount(26, '2020-05-01');
       $invoice->compose();
     } catch (EdifactException $e) {
+      fwrite(STDOUT, "\n\nINVOICE\n" . $e->getMessage());
     }
     $encoder = new Encoder($interchange->addMessage($invoice)->getComposed(), true);
 
@@ -151,6 +156,8 @@ final class InvoicTest extends TestCase
 
     $this->assertContains('PAT+ZZZ++5:::26', $message);
     $this->assertContains('DTM+13:20200501:102', $message);
+
+    $this->assertContains("UNB+UNOC:3+UNB-Identifier-Sender:14+UNB-Identifier-Receiver:14", $message);
   }
 
 
@@ -242,7 +249,10 @@ final class InvoicTest extends TestCase
 //      fwrite(STDOUT, "\n\nINVOICE\n" . $message);
 
 
-      $this->assertContains("NAD+SU+MFADDRESS::9++Name 1:Name 2:Name 3+Street+city++99999+DE'\nRFF+VA:DE123456789MF'\n", $message);
+      $this->assertContains("UNB+UNOC:3+UNB-Identifier-Sender+UNB-Identifier-Receiver+", $message);
+      $this->assertContains(
+        "NAD+SU+MFADDRESS::9++Name 1:Name 2:Name 3+Street+city++99999+DE'\nRFF+VA:DE123456789MF'\n", $message
+      );
       $this->assertContains("TAX+7+VAT+++:::19,00'\nMOA+150:19,11", $message);
       $this->assertContains('ALC+C++++DL', $message);
       $this->assertContains('MOA+8:149,00', $message);

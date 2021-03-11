@@ -513,6 +513,7 @@ class Invoic extends Message
    * @param $date
    * @param $value
    *
+   * @return Invoic
    * @throws EdifactException
    */
   public function addCashDiscount($date, $value)
@@ -531,6 +532,8 @@ class Invoic extends Message
     $this->addKeyToCompose($index);
 
     $this->index++;
+
+    return $this;
   }
 
   /**
