@@ -54,13 +54,17 @@ trait Item
   protected $composeKeys
     = [
       'position',
+      'specificationText',
+      'additionalText',
       'quantity',
-      'deliveryNoteDate',
+      'deliveryDate',
+      'netPrice',
       'orderNumberWholesaler',
+      'deliveryNoteNumber',
+      'deliveryNoteDate',
+      'deliveryNotePosition',
       'orderDate',
       'orderPosition',
-      'deliveryNoteNumber',
-      'deliveryNotePosition',
     ];
 
   /**
@@ -201,7 +205,7 @@ trait Item
 
 
   /**
-   * @param $text
+   * @param             $text
    *
    * @return $this
    */
@@ -251,22 +255,27 @@ trait Item
   }
 
   /**
-   * @param        $varName
-   * @param        $text
-   * @param        $maxLength
-   * @param        $lineLength
-   * @param string $type
+   * @param string  $varName
+   * @param string  $text
+   * @param integer $maxLength
+   * @param integer $lineLength
+   * @param string  $type
    *
    * @return $this
    */
   private function splitTexts($varName, $text, $maxLength, $lineLength, $type = 'ZU')
   {
-    $this->{$varName} = str_split(mb_substr($text, 0, $maxLength), $lineLength);
-    $nr = 0;
-    foreach ($this->{$varName} as $line) {
-      $property = $varName . $nr++;
-      $this->{$property} = self::addIMDSegment($line, $type);
-      $this->addKeyToCompose($property);
+    $data = str_split(mb_substr($text, 0, $maxLength), $lineLength);
+    $prop = &$this->{$varName};
+    foreach ($data as $line) {
+      $segmentData = self::addIMDSegment($line, $type);
+      if (is_array($prop) && $prop[0][0] == $segmentData[0]) {
+        array_push($prop, $segmentData);
+      }
+
+      if (is_null($prop)) {
+        $prop = [$segmentData];
+      }
     }
 
     return $this;

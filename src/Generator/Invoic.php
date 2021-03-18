@@ -112,6 +112,8 @@ class Invoic extends Message
       'manufacturerAddressVatId',
       'wholesalerAddress',
       'wholesalerAddressVatId',
+      'representativeAddress',
+      'representativeAddressVatId',
       'deliveryAddress',
       'deliveryAddressVatId',
       'invoiceAddress',

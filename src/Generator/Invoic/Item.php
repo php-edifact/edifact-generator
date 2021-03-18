@@ -10,6 +10,7 @@ namespace EDI\Generator\Invoic;
 
 
 use EDI\Generator\Base;
+use EDI\Generator\EdifactDate;
 use EDI\Generator\EdiFactNumber;
 use EDI\Generator\Message;
 
@@ -37,6 +38,8 @@ class Item extends Base
   /** @var array */
   protected $productInformation;
 
+  /** @var array */
+  protected $deliveryDate;
 
   /**
    * @return array
@@ -54,7 +57,7 @@ class Item extends Base
   public function setInvoiceDescription($invoiceDescription)
   {
     $this->invoiceDescription = Message::addFTXSegment($invoiceDescription, 'INV');
-    $this->addKeyToCompose('invoiceDescription');
+    $this->addKeyToCompose('invoiceDescription', $this->composeKeys);
     return $this;
   }
 
@@ -118,7 +121,8 @@ class Item extends Base
   public function setNetPrice($netPrice)
   {
     $this->netPrice = self::addPRISegment('NTP', $netPrice);
-    $this->addKeyToCompose('netPrice');
+//    $this->addKeyToCompose('netPrice', $this->composeKeys, 'orderPosition');
+
     return $this;
   }
 
@@ -193,5 +197,20 @@ class Item extends Base
     return $this;
   }
 
+  /**
+   * @param     $deliveryDate
+   * @param int $type
+   * @param int $formatQuantifier
+   *
+   * @return $this
+   * @throws \EDI\Generator\EdifactException
+   */
+  public function setDeliveryDate($deliveryDate, $type = EdifactDate::TYPE_DELIVERY_DATE_ACTUAL,
+    $formatQuantifier = EdifactDate::DATE
+  ) {
+    $this->deliveryDate = $this->addDTMSegment($deliveryDate, $type, $formatQuantifier);
+
+    return $this;
+  }
 
 }

@@ -200,7 +200,19 @@ final class InvoicTest extends TestCase
           'Street',
           '99999',
           'city',
-          'DE'
+          'DE',
+          '9',
+          '4250724100005'
+        )->setRepresentativeAddress(
+          'Name 1',
+          'Name 2',
+          'Name 3',
+          'Street',
+          '99999',
+          'city',
+          'DE',
+          '9',
+          '4260257750004'
         )->setDeliveryAddress(
           'Name 1',
           'Name 2',
@@ -219,7 +231,10 @@ final class InvoicTest extends TestCase
       $item
         ->setPosition(1, 'articleId')
         ->setQuantity(5)
-        ->setAdditionalText('additionalText')
+        ->setSpecificationText('specificText')
+        ->setAdditionalText(
+          'specificText and this is a longer description for testing inside item position, array_push($subArray, $segmentData);, array_push($subArray, $segmentData);, array_push($subArray, $segmentData);'
+        )
         ->setInvoiceDescription('this is a longer description for testing inside item position')
         ->setNetPrice(22.50)
         ->setGrossPrice(26.775)
@@ -227,7 +242,8 @@ final class InvoicTest extends TestCase
         ->setOrderDate($this->getDateTime())
         ->setDeliveryNotePosition(20)
         ->setDeliveryNoteNumber('deliverNoteNumber')
-        ->setDeliveryNoteDate($this->getDateTime());
+        ->setDeliveryNoteDate($this->getDateTime())
+        ->setDeliveryDate($this->getDateTime());
       $item->addDiscount(-20.34, 30, Invoic\Item::DISCOUNT_TYPE_ABSOLUTE);
 
       $invoice->addItem($item);
@@ -243,6 +259,7 @@ final class InvoicTest extends TestCase
         ->setTax(19, 19.11);
 
       $invoice->compose();
+//      print_r($invoice->getComposed());exit;
       $encoder = new Encoder($interchange->addMessage($invoice)->getComposed(), true);
       $encoder->setUNA(":+,? '");
       $message = str_replace("'", "'\n", $encoder->get());
@@ -253,10 +270,15 @@ final class InvoicTest extends TestCase
       $this->assertContains(
         "NAD+SU+MFADDRESS::9++Name 1:Name 2:Name 3+Street+city++99999+DE'\nRFF+VA:DE123456789MF'\n", $message
       );
+
+      $this->assertContains("NAD+WS+", $message);
+      $this->assertContains("NAD+AB+", $message);
+
+      $this->assertContains("LIN+1++articleId:MF'\nIMD+++SP:::specificText", $message);
       $this->assertContains("TAX+7+VAT+++:::19,00'\nMOA+150:19,11", $message);
       $this->assertContains('ALC+C++++DL', $message);
       $this->assertContains('MOA+8:149,00', $message);
-      $this->assertContains('UNT+41', $message);
+      $this->assertContains('UNT+44', $message);
 
     } catch (EdifactException $e) {
       fwrite(STDOUT, "\n\nINVOICE\n" . $e->getMessage());

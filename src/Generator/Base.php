@@ -30,21 +30,29 @@ class Base
   protected $receiver;
 
   /**
-   * @param string     $keyName
-   * @param array|null $array
+   * @param string      $keyName
+   * @param array|null  $array
+   * @param null|string $position
    */
-  public function addKeyToCompose($keyName, &$array = null)
+  public function addKeyToCompose($keyName, &$array = null, $position = null)
   {
     if (!$array) {
-      array_push($this->composeKeys, $keyName);
-    } else {
-      array_push($array, $keyName);
+      $array = $this->composeKeys;
     }
+
+    if ($position) {
+      $index = array_search($position, $array);
+      array_splice($array, $index + 1, 0, $keyName);
+
+      return;
+    }
+
+    array_push($this->composeKeys, $keyName);
   }
 
 
   /**
-   * compose message by keys givven in an ordered array
+   * compose message by keys given in an ordered array
    *
    * @param array $keys
    *
@@ -66,11 +74,11 @@ class Base
             throw new EdifactException("key " . $key . " returns no array structure");
           }
         }
-      } else {
-        throw new EdifactException(
-          'key: ' . $key . ' not found for composeByKeys in ' . get_class($this) . '->' .
-          debug_backtrace()[1]['function']
-        );
+//      } else {
+//        throw new EdifactException(
+//          'key: ' . $key . ' not found for composeByKeys in ' . get_class($this) . '->' .
+//          debug_backtrace()[1]['function']
+//        );
       }
     }
 
@@ -82,7 +90,19 @@ class Base
    */
   public function getComposed()
   {
-    return $this->composed;
+    $output = [];
+    foreach($this->composed as $item){
+      if (is_string($item[0])){
+        $output[] = $item;
+        continue;
+      }
+      foreach($item as $subItem){
+        $output[] = $subItem;
+      }
+    }
+//    print_r($this->composed);exit;
+
+    return $output;
   }
 
   /**
