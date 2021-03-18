@@ -281,7 +281,6 @@ trait NameAndAddress
       'WS',
       $sender
     );
-//    print_r($this->wholesalerAddress); exit;
 
     if ($vatId) {
       $this->wholesalerAddressVatId = self::addRFFSegment('VA', str_replace(' ', '', $vatId));
@@ -307,7 +306,11 @@ trait NameAndAddress
   public function setRepresentativeAddress($name1, $name2 = '', $name3 = '', $street = '', $zipCode = '',
     $city = '', $countryCode = 'DE', $managingOrganisation = 'ZZZ', $sender = null, $vatId = null
   ) {
-    $this->representativeAddress = $this->addNameAndAddress(
+    if (!is_array($this->representativeAddress)) {
+      $this->representativeAddress = [];
+    }
+
+    $this->representativeAddress[] = $this->addNameAndAddress(
       $name1,
       $name2,
       $name3,
@@ -320,8 +323,20 @@ trait NameAndAddress
       $sender
     );
     if ($vatId) {
-      $this->representativeAddressVatId = self::addRFFSegment('VA', str_replace(' ', '', $vatId));
+      $this->representativeAddress[] = self::addRFFSegment('VA', str_replace(' ', '', $vatId));
     }
+
+    return $this;
+  }
+
+  /**
+   * @param $taxNumber
+   *
+   * @return NameAndAddress
+   */
+  public function setRepresentativeAddressTaxNumber($taxNumber)
+  {
+    $this->representativeAddress[] = self::addRFFSegment('FC', str_replace(' ', '', $taxNumber));
 
     return $this;
   }

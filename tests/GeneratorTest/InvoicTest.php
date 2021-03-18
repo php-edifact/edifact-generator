@@ -135,6 +135,10 @@ final class InvoicTest extends TestCase
 
     try {
       $invoice
+        ->setRepresentativeAddress(
+          'tester'
+        )
+        ->setRepresentativeAddressTaxNumber('327/5787/3111')
         ->addCashDiscount('2020-04-20', 3)
         ->addCashDiscount('2020-04-27', 1)
         ->addNetAmount(26, '2020-05-01')
@@ -148,6 +152,7 @@ final class InvoicTest extends TestCase
     $message = str_replace("'", "'\n", $encoder->get());
 //    fwrite(STDOUT, "\n\nINVOICE\n" . $message);
 
+    $this->assertContains('RFF+FC:327/5787/3111', $message);
     $this->assertContains('PAT+22++5', $message);
     $this->assertContains('DTM+343:20200420:102', $message);
     $this->assertContains('PCD+12:3,00', $message);
