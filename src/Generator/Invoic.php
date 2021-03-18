@@ -130,8 +130,8 @@ class Invoic extends Message
   protected $composeKeysAfterPositions = [
     'positionSeparator',
     'totalPositionsAmount',
-    'basisAmount',
     'taxableAmount',
+    'basisAmount',
     'payableAmount',
     'tax',
     'taxAmount',
