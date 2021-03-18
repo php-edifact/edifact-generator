@@ -137,7 +137,8 @@ final class InvoicTest extends TestCase
       $invoice
         ->addCashDiscount('2020-04-20', 3)
         ->addCashDiscount('2020-04-27', 1)
-        ->addNetAmount(26, '2020-05-01');
+        ->addNetAmount(26, '2020-05-01')
+        ->addCharges(320);
       $invoice->compose();
     } catch (EdifactException $e) {
       fwrite(STDOUT, "\n\nINVOICE\n" . $e->getMessage());
@@ -156,6 +157,7 @@ final class InvoicTest extends TestCase
 
     $this->assertContains('PAT+ZZZ++5:::26', $message);
     $this->assertContains('DTM+13:20200501:102', $message);
+    $this->assertContains('MOA+8:320,00', $message);
 
     $this->assertContains("UNB+UNOC:3+UNB-Identifier-Sender:14+UNB-Identifier-Receiver:14", $message);
   }

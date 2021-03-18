@@ -100,6 +100,9 @@ class Invoic extends Message
   protected $index = 0;
 
   /** @var array */
+  protected $charges;
+
+  /** @var array */
   protected $composeKeys
     = [
       'invoiceNumber',
@@ -127,16 +130,17 @@ class Invoic extends Message
       'currency',
     ];
 
-  protected $composeKeysAfterPositions = [
-    'positionSeparator',
-    'totalPositionsAmount',
-    'taxableAmount',
-    'basisAmount',
-    'payableAmount',
-    'tax',
-    'taxAmount',
-  ];
-
+  protected $composeKeysAfterPositions
+    = [
+      'positionSeparator',
+      'totalPositionsAmount',
+      'taxableAmount',
+      'basisAmount',
+      'payableAmount',
+      'tax',
+      'taxAmount',
+      'charges',
+    ];
 
 
   /**
@@ -196,7 +200,7 @@ class Invoic extends Message
     }
 
     $this->setPositionSeparator();
-    $this->composeByKeys( $this->composeKeysAfterPositions);
+    $this->composeByKeys($this->composeKeysAfterPositions);
 
     parent::compose();
     return $this;
@@ -482,6 +486,7 @@ class Invoic extends Message
   public function setPayableAmount($payableAmount)
   {
     $this->payableAmount = self::addMOASegment('9', $payableAmount);
+
     return $this;
   }
 
@@ -557,6 +562,8 @@ class Invoic extends Message
     $this->addKeyToCompose($index);
 
     $this->index++;
+
+    return $this;
   }
 
   const CHARGES_TYPE_FEES = 'ABW';
@@ -574,8 +581,10 @@ class Invoic extends Message
    */
   public function addCharges($value, $type = self::CHARGES_TYPE_CARGO)
   {
-    $index = 'charges' . $this->index++;
-    $this->{$index} = [
+    if (!is_array($this->charges)) {
+      $this->charges = [];
+    }
+    $this->charges[] = [
       'ALC',
       floatval($value) > 0 ? 'C' : 'A',
       '',
@@ -583,14 +592,8 @@ class Invoic extends Message
       '',
       $type,
     ];
-    $this->addKeyToCompose($index, $this->composeKeysAfterPositions);
 
-
-    $index = 'charges' . $this->index++;
-    $this->{$index} = self::addMOASegment('8', EdiFactNumber::convert(abs($value)));
-    $this->addKeyToCompose($index, $this->composeKeysAfterPositions);
-//    fwrite(STDOUT, "\n\nARRAY\n" . implode(',', $this->composeKeys));
-//    fwrite(STDOUT, "\n\nARRAY\n" . implode(',', $this->composeKeysAfterPositions));
+    $this->charges[] = self::addMOASegment('8', EdiFactNumber::convert(abs($value)));
 
     return $this;
   }
