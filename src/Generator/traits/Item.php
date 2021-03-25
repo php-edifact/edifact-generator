@@ -58,13 +58,16 @@ trait Item
       'additionalText',
       'quantity',
       'deliveryDate',
+      'invoiceDescription',
       'netPrice',
+      'grossPrice',
       'orderNumberWholesaler',
       'deliveryNoteNumber',
       'deliveryNoteDate',
       'deliveryNotePosition',
       'orderDate',
       'orderPosition',
+      'discount'
     ];
 
   /**

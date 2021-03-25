@@ -251,10 +251,11 @@ final class InvoicTest extends TestCase
         ->setDeliveryNoteNumber('deliverNoteNumber')
         ->setDeliveryNoteDate($this->getDateTime())
         ->setDeliveryDate($this->getDateTime());
-      $item->addDiscount(-20.34, 30, Invoic\Item::DISCOUNT_TYPE_ABSOLUTE);
+
+      $item->addDiscount(-2.5);
+      $item->addDiscount(-5.25, Invoic\Item::DISCOUNT_TYPE_ABSOLUTE);
 
       $invoice->addItem($item);
-
 
       $invoice->addCharges('149');
 
@@ -280,12 +281,13 @@ final class InvoicTest extends TestCase
 
       $this->assertContains("NAD+WS+", $message);
       $this->assertContains("NAD+AB+", $message);
-
+      $this->assertContains("ALC+A++++SF'\nPCD+3:2,50", $message);
+      $this->assertContains("ALC+A++++DI'\nPCD+3:5,25'\nMOA+8:5,25", $message);
       $this->assertContains("LIN+1++articleId:MF'\nIMD+++SP:::specificText", $message);
       $this->assertContains("TAX+7+VAT+++:::19,00'\nMOA+150:19,11", $message);
       $this->assertContains('ALC+C++++DL', $message);
       $this->assertContains('MOA+8:149,00', $message);
-      $this->assertContains('UNT+44', $message);
+      $this->assertContains('UNT+41', $message);
 
     } catch (EdifactException $e) {
       fwrite(STDOUT, "\n\nINVOICE\n" . $e->getMessage());
