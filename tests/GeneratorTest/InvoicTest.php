@@ -118,6 +118,30 @@ final class InvoicTest extends TestCase
     );
   }
 
+
+  public function testCredit()
+  {
+    $this->assertEquals(
+      'BGM+381::89+123456+9\'',
+      (new Encoder(
+        [
+          Invoic::addBGMSegment('123456', Invoic::TYPE_CREDIT_NOTE),
+        ]
+      ))->get());
+  }
+
+  public function testCreditStorno()
+  {
+    $this->assertEquals(
+      'BGM+381::89+123456+1\'',
+      (new Encoder(
+        [
+          Invoic::addBGMSegment('123456', Invoic::TYPE_CREDIT_NOTE, Invoic::TYPE_REVERSAL),
+        ]
+      ))->get());
+  }
+
+
   /**
    * Skonto
    */
