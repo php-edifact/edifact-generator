@@ -127,13 +127,25 @@ class Item extends Base
   /**
    * @param float  $value Positive for extra charge and negative for discount
    * @param string $discountType
+   * @param int    $valueBeforeDiscount
+   * @param string $discountText
    *
    * @return Item
    */
-  public function addDiscount($value, $discountType = self::DISCOUNT_TYPE_PERCENT)
-  {
+  public function addDiscount(
+    $value,
+    $discountType = self::DISCOUNT_TYPE_PERCENT,
+    $valueBeforeDiscount = 0,
+    $discountText = ''
+  ) {
     if (!is_array($this->discount)) {
       $this->discount = [];
+    }
+
+
+    $discountType == self::DISCOUNT_TYPE_PERCENT ? 'SF' : 'DI';
+    if (!empty($discountText)) {
+      $discountType = 'ZZZ';
     }
 
     array_push(
@@ -143,7 +155,12 @@ class Item extends Base
         '',
         '',
         '',
-        $discountType == self::DISCOUNT_TYPE_PERCENT ? 'SF' : 'DI',
+        [
+          $discountType,
+          '',
+          '',
+          $discountText,
+        ],
       ]
     );
 
@@ -157,9 +174,19 @@ class Item extends Base
       ]
     );
 
-    if ($discountType != self::DISCOUNT_TYPE_PERCENT) {
-      array_push($this->discount, self::addMOASegment('8', abs($value)));
-    }
+
+    array_push(
+      $this->discount,
+      self::addMOASegment(
+        '8',
+        $valueBeforeDiscount * (abs($value) / 100)
+      )
+    );
+
+
+//    if ($discountType != self::DISCOUNT_TYPE_PERCENT) {
+//      array_push($this->discount, self::addMOASegment('8', abs($value)));
+//    }
 
     return $this;
   }

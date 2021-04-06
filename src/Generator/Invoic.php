@@ -103,6 +103,9 @@ class Invoic extends Message
   protected $charges;
 
   /** @var array */
+  protected $cashDiscount;
+
+  /** @var array */
   protected $composeKeys
     = [
       'invoiceNumber',
@@ -128,6 +131,7 @@ class Invoic extends Message
       'vatNumber',
       'customerVatNumber',
       'currency',
+      'cashDiscount',
     ];
 
   protected $composeKeysAfterPositions
@@ -525,20 +529,25 @@ class Invoic extends Message
    */
   public function addCashDiscount($date, $value)
   {
-    $index = 'cashDiscountPAT' . $this->index;
-    $this->{$index} = self::addPATSegment(Base::PAT_SKONTO);
-    $this->addKeyToCompose($index);
+    if (!is_array($this->cashDiscount)) {
+      $this->cashDiscount = [];
+    }
 
-    $index = 'cashDiscountDTM' . $this->index;
-    $this->{$index} = self::addDTMSegment($date, 343);
-    $this->addKeyToCompose($index);
+    array_push(
+      $this->cashDiscount,
+      self::addPATSegment(Base::PAT_SKONTO)
+    );
+
+    array_push(
+      $this->cashDiscount,
+      self::addDTMSegment($date, 343)
+    );
 
 
-    $index = 'cashDiscountPCD' . $this->index;
-    $this->{$index} = self::addPCDSegment($value);
-    $this->addKeyToCompose($index);
-
-    $this->index++;
+    array_push(
+      $this->cashDiscount,
+      self::addPCDSegment($value)
+    );
 
     return $this;
   }

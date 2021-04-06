@@ -23,6 +23,43 @@ use PHPUnit\Framework\TestCase;
 final class InvoicTest extends TestCase
 {
 
+
+  public function testDiscount()
+  {
+    $interchange = (new Interchange(
+      'UNB-Identifier-Sender',
+      'UNB-Identifier-Receiver'
+    ))
+      ->setCharset('UNOC')
+      ->setSenderQualifier(14)
+      ->setReceiverQualifier(14)
+      ->setCharsetVersion('3');
+    $invoice = new Invoic();
+
+    try {
+      $item = new Invoic\Item();
+      $item
+        ->setPosition(1, 'articleId')
+        ->setQuantity(5)
+        ->setNetPrice(823.20)
+        ->setGrossPrice(840.0);
+
+      $item->addDiscount(-2.0, Invoic\Item::DISCOUNT_TYPE_PERCENT, 840, 'Grundrabatt');
+//      $item->addDiscount(-5.25, Invoic\Item::DISCOUNT_TYPE_ABSOLUTE);
+
+      $invoice->addItem($item);
+      $invoice->compose();
+    } catch (EdifactException $e) {
+      fwrite(STDOUT, "\n\nINVOICE\n" . $e->getMessage());
+    }
+
+    $encoder = new Encoder($interchange->addMessage($invoice)->getComposed(), true);
+
+    $message = str_replace("'", "'\n", $encoder->get());
+    $this->assertContains("PRI+GRP:840,00:::1:PCE'", $message);
+    $this->assertContains("ALC+A++++ZZZ:::Grundrabatt'\nPCD+3:2,00'\nMOA+8:16,80'", $message);
+  }
+
   /**
    *
    */
@@ -127,7 +164,8 @@ final class InvoicTest extends TestCase
         [
           Invoic::addBGMSegment('123456', Invoic::TYPE_CREDIT_NOTE),
         ]
-      ))->get());
+      ))->get()
+    );
   }
 
   public function testCreditStorno()
@@ -138,7 +176,8 @@ final class InvoicTest extends TestCase
         [
           Invoic::addBGMSegment('123456', Invoic::TYPE_CREDIT_NOTE, Invoic::TYPE_REVERSAL),
         ]
-      ))->get());
+      ))->get()
+    );
   }
 
 
@@ -276,8 +315,6 @@ final class InvoicTest extends TestCase
         ->setDeliveryNoteDate($this->getDateTime())
         ->setDeliveryDate($this->getDateTime());
 
-      $item->addDiscount(-2.5);
-      $item->addDiscount(-5.25, Invoic\Item::DISCOUNT_TYPE_ABSOLUTE);
 
       $invoice->addItem($item);
 
@@ -305,13 +342,11 @@ final class InvoicTest extends TestCase
 
       $this->assertContains("NAD+WS+", $message);
       $this->assertContains("NAD+AB+", $message);
-      $this->assertContains("ALC+A++++SF'\nPCD+3:2,50", $message);
-      $this->assertContains("ALC+A++++DI'\nPCD+3:5,25'\nMOA+8:5,25", $message);
       $this->assertContains("LIN+1++articleId:MF'\nIMD+++SP:::specificText", $message);
       $this->assertContains("TAX+7+VAT+++:::19,00'\nMOA+150:19,11", $message);
       $this->assertContains('ALC+C++++DL', $message);
       $this->assertContains('MOA+8:149,00', $message);
-      $this->assertContains('UNT+41', $message);
+      $this->assertContains('UNT+40', $message);
 
     } catch (EdifactException $e) {
       fwrite(STDOUT, "\n\nINVOICE\n" . $e->getMessage());
