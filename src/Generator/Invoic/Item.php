@@ -183,6 +183,21 @@ class Item extends Base
       )
     );
 
+
+    array_push(
+      $this->discount, [
+        'ALC',
+        floatval($value) > 0 ? 'C' : 'A',
+        '',
+        '',
+        '',
+        [
+          self::DISCOUNT_TYPE_PERCENT ? 'SF' : 'DI',
+        ],
+      ]
+    );
+
+
     array_push(
       $this->discount, [
         'PCD',

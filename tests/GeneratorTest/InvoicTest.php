@@ -57,7 +57,7 @@ final class InvoicTest extends TestCase
 
     $message = str_replace("'", "'\n", $encoder->get());
     $this->assertContains("PRI+GRP:840,00:::1:PCE'", $message);
-    $this->assertContains("ALC+A++++ZZZ:::Grundrabatt'\nPCD+3:2,00'\nMOA+8:16,80'PCC", $message);
+    $this->assertContains("ALC+A++++ZZZ:::Grundrabatt'\nPCD+3:2,00'\nMOA+8:16,80'\nALC+A++++SF'\nPCD+1:0,9800'\nMOA+8:16,80'", $message);
   }
 
   /**
