@@ -183,10 +183,24 @@ class Item extends Base
       )
     );
 
+    array_push(
+      $this->discount, [
+        'PCD',
+        [
+          '1',
+          EdiFactNumber::convert(1 - (abs($value) / 100), 4),
+        ],
+      ]
+    );
 
-//    if ($discountType != self::DISCOUNT_TYPE_PERCENT) {
-//      array_push($this->discount, self::addMOASegment('8', abs($value)));
-//    }
+    array_push(
+      $this->discount,
+      self::addMOASegment(
+        '8',
+        $valueBeforeDiscount * (abs($value) / 100)
+      )
+    );
+
 
     return $this;
   }
