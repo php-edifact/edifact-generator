@@ -69,7 +69,14 @@ class Base
         if (!is_null($this->{$key})) {
           $value = $this->{$key};
           if ($value) {
-            $this->messageContent[] = $value;
+            if (is_string($value[0])){
+              $this->messageContent[] = $value;
+            } else {
+              foreach($value as $item){
+                $this->messageContent[] = $item;
+              }
+            }
+
           } else {
             throw new EdifactException("key " . $key . " returns no array structure");
           }
@@ -90,19 +97,20 @@ class Base
    */
   public function getComposed()
   {
-    $output = [];
-    foreach($this->composed as $item){
-      if (is_string($item[0])){
-        $output[] = $item;
-        continue;
-      }
-      foreach($item as $subItem){
-        $output[] = $subItem;
-      }
-    }
+//    $output = [];
+//    foreach($this->composed as $item){
+//      if (is_string($item[0])){
+//        $output[] = $item;
+//        continue;
+//      }
+//      foreach($item as $subItem){
+//        $output[] = $subItem;
+//      }
+//    }
 //    print_r($this->composed);exit;
 
-    return $output;
+    return $this->composed;
+//    return $output;
   }
 
   /**

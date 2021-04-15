@@ -73,6 +73,8 @@ class Message extends Base
       $temp[] = $i;
     }
 
+//    fwrite(STDOUT, var_export($this->messageContent));
+
     $temp[] = [
       'UNT',
       (2 + count($this->messageContent)),

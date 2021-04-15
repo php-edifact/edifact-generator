@@ -40,32 +40,24 @@ class InvoicItemTest extends TestCase
         ->addDiscount(-3, 840);
       $invoice->addItem($item);
 
-
       $item2 = new Item();
       $item2
         ->setPosition(2, 'articleId')
-        ->addDiscount(-20, 1000, Item::DISCOUNT_TYPE_ABSOLUTE);
+        ->addDiscount(-20, Item::DISCOUNT_TYPE_ABSOLUTE, 100);
       $invoice->addItem($item2);
-
-
 
       $invoice->compose();
       $encoder = new Encoder($interchange->addMessage($invoice)->getComposed(), true);
       $encoder->setUNA(":+,? '");
       $message = str_replace("'", "'\n", $encoder->get());
     } catch (EdifactException $e) {
-
+      fwrite(STDOUT, "\n\nINVOICE-ITEM\n" . $e->getMessage());
     }
 
     $this->assertContains('ALC+A++++SF', $message);
-    $this->assertContains('PCD+3:25,20', $message);
-    $this->assertContains('MOA+8:840,00', $message);
-
-
     $this->assertContains('PCD+3:20,00', $message);
-    $this->assertContains('MOA+8:1000,00', $message);
-
-
+    $this->assertContains('MOA+8:20,00', $message);
+    $this->assertContains('PCD+1:0,8000', $message);
   }
 
 

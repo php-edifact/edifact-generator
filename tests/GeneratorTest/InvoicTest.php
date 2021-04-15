@@ -57,7 +57,10 @@ final class InvoicTest extends TestCase
 
     $message = str_replace("'", "'\n", $encoder->get());
     $this->assertContains("PRI+GRP:840,00:::1:PCE'", $message);
-    $this->assertContains("ALC+A++++ZZZ:::Grundrabatt'\nPCD+3:2,00'\nMOA+8:16,80'\nALC+A++++SF'\nPCD+1:0,9800'\nMOA+8:16,80'", $message);
+    $this->assertContains(
+      "ALC+A++++ZZZ:::Grundrabatt'\nPCD+3:2,00'\nMOA+8:16,80'\nALC+A++++SF'\nPCD+1:0,9800'\nMOA+8:16,80'", $message
+    );
+    $this->assertContains("UNT+13+", $message);
   }
 
   /**
@@ -346,7 +349,7 @@ final class InvoicTest extends TestCase
       $this->assertContains("TAX+7+VAT+++:::19,00'\nMOA+150:19,11", $message);
       $this->assertContains('ALC+C++++DL', $message);
       $this->assertContains('MOA+8:149,00', $message);
-      $this->assertContains('UNT+40', $message);
+      $this->assertContains('UNT+45', $message);
 
     } catch (EdifactException $e) {
       fwrite(STDOUT, "\n\nINVOICE\n" . $e->getMessage());
