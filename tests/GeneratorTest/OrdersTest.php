@@ -9,14 +9,54 @@
 namespace GeneratorTest;
 
 use EDI\Encoder;
+use EDI\Generator\EdifactDate;
 use EDI\Generator\EdifactException;
 use EDI\Generator\Interchange;
+use EDI\Generator\Invoic;
 use EDI\Generator\Orders;
+use EDI\Generator\Ordrsp;
 use PHPUnit\Framework\TestCase;
 
 class OrdersTest extends TestCase
 {
-    public function testOrders()
+
+  public function testDTMPosition()
+  {
+    $interchange = (new Interchange(
+      'UNB-Identifier-Sender',
+      'UNB-Identifier-Receiver'
+    ))
+      ->setCharset('UNOC')
+      ->setSenderQualifier(14)
+      ->setReceiverQualifier(14)
+      ->setCharsetVersion('3');
+    $orderResponse = new Ordrsp();
+
+    try {
+      $item = new Ordrsp\Item();
+      $item
+        ->setPosition(1, 'articleId')
+        ->setQuantity(5)
+        ->setDeliveryNoteNumber("test")
+        ->setOrderNumberWholesaler('500.MY I-50311046-005')
+        ->setDeliveryNoteDate('2021-04-20', EdifactDate::TYPE_DELIVERY_DATE_ESTIMATED)
+        ;
+      $orderResponse->addItem($item);
+      $orderResponse->compose();
+    } catch (EdifactException $e) {
+      fwrite(STDOUT, "\n\nORDERSP\n" . $e->getMessage());
+    }
+
+    $encoder = new Encoder($interchange->addMessage($orderResponse)->getComposed(), true);
+    $message = str_replace("'", "'\n", $encoder->get());
+    $this->assertContains(
+      "QTY+12:5:PCE'\nDTM+17:20210420:102", $message
+    );
+    $this->assertContains("UNT+8+", $message);
+  }
+
+
+  public function testOrders()
     {
         $interchange = new Interchange(
             'UNB-Identifier-Sender',
