@@ -183,6 +183,8 @@ class Invoic extends Message
   public function addItem($item)
   {
     $this->items[] = $item;
+
+    return $this;
   }
 
 

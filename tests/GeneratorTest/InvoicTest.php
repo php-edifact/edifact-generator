@@ -43,9 +43,9 @@ final class InvoicTest extends TestCase
         ->setQuantity(5)
         ->setNetPrice(823.20)
         ->setGrossPrice(840.0);
-
-      $item->addDiscount(-2.0, Invoic\Item::DISCOUNT_TYPE_PERCENT, 840, 'Grundrabatt');
-//      $item->addDiscount(-5.25, Invoic\Item::DISCOUNT_TYPE_ABSOLUTE);
+      $item
+        ->addDiscount(-2.0, Invoic\Item::DISCOUNT_TYPE_PERCENT, 840, 'Grundrabatt')
+        ->addDiscountFactor(823.20, 840);
 
       $invoice->addItem($item);
       $invoice->compose();
@@ -349,7 +349,7 @@ final class InvoicTest extends TestCase
       $this->assertContains("TAX+7+VAT+++:::19,00'\nMOA+150:19,11", $message);
       $this->assertContains('ALC+C++++DL', $message);
       $this->assertContains('MOA+8:149,00', $message);
-      $this->assertContains('UNT+45', $message);
+      $this->assertContains('UNT+44', $message);
 
     } catch (EdifactException $e) {
       fwrite(STDOUT, "\n\nINVOICE\n" . $e->getMessage());

@@ -11,6 +11,7 @@ namespace EDI\Generator\Invoic;
 
 use EDI\Generator\Base;
 use EDI\Generator\EdifactDate;
+use EDI\Generator\EdifactException;
 use EDI\Generator\EdiFactNumber;
 use EDI\Generator\Message;
 
@@ -35,6 +36,9 @@ class Item extends Base
 
   /** @var array */
   protected $discount;
+
+  /** @var array */
+  protected $discountFactor;
 
   /** @var array */
   protected $productInformation;
@@ -183,39 +187,55 @@ class Item extends Base
       )
     );
 
+    return $this;
+  }
+
+
+  /**
+   * @param $value
+   * @param $valueBeforeDiscount
+   *
+   * @return $this
+   * @throws EdifactException
+   */
+  public function addDiscountFactor($valueAfterDiscount, $valueBeforeDiscount)
+  {
+    $this->discountFactor = [];
+    if ($valueBeforeDiscount == 0) {
+      throw new EdifactException('valueBeforeDiscount cannot be 0');
+    }
+    $factor = $valueAfterDiscount / $valueBeforeDiscount;
 
     array_push(
-      $this->discount, [
+      $this->discountFactor, [
         'ALC',
-        floatval($value) > 0 ? 'C' : 'A',
+        floatval($factor) > 1 ? 'C' : 'A',
         '',
         '',
         '',
         [
-          self::DISCOUNT_TYPE_PERCENT ? 'SF' : 'DI',
+          'SF',
         ],
       ]
     );
 
-
     array_push(
-      $this->discount, [
+      $this->discountFactor, [
         'PCD',
         [
           '1',
-          EdiFactNumber::convert(1 - (abs($value) / 100), 4),
+          EdiFactNumber::convert($factor, 4),
         ],
       ]
     );
 
     array_push(
-      $this->discount,
+      $this->discountFactor,
       self::addMOASegment(
         '8',
-        $valueBeforeDiscount * (abs($value) / 100)
+        $valueBeforeDiscount - $valueAfterDiscount
       )
     );
-
 
     return $this;
   }

@@ -69,10 +69,10 @@ class Base
         if (!is_null($this->{$key})) {
           $value = $this->{$key};
           if ($value) {
-            if (is_string($value[0])){
+            if (is_string($value[0])) {
               $this->messageContent[] = $value;
             } else {
-              foreach($value as $item){
+              foreach ($value as $item) {
                 $this->messageContent[] = $item;
               }
             }
@@ -81,11 +81,6 @@ class Base
             throw new EdifactException("key " . $key . " returns no array structure");
           }
         }
-//      } else {
-//        throw new EdifactException(
-//          'key: ' . $key . ' not found for composeByKeys in ' . get_class($this) . '->' .
-//          debug_backtrace()[1]['function']
-//        );
       }
     }
 
@@ -97,20 +92,7 @@ class Base
    */
   public function getComposed()
   {
-//    $output = [];
-//    foreach($this->composed as $item){
-//      if (is_string($item[0])){
-//        $output[] = $item;
-//        continue;
-//      }
-//      foreach($item as $subItem){
-//        $output[] = $subItem;
-//      }
-//    }
-//    print_r($this->composed);exit;
-
     return $this->composed;
-//    return $output;
   }
 
   /**
@@ -184,7 +166,7 @@ class Base
    * @throws EdifactException
    * @see https://www.stylusstudio.com/edifact/D94A/2379.htm
    */
-  protected function addDTMSegment($dateString, $type, $formatQualifier = EdifactDate::DATE)
+  public function addDTMSegment($dateString, $type, $formatQualifier = EdifactDate::DATE)
   {
     $data = [];
     array_push($data, $type);

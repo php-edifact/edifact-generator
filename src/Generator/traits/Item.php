@@ -2,6 +2,7 @@
 
 namespace EDI\Generator\Traits;
 
+use EDI\Generator\Base;
 use EDI\Generator\EdifactDate;
 use EDI\Generator\EdiFactNumber;
 
@@ -10,6 +11,7 @@ use EDI\Generator\EdiFactNumber;
  * Trait Item
  *
  * @package EDI\Generator\Traits
+ * @mixin Base
  */
 trait Item
 {
@@ -66,7 +68,8 @@ trait Item
       'deliveryNoteNumber',
       'deliveryNotePosition',
       'orderPosition',
-      'discount'
+      'discount',
+      'discountFactor',
     ];
 
   /**
@@ -354,13 +357,28 @@ trait Item
   }
 
   /**
-   * @param string $deliveryNoteNumber
+   * @param string      $deliveryNoteNumber
+   * @param string|null $deliveryDate
    *
    * @return Item
+   * @throws \EDI\Generator\EdifactException
    */
-  public function setDeliveryNoteNumber($deliveryNoteNumber)
+  public function setDeliveryNoteNumber($deliveryNoteNumber, $deliveryDate = null)
   {
-    $this->deliveryNoteNumber = $this->addRFFSegment('AAJ', $deliveryNoteNumber);
+    $data = $this->addRFFSegment('AAJ', $deliveryNoteNumber);
+    if ($deliveryDate){
+      $data = [
+        $this->addRFFSegment('AAJ', $deliveryNoteNumber)
+      ];
+      array_push($data,
+        $this->addDTMSegment(
+          $deliveryDate,
+          EdifactDate::TYPE_DELIVERY_DATE_REQUESTED,
+          EdifactDate::DATE
+        )
+      );
+    }
+    $this->deliveryNoteNumber = $data;
 
     return $this;
   }
