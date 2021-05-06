@@ -195,7 +195,9 @@ trait Item
    */
   public function setAdditionalText($text)
   {
-    $this->splitTexts('additionalText', $text, 320, 40, 'ZU');
+    if (!empty($text)){
+      $this->splitTexts('additionalText', $text, 320, 40, 'ZU');
+    }
 
     return $this;
   }

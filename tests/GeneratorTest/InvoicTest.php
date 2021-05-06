@@ -42,6 +42,7 @@ final class InvoicTest extends TestCase
         ->setPosition(1, 'articleId')
         ->setQuantity(5)
         ->setNetPrice(823.20)
+        ->setAdditionalText('')
         ->setGrossPrice(840.0);
       $item
         ->addDiscount(-2.0, Invoic\Item::DISCOUNT_TYPE_PERCENT, 840, 'Grundrabatt')
