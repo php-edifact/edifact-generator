@@ -202,7 +202,11 @@ class Item extends Base
   {
     $this->discountFactor = [];
     if ($valueBeforeDiscount == 0) {
-      throw new EdifactException('valueBeforeDiscount cannot be 0');
+      if ($valueAfterDiscount > 0){
+        throw new EdifactException('valueBeforeDiscount cannot be 0, if valueAfterDiscount > 0');
+      }
+
+      return $this;
     }
     $factor = $valueAfterDiscount / $valueBeforeDiscount;
 

@@ -2,7 +2,7 @@
   "name": "duesentrieb26/edifact-generator",
   "description": "EDIFACT message generators",
   "type": "library",
-  "version": "0.0.43",
+  "version": "0.0.44",
   "keywords": [
     "EDI",
     "EDIFACT",
