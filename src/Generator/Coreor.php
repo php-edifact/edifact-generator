@@ -157,7 +157,7 @@ class Coreor extends Message
      */
     public function setVessel($extVoyage, $line, $vslName, $callsign)
     {
-        $this->vessel = self::tdtSegment(20, $extVoyage, '', '', [$line, 172, 20], '', '', [$callsign, 146, 11, $vslName]);
+        $this->vessel = self::tdtSegment(20, $extVoyage, '1', '', [$line, 172, 20], '', '', [$callsign, 146, 11, $vslName]);
 
         return $this;
     }
@@ -182,9 +182,9 @@ class Coreor extends Message
      * @param $terminal
      * @return $this
      */
-    public function setPOD($loc, $terminal)
+    public function setPOD($loc, $terminal, $descTerm)
     {
-        $this->pod = self::locSegment(11, [$loc, 139, 6], [$terminal, 72, 'ZZZ']);
+        $this->pod = self::locSegment(11, [$loc, 139, 6], [$terminal, 72, 'ZZZ', $descTerm]);
 
         return $this;
     }
@@ -237,12 +237,9 @@ class Coreor extends Message
      * @param $postalCode
      * @return $this
      */
-    public function setForwarder($code, $name, $address, $postalCode)
+    public function setForwarder($code, $name, $city, $postalCode)
     {
-        $name = str_split($name, 35);
-        $address = str_split($address, 35);
-
-        $this->forwarder = ['NAD', 'FW', [$code, 160, 'ZZZ'], array_merge($name, $address), '', '', '', '', $postalCode];
+        $this->forwarder = ['NAD', 'FW', [$code, 160, 'ZZZ'], $name, '', '', $city, '', $postalCode];
 
         return $this;
     }
@@ -254,12 +251,9 @@ class Coreor extends Message
      * @param $postalCode
      * @return $this
      */
-    public function setCustomsBroker($code, $name, $address, $postalCode)
+    public function setCustomsBroker($code, $name, $city, $postalCode)
     {
-        $name = str_split($name, 35);
-        $address = str_split($address, 35);
-
-        $this->customsBroker = ['NAD', 'CB', [$code, 160, 'ZZZ'], array_merge($name, $address), '', '', '', '', $postalCode];
+        $this->customsBroker = ['NAD', 'CB', [$code, 160, 'ZZZ'], $name, '', '', $city, '', $postalCode];
 
         return $this;
     }
@@ -345,9 +339,13 @@ class Coreor extends Message
      * @param $terminal
      * @return $this
      */
-    public function setEmptyDepot($loc, $terminal)
+    public function setEmptyDepot($loc, $terminal = null, $desc = null)
     {
-        $this->emptyDepot = self::locSegment(99, [$loc, 139, 6], [$terminal, 72, 'ZZZ']);
+        $locCode = [$loc, 139, 6];
+        if ($desc !== null) {
+            $locCode = [$loc, 72, 'ZZZ', $desc];
+        }
+        $this->emptyDepot = self::locSegment(99, $locCode , $terminal !== null ? [$terminal, 72, 'ZZZ'] : null);
 
         return $this;
     }
@@ -359,12 +357,9 @@ class Coreor extends Message
      * @param $postalCode
      * @return $this
      */
-    public function setFreightPayer($code, $name, $address, $postalCode)
+    public function setFreightPayer($code, $name, $city, $postalCode)
     {
-        $name = str_split($name, 35);
-        $address = str_split($address, 35);
-
-        $this->freightPayer = ['NAD', 'FP', [$code, 160, 'ZZZ'], array_merge($name, $address), '', '', '', '', $postalCode];
+        $this->freightPayer = ['NAD', 'FP', [$code, 160, 'ZZZ'], $name, '', '', $city, '', $postalCode];
 
         return $this;
     }
