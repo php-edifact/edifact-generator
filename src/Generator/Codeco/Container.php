@@ -14,7 +14,7 @@ class Container
     private $weight;
     private $seal;
     private $effectiveDate;
-
+    private $destination;
     private $modeOfTransport;
 
     public function __construct()
