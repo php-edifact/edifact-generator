@@ -1,6 +1,6 @@
 <?php
 
-namespace EDI\Generator\traits;
+namespace EDI\Generator\Traits;
 
 use EDI\Generator\EdifactCurrency;
 
