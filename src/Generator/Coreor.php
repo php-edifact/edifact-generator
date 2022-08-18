@@ -345,7 +345,7 @@ class Coreor extends Message
         if ($desc !== null) {
             $locCode = [$loc, 72, 'ZZZ', $desc];
         }
-        $this->emptyDepot = self::locSegment(99, $locCode , $terminal !== null ? [$terminal, 72, 'ZZZ'] : null);
+        $this->emptyDepot = self::locSegment(99, $locCode, $terminal !== null ? [$terminal, 72, 'ZZZ'] : null);
 
         return $this;
     }

@@ -11,7 +11,7 @@ use EDI\Generator\Segment;
  */
 class NameAndAddress extends Segment
 {
-    const SEGMENT_NAME = 'NAD';
+    public const SEGMENT_NAME = 'NAD';
 
     protected $sPartyFunctionCodeQualifier;
     protected $aPartyIdentificationDetails = [];

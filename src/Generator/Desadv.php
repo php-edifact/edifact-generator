@@ -14,13 +14,13 @@ use EDI\Generator\Traits\TransportData;
  */
 class Desadv extends Message
 {
-    use ContactPerson,
-        NameAndAddress,
-        TransportData;
+    use ContactPerson;
+    use NameAndAddress;
+    use TransportData;
 
-    const DELIVERY_ADVICE = '22E';
-    const DELIVER_NOTE = '270';
-    const DELIVERY_NOTE_ADVICE = '351';
+    public const DELIVERY_ADVICE = '22E';
+    public const DELIVER_NOTE = '270';
+    public const DELIVERY_NOTE_ADVICE = '351';
 
     /** @var array */
     protected $deliveryNoteNumber;

@@ -11,7 +11,7 @@ use EDI\Generator\Segment;
  */
 class Reference extends Segment
 {
-    const SEGMENT_NAME = 'RFF';
+    public const SEGMENT_NAME = 'RFF';
 
     protected $sReferenceCodeQualifier;
     protected $sReferenceIdentifier;

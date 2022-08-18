@@ -13,7 +13,8 @@ use EDI\Generator\Traits\NameAndAddress;
  */
 class Ordrsp extends Message
 {
-    use ContactPerson, NameAndAddress;
+    use ContactPerson;
+    use NameAndAddress;
 
     /** @var array */
     protected $orderConfirmationNumber;

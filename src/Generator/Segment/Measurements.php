@@ -11,7 +11,7 @@ use EDI\Generator\Segment;
  */
 class Measurements extends Segment
 {
-    const SEGMENT_NAME = 'MEA';
+    public const SEGMENT_NAME = 'MEA';
 
     protected $sMeasurementPurposeCodeQualifier;
     protected $aMeasurementDetails = [];

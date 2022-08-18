@@ -11,7 +11,7 @@ use EDI\Generator\Segment;
  */
 class EquipmentDetails extends Segment
 {
-    const SEGMENT_NAME = 'EQD';
+    public const SEGMENT_NAME = 'EQD';
 
     protected $sEquipmentTypeCodeQualifier;
     protected $aEquipmentIdentification = [];

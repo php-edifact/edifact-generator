@@ -11,7 +11,7 @@ use EDI\Generator\Segment;
  */
 class PlaceLocationIdentification extends Segment
 {
-    const SEGMENT_NAME = 'LOC';
+    public const SEGMENT_NAME = 'LOC';
 
     protected $sLocationFunctionCodeQualifier;
     protected $aLocationIdentification = [];

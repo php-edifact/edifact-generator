@@ -11,7 +11,7 @@ use EDI\Generator\Segment;
  */
 class PercentageDetails extends Segment
 {
-    const SEGMENT_NAME = 'PCD';
+    public const SEGMENT_NAME = 'PCD';
 
     protected $aPercentageDetails = [];
     protected $sStatusDescriptionCode;

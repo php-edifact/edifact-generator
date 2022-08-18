@@ -9,24 +9,24 @@ namespace EDI\Generator;
  */
 class EdifactDate
 {
-    const DATE = 102;
-    const DATE_FORMAT = 'Ymd';
+    public const DATE = 102;
+    public const DATE_FORMAT = 'Ymd';
 
-    const DATETIME = 203;
-    const DATETIME_FORMAT = 'YmdHi';
+    public const DATETIME = 203;
+    public const DATETIME_FORMAT = 'YmdHi';
 
-    const SHIPPING_WEEK = 616;
-    const SHIPPING_WEEK_FORMAT = 'YW';
+    public const SHIPPING_WEEK = 616;
+    public const SHIPPING_WEEK_FORMAT = 'YW';
 
-    const SHIPPING_UNDEFINED = 999;
-    const SHIPPING_UNDEFINED_FORMAT = "";
+    public const SHIPPING_UNDEFINED = 999;
+    public const SHIPPING_UNDEFINED_FORMAT = "";
 
-    const TYPE_ORDER_DATE = 4;
-    const TYPE_DELIVERY_DATE_REQUESTED = 2;
-    const TYPE_DELIVERY_DATE_ESTIMATED = 17;
-    const TYPE_DELIVERY_DATE_LATEST = 63;
-    const TYPE_DELIVERY_DATE_EARLIEST = 64;
-    const TYPE_DEPARTURE_DATE_ESTIMATED = 133;
+    public const TYPE_ORDER_DATE = 4;
+    public const TYPE_DELIVERY_DATE_REQUESTED = 2;
+    public const TYPE_DELIVERY_DATE_ESTIMATED = 17;
+    public const TYPE_DELIVERY_DATE_LATEST = 63;
+    public const TYPE_DELIVERY_DATE_EARLIEST = 64;
+    public const TYPE_DEPARTURE_DATE_ESTIMATED = 133;
 
 
     /**

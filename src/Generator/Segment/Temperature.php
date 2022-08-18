@@ -11,7 +11,7 @@ use EDI\Generator\Segment;
  */
 class Temperature extends Segment
 {
-    const SEGMENT_NAME = 'TMP';
+    public const SEGMENT_NAME = 'TMP';
 
     protected $sTemperatureTypeCodeQualifier;
     protected $aTemperatureSetting = [];

@@ -8,8 +8,8 @@ namespace EDI\Generator;
  */
 class EdiFactNumber
 {
-    const DECIMAL_COMMA = ',';
-    const DECIMAL_POINT = '.';
+    public const DECIMAL_COMMA = ',';
+    public const DECIMAL_POINT = '.';
 
     /**
      * @param string|float|double $value
