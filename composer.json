@@ -3,7 +3,7 @@
     "description": "EDIFACT message generators",
     "keywords": ["EDI", "EDIFACT", "message", "generator"],
     "homepage": "https://github.com/php-edifact/edifact-generator",
-    "license": "LGPL-3.0+",
+    "license": "LGPL-3.0-or-later",
     "autoload": {
         "psr-4": {
             "EDI\\Generator\\": "src/Generator/"
