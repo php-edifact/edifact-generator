@@ -6,7 +6,7 @@ use EDI\Generator\Orders\Item;
 use EDI\Generator\Traits\ContactPerson;
 use EDI\Generator\Traits\NameAndAddress;
 use EDI\Generator\Traits\TransportData;
-use EDI\Generator\traits\VatAndCurrency;
+use EDI\Generator\Traits\VatAndCurrency;
 
 /**
  * Class Orders

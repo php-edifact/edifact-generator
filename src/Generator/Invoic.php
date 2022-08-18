@@ -5,7 +5,7 @@ namespace EDI\Generator;
 use EDI\Generator\Invoic\Item;
 use EDI\Generator\Traits\ContactPerson;
 use EDI\Generator\Traits\NameAndAddress;
-use EDI\Generator\traits\VatAndCurrency;
+use EDI\Generator\Traits\VatAndCurrency;
 
 /**
  * Class Invoic
