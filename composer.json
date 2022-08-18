@@ -3,17 +3,20 @@
     "description": "EDIFACT message generators",
     "keywords": ["EDI", "EDIFACT", "message", "generator"],
     "homepage": "https://github.com/php-edifact/edifact-generator",
-    "license": "LGPL-3.0+",
+    "license": "LGPL-3.0-or-later",
     "autoload": {
         "psr-4": {
             "EDI\\Generator\\": "src/Generator/"
         }
     },
-    "require": {
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "codestyle:fix": "vendor/bin/php-cs-fixer fix",
+        "codestyle:lint": "vendor/bin/php-cs-fixer fix --dry-run"
     },
     "require-dev": {
         "sabas/edifact": "^0.4.1",
         "phpunit/phpunit": "~8.0",
-        "friendsofphp/php-cs-fixer": "^2.14"
+        "friendsofphp/php-cs-fixer": "^3.9.5"
     }
 }

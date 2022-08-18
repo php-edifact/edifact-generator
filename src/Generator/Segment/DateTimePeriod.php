@@ -11,7 +11,7 @@ use EDI\Generator\Segment;
  */
 class DateTimePeriod extends Segment
 {
-    const SEGMENT_NAME = 'DTM';
+    public const SEGMENT_NAME = 'DTM';
 
     protected $sDateOrTimeOrPeriodFunctionCodeQualifier;
     protected $sDateOrTimeOrPeriodText;

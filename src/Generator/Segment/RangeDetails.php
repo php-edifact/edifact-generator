@@ -11,7 +11,7 @@ use EDI\Generator\Segment;
  */
 class RangeDetails extends Segment
 {
-    const SEGMENT_NAME = 'RNG';
+    public const SEGMENT_NAME = 'RNG';
 
     protected $sRangeTypeCodeQualifier;
     protected $sMeasurementUnitCode;

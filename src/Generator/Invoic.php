@@ -14,13 +14,15 @@ use EDI\Generator\Traits\VatAndCurrency;
  */
 class Invoic extends Message
 {
-    use ContactPerson, NameAndAddress, VatAndCurrency;
+    use ContactPerson;
+    use NameAndAddress;
+    use VatAndCurrency;
 
-    const TYPE_INVOICE = '380';
-    const TYPE_CREDIT_NOTE = '381';
-    const TYPE_SERVICE_CREDIT = '31e';
-    const TYPE_SERVICE_INVOICE = '32e';
-    const TYPE_BONUS = '33i';
+    public const TYPE_INVOICE = '380';
+    public const TYPE_CREDIT_NOTE = '381';
+    public const TYPE_SERVICE_CREDIT = '31e';
+    public const TYPE_SERVICE_INVOICE = '32e';
+    public const TYPE_BONUS = '33i';
 
     /** @var array */
     protected $invoiceNumber;

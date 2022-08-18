@@ -3,6 +3,8 @@ codeCoverage/
 vendor/
 composer.lock
 .php_cs.cache
+.php-cs-fixer.php
+.php-cs-fixer.cache
 _ide_helper.php
 .phpstorm.meta.php
 coverage

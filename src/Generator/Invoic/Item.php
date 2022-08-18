@@ -15,8 +15,8 @@ class Item extends Base
 {
     use ItemTrait;
 
-    const DISCOUNT_TYPE_PERCENT = 'percent';
-    const DISCOUNT_TYPE_ABSOLUTE = 'absolute';
+    public const DISCOUNT_TYPE_PERCENT = 'percent';
+    public const DISCOUNT_TYPE_ABSOLUTE = 'absolute';
 
     /** @var array */
     protected $invoiceDescription;

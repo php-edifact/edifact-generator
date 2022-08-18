@@ -15,10 +15,10 @@ use EDI\Generator\Traits\VatAndCurrency;
  */
 class Orders extends Message
 {
-    use ContactPerson,
-        NameAndAddress,
-        TransportData,
-        VatAndCurrency;
+    use ContactPerson;
+    use NameAndAddress;
+    use TransportData;
+    use VatAndCurrency;
 
     /** @var array */
     protected $orderNumber;

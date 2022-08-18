@@ -9,7 +9,6 @@ namespace EDI\Generator;
  */
 class Base
 {
-
     /** @var array */
     protected $messageContent = [];
 

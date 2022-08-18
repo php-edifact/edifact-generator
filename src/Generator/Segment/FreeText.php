@@ -11,7 +11,7 @@ use EDI\Generator\Segment;
  */
 class FreeText extends Segment
 {
-    const SEGMENT_NAME = 'FTX';
+    public const SEGMENT_NAME = 'FTX';
 
     protected $sTextSubjectCodeQualifier;
     protected $sFreeTextFunctionCode;

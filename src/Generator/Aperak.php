@@ -39,7 +39,7 @@ class Aperak extends Message
             $sMessageReferenceNumber,
             $sAssociationAssignedCode
         );
-       
+
         $this->dtmSend = self::dtmSegment(137, date('YmdHi'));
         $this->references = [];
         $this->errors = [];
@@ -69,7 +69,7 @@ class Aperak extends Message
     }
 
     /**
-     * 
+     *
      * @param $errorCode
      * @param $errorMessage
      * @return \EDI\Generator\Coparn
