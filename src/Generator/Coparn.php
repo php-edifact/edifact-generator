@@ -25,6 +25,7 @@ class Coparn extends Message
     private $cntr;
     private $cntrAmount;
     private $weight;
+    private $tare;
     private $ventilation;
     private $humidity;
     private $weightTime;
@@ -248,6 +249,19 @@ class Coparn extends Message
     }
 
     /**
+     * Weight information
+     * $type = T (tare), AET (gross weight)
+     * @param $weight
+     * @return \EDI\Generator\Coreor
+     */
+    public function setTare($weight)
+    {
+        $this->tare = ['MEA', 'AAE', 'T', ['KGM', $weight]];
+
+        return $this;
+    }
+
+    /**
      * Cargo category
      * @param $text
      * @return \EDI\Generator\Coparn
@@ -421,6 +435,9 @@ class Coparn extends Message
             $this->messageContent[] = $this->pod;
         }
         $this->messageContent[] = $this->weight;
+        if ($this->tare !== null) {
+            $this->messageContent[] = $this->tare;
+        }
 
         if ($this->ventilation !== null) {
             $this->messageContent[] = $this->ventilation;
