@@ -15,6 +15,7 @@ class Container
     private $fnd;
     private $weight;
     private $weightTime;
+    private $tare;
     private $seal;
     private $cargo;
     private $specialInstructions;
@@ -126,6 +127,19 @@ class Container
     public function setGrossWeight($weight)
     {
         $this->weight = ['MEA', 'AAE', 'G', ['KGM', $weight]];
+
+        return $this;
+    }
+
+    /**
+     * Weight information
+     * $type = T (tare), AET (gross weight)
+     * @param $weight
+     * @return \EDI\Generator\Coreor
+     */
+    public function setTare($weight)
+    {
+        $this->tare = ['MEA', 'AAE', 'T', ['KGM', $weight]];
 
         return $this;
     }
@@ -294,6 +308,9 @@ class Container
         }
         $composed[] = $this->fnd;
         $composed[] = $this->weight;
+        if ($this->tare !== null) {
+            $composed[] = $this->tare;
+        }
         if ($this->seal !== null) {
             $composed[] = $this->seal;
         }
