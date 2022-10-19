@@ -272,7 +272,7 @@ trait Item
    */
   private function splitTexts($varName, $text, $maxLength, $lineLength, $type = 'ZU')
   {
-    $data = str_split(mb_substr($text, 0, $maxLength), $lineLength);
+    $data = str_split(mb_substr(utf8_decode($text), 0, $maxLength), $lineLength);
     $prop = &$this->{$varName};
     foreach ($data as $line) {
       $segmentData = self::addIMDSegment($line, $type);
