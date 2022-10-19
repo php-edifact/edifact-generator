@@ -59,6 +59,43 @@ class InvoicItemTest extends TestCase
     $this->assertContains("ALC+A++++SF'\nPCD+1:0,9215'\nMOA+8:30,22", $message);
   }
 
+  /**
+   * 
+   */
+  public function testSpecialChars()
+  {
+    $interchange = (new Interchange(
+      'UNB-Identifier-Sender',
+      'UNB-Identifier-Receiver'
+    ))
+      ->setCharset('UNOC')
+      ->setCharsetVersion('3');
+
+    $invoice = new Invoic();
+    $message = "";
+    try {
+      $invoice
+        ->setInvoiceNumber('INV12345');
+      $item = new Item();
+      $item
+        ->setPosition(2, 'articleId')
+        ->setSpecificationText("JPSRR Typ 1000 B montiert (Ø850)")
+        ->setGrossPrice(385)
+        ->setNetPrice(354.78)
+        ->setOrderNumberWholesaler('4501532449')
+        ->addDiscountFactor(354.78, 385);
+
+      $invoice->addItem($item);
+      $invoice->compose();
+      $encoder = new Encoder($interchange->addMessage($invoice)->getComposed(), true);
+      $encoder->setUNA(":+,? '");
+      $message = str_replace("'", "'\n", $encoder->get());
+    } catch (EdifactException $e) {
+      fwrite(STDOUT, "\n\nINVOICE-ITEM\n" . $e->getMessage());
+    }
+    $this->assertContains("IMD+++SP:::JPSRR Typ 1000 B montiert (850)", $message);
+  }
+
 
   /**
    * Preis

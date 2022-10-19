@@ -272,7 +272,7 @@ trait Item
    */
   private function splitTexts($varName, $text, $maxLength, $lineLength, $type = 'ZU')
   {
-    $data = str_split(mb_substr(utf8_decode($text), 0, $maxLength), $lineLength);
+    $data = str_split(mb_substr($this->clearUTF8chars($text), 0, $maxLength), $lineLength);
     $prop = &$this->{$varName};
     foreach ($data as $line) {
       $segmentData = self::addIMDSegment($line, $type);
@@ -286,6 +286,16 @@ trait Item
     }
 
     return $this;
+  }
+
+  /**
+   * clear all not printable characters from given string
+   * @param string  $string
+   */
+  public function clearUTF8chars( $string) 
+  {
+    return preg_replace('/[[:^print:]]/', '', ($string));
+    // return preg_replace('/[\x00-\x1F\x80-\xFF]/', '', ($string));
   }
 
 
