@@ -16,17 +16,14 @@ class Message extends Base
     /** @var array string */
     protected $messageType;
 
-    /**
-     * Message constructor.
-     * @param $identifier
-     * @param $version
-     * @param null $release
-     * @param null $controllingAgency
-     * @param null $messageID
-     * @param null $association
-     */
-    public function __construct($identifier, $version, $release = null, $controllingAgency = null, $messageID = null, $association = null)
-    {
+    public function __construct(
+        string $identifier,
+        string $version,
+        ?string $release = null,
+        ?string $controllingAgency = null,
+        ?string $messageID = null,
+        ?string $association = null
+    ) {
         $this->messageType = [$identifier, $version];
 
         if ($release !== null) {
