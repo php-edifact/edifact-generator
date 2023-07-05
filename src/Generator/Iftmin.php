@@ -21,17 +21,22 @@ class Iftmin extends Message
     private $booking;
     private $bookingSequence;
 
-    public function __construct(
-        ?string $messageID = null,
-        string $identifier = 'IFTMIN',
-        string $version = 'D',
-        string $release = '04A',
-        string $controllingAgency = 'UN',
-        string $association = 'BIG14'
-    ) {
+    /**
+     * Iftmin constructor.
+     * @param null $messageID
+     * @param string $identifier
+     * @param string $version
+     * @param string $release
+     * @param string $controllingAgency
+     * @param string $association
+     */
+    public function __construct($messageID = null, $identifier = 'IFTMIN', $version = 'D', $release = '04A', $controllingAgency = 'UN', $association = 'BIG14')
+    {
         parent::__construct($identifier, $version, $release, $controllingAgency, $messageID, $association);
 
         $this->dtmSend = self::dtmSegment(137, date('YmdHi'));
+
+        $this->containers = [];
     }
 
     /**
