@@ -18,16 +18,13 @@ class Interchange
     private $messages;
     private $composed;
 
-    /**
-     * Interchange constructor.
-     * @param $sender
-     * @param $receiver
-     * @param null $date
-     * @param null $time
-     * @param null $interchangeCode
-     */
-    public function __construct($sender, $receiver, $date = null, $time = null, $interchangeCode = null)
-    {
+    public function __construct(
+        string $sender,
+        string $receiver,
+        ?string $date = null,
+        ?string $time = null,
+        ?string $interchangeCode = null
+    ) {
         $this->messages = [];
 
         if ($interchangeCode === null) {
