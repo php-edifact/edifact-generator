@@ -201,7 +201,7 @@ class Coparn extends Message
      * @param $size
      * @param $statusCode
      * @param $fullEmptyIndicator
-     * @return \EDI\Generator\Codeco\Container
+     * @return \EDI\Generator\Coparn
      */
     public function setContainer($number, $size, $statusCode = 2, $fullEmptyIndicator = 5)
     {
@@ -252,7 +252,7 @@ class Coparn extends Message
      * Weight information
      * $type = T (tare), AET (gross weight)
      * @param $weight
-     * @return \EDI\Generator\Coreor
+     * @return \EDI\Generator\Coparn
      */
     public function setTare($weight)
     {
@@ -289,8 +289,8 @@ class Coparn extends Message
     /**
      * @param $hazardClass
      * @param $hazardCode
-     * @param null $flashpoint
-     * @param null $packingGroup
+     *@param $flashpoint
+     *@param $packingGroup
      * @return $this
      */
     public function addDangerous($hazardClass, $hazardCode, $flashpoint = null, $packingGroup = null)
@@ -358,7 +358,7 @@ class Coparn extends Message
      */
     public function setOverDimensions($front = '', $back = '', $right = '', $left = '', $height = '')
     {
-        $this->dim = [];
+        $this->dimensions = [];
         if ($front !== '') {
             $this->dimensions[] = ['DIM', '5', ['CMT', $front]];
         }
@@ -470,6 +470,6 @@ class Coparn extends Message
         $this->messageContent[] = ['TDT', 1, '', 3];
         $this->messageContent[] = ['CNT', [16, 1]];
 
-        return parent::compose($sMessageFunctionCode, $sDocumentNameCode, $sDocumentIdentifier);
+        return parent::compose();
     }
 }

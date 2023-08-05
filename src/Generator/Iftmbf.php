@@ -352,6 +352,6 @@ class Iftmbf extends Message
             }
         }
 
-        return parent::compose($sMessageFunctionCode, $sDocumentNameCode, $sDocumentIdentifier);
+        return parent::compose();
     }
 }

@@ -201,6 +201,6 @@ class Copino extends Message
         $this->messageContent[] = $this->destination;
         $this->messageContent[] = ['CNT', [16, 1]];
 
-        return parent::compose($sMessageFunctionCode, $sDocumentNameCode, $sDocumentIdentifier);
+        return parent::compose();
     }
 }

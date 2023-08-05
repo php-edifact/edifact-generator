@@ -151,6 +151,6 @@ class Calinf extends Message
         $this->messageContent[] = $this->etd;
         $this->messageContent[] = $this->callsign;
 
-        return parent::compose($sMessageFunctionCode, $sDocumentNameCode, $sDocumentIdentifier);
+        return parent::compose();
     }
 }

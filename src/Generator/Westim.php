@@ -59,7 +59,7 @@ class Westim extends Message
     /**
      * $day = YYMMDD (used also in RFF+EST)
      * @param $day
-     * @param null $time
+     * @param $time
      * @return \EDI\Generator\Westim
      */
     public function setTransactionDate($day, $time = null)
@@ -169,8 +169,8 @@ class Westim extends Message
 
     /**
      * @param $grandTotal
-     * @param null $authorizedAmount
-     * @param null $taxRate
+     * @param $authorizedAmount
+     * @param $taxRate
      * @return \EDI\Generator\Westim
      */
     public function setTotalMessageAmounts($grandTotal, $authorizedAmount = null, $taxRate = null)
@@ -225,6 +225,6 @@ class Westim extends Message
         $this->messageContent[] = $this->_costTotals;
         $this->messageContent[] = $this->_totalMessageAmounts;
 
-        return parent::compose($sMessageFunctionCode, $sDocumentNameCode, $sDocumentIdentifier);
+        return parent::compose();
     }
 }

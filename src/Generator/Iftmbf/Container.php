@@ -116,8 +116,8 @@ class Container
      * $comType: DE 3155
      * @param $cntType
      * @param $cntTitle
-     * @param null $comType
-     * @param null $comData
+     *@param $comType
+     *@param $comData
      * @return \EDI\Generator\Iftmbf\Container
      */
     public function setShipContact($cntType, $cntTitle, $comType = null, $comData = null)

@@ -20,10 +20,14 @@ class Iftmin extends Message
     private $transportOrderNumber;
     private $booking;
     private $bookingSequence;
+    private $vessel;
+    private $weightKg;
+    private $containers;
+    private $forwarder;
 
     /**
      * Iftmin constructor.
-     * @param null $messageID
+     *@param $messageID
      * @param string $identifier
      * @param string $version
      * @param string $release
@@ -134,7 +138,7 @@ class Iftmin extends Message
     /**
      * @param $booking
      * @param string $bookingType
-     * @param null $sequence
+     *@param $sequence
      * @return $this
      */
     public function setBooking($booking, $bookingType = 'BN', $sequence = null)
@@ -215,6 +219,6 @@ class Iftmin extends Message
 
         $this->messageContent[] = $this->weightKg;
 
-        return parent::compose($sMessageFunctionCode, $sDocumentNameCode, $sDocumentIdentifier);
+        return parent::compose();
     }
 }

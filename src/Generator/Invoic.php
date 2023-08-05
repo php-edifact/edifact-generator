@@ -75,7 +75,7 @@ class Invoic extends Message
 
     /**
      * Invoic constructor.
-     * @param null $messageId
+     *@param $messageId
      * @param string $identifier
      * @param string $version
      * @param string $release

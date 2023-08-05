@@ -113,6 +113,6 @@ class Codeco extends Message
 
         $this->messageContent[] = ['CNT', [16, count($this->containers)]];
 
-        return parent::compose($sMessageFunctionCode, $sDocumentNameCode, $sDocumentIdentifier);
+        return parent::compose();
     }
 }

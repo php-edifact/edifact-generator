@@ -29,7 +29,7 @@ trait ContactPerson
     /**
      * @param string $contactPerson
      * @param string $section
-     * @param null|string $prefix used for prefixing the variableName deliveryAddressContactPerson
+     *@param|string $prefix used for prefixing the variableName deliveryAddressContactPerson
      *
      * @return $this
      */
@@ -63,7 +63,7 @@ trait ContactPerson
     /**
      * @param string $mailAddress
      *
-     * @param null|string $prefix
+     *@param|string $prefix
      *
      * @return $this
      */
@@ -94,7 +94,7 @@ trait ContactPerson
     /**
      * @param string $phoneNumber
      *
-     * @param null|string $prefix
+     *@param|string $prefix
      *
      * @return $this
      */
@@ -125,7 +125,7 @@ trait ContactPerson
     /**
      * @param string $faxNumber
      *
-     * @param null|string $prefix
+     *@param|string $prefix
      *
      * @return $this
      */

@@ -72,7 +72,7 @@ class Aperak extends Message
      *
      * @param $errorCode
      * @param $errorMessage
-     * @return \EDI\Generator\Coparn
+     * @return \EDI\Generator\Aperak
      */
     public function addError($errorCode, $errorMessage = null)
     {
@@ -115,6 +115,6 @@ class Aperak extends Message
             $this->messageContent[] = $err;
         }
 
-        return parent::compose($sMessageFunctionCode, $sDocumentNameCode, $sDocumentIdentifier);
+        return parent::compose();
     }
 }

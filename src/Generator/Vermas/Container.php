@@ -41,7 +41,7 @@ class Container
 
     /**
      * @param $booking
-     * @param null $sequence
+     *@param $sequence
      * @return \EDI\Generator\Vermas\Container
      */
     public function setBooking($booking, $sequence = null)
@@ -103,7 +103,7 @@ class Container
     /**
      * $type = SM1 | SM2
      * $cert = documentation identification
-     * @param null $date
+     *@param $date
      * @return \EDI\Generator\Vermas\Container
      */
     public function setWeighDate($date = null)
@@ -131,7 +131,7 @@ class Container
     /**
      * $spcShipper = SOLAS verified gross mass responsible party
      * @param $spcShipper
-     * @param null $spcCity
+     *@param $spcCity
      * @return \EDI\Generator\Vermas\Container
      */
     public function setShipper($spcShipper, $spcCity = null)
@@ -152,8 +152,8 @@ class Container
      * $comType: DE 3155
      * @param $cntType
      * @param $cntTitle
-     * @param null $comType
-     * @param null $comData
+     *@param $comType
+     *@param $comData
      * @return \EDI\Generator\Vermas\Container
      */
     public function setSpcContact($cntType, $cntTitle, $comType = null, $comData = null)

@@ -406,6 +406,6 @@ class Coreor extends Message
         $this->messageContent[] = $this->freightPayer;
         $this->messageContent[] = ['CNT', [16, 1]];
 
-        return parent::compose($sMessageFunctionCode, $sDocumentNameCode, $sDocumentIdentifier);
+        return parent::compose();
     }
 }

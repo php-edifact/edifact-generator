@@ -86,7 +86,6 @@ class Coprar extends Message
     public function setVessel($extVoyage, $line, $vslName, $callsign)
     {
         $this->vessel = self::tdtSegment(20, $extVoyage, 1, '', [$line, 172, 20], '', '', [$callsign, 103, '', $vslName]);
-        $this->callsign = self::rffSegment('VM', $callsign);
 
         return $this;
     }
@@ -95,7 +94,7 @@ class Coprar extends Message
      * $type = 9 (port of loading), 11 (port of discharge)
      * @param $type
      * @param $locode
-     * @param null $terminal
+     * @param $terminal
      * @return \EDI\Generator\Coprar
      */
     public function setPort($type, $locode, $terminal = null)
@@ -103,7 +102,7 @@ class Coprar extends Message
         if ($terminal === null) {
             $this->port = self::locSegment($type, [$locode, 139, 6]);
         } else {
-            $this->port = self::locSegment($type, [$locode, 139, 6], [$terminal, TER, ZZZ]);
+            $this->port = self::locSegment($type, [$locode, 139, 6], [$terminal, "TER", "ZZZ"]);
         }
 
         return $this;
@@ -195,6 +194,6 @@ class Coprar extends Message
 
         $this->messageContent[] = ['CNT', [16, count($this->containers)]];
 
-        return parent::compose($sMessageFunctionCode, $sDocumentNameCode, $sDocumentIdentifier);
+        return parent::compose();
     }
 }

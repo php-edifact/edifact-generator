@@ -40,7 +40,7 @@ class Container
 
     /**
      * @param $booking
-     * @param null $sequence
+     *@param $sequence
      * @return \EDI\Generator\Codeco\Container
      */
     public function setBooking($booking, $sequence = null)
@@ -77,7 +77,7 @@ class Container
 
     /**
      * Date of the equipment event
-     * @param null $date
+     *@param $date
      * @return \EDI\Generator\Codeco\Container
      */
     public function setEffectiveDate($date = null)

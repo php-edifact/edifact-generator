@@ -48,7 +48,7 @@ class Container
 
     /**
      * @param $booking
-     * @param null $sequence
+     *@param $sequence
      * @return \EDI\Generator\Coprar\Container
      */
     public function setBooking($booking, $sequence = null)
@@ -198,8 +198,8 @@ class Container
     /**
      * @param $hazardClass
      * @param $hazardCode
-     * @param null $flashpoint
-     * @param null $packingGroup
+     *@param $flashpoint
+     *@param $packingGroup
      * @return $this
      */
     public function addDangerous($hazardClass, $hazardCode, $flashpoint = null, $packingGroup = null)

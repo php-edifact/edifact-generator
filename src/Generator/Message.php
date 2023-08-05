@@ -117,7 +117,7 @@ class Message extends Base
      * $secondaryLoc = preferred [locode, 139, 6] (if needed)
      * @param $qualifier
      * @param $firstLoc
-     * @param null $secondaryLoc
+     *@param $secondaryLoc
      * @return array
      */
     public static function locSegment($qualifier, $firstLoc, $secondaryLoc = null)
@@ -141,9 +141,9 @@ class Message extends Base
      * @param $eqpType
      * @param $eqpIdentification
      * @param $dimension
-     * @param null $supplier
-     * @param null $statusCode
-     * @param null $fullEmptyIndicatorCode
+     *@param $supplier
+     *@param $statusCode
+     *@param $fullEmptyIndicatorCode
      * @return array
      */
     public static function eqdSegment($eqpType, $eqpIdentification, $dimension, $supplier = null, $statusCode = null, $fullEmptyIndicatorCode = null)
