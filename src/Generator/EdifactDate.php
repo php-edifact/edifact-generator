@@ -72,33 +72,32 @@ class EdifactDate
     }
 
     /**
-     * @param string|\DateTime $string
+     * @param string|\DateTime $date
      * @param integer $format
      *
      * @return bool|\DateTime
      */
-    public static function parseFormat($string, $format = self::DATE)
+    public static function parseFormat($date, $format = self::DATE)
     {
-        if ($string instanceof \DateTime) {
-            return $string;
+        if ($date instanceof \DateTime) {
+            return $date;
         }
 
         $parseFormat = 'Y-m-d';
         switch ($format) {
             case self::DATE:
-                $string = substr($string, 0, 10);
-                $parseFormat = 'Y-m-d';
+                $date = substr($date, 0, 10);
                 break;
             case
 
             self::DATETIME:
                 $parseFormat = 'Y-m-d H:i:s';
-                if (strlen($string) === 16) {
+                if (strlen($date) === 16) {
                     $parseFormat = 'Y-m-d H:i';
                 }
                 break;
         }
 
-        return \DateTime::createFromFormat($parseFormat, $string);
+        return \DateTime::createFromFormat($parseFormat, $date);
     }
 }

@@ -138,20 +138,20 @@ class Base
     }
 
     /**
-     * @param     $dateString
-     * @param     $type
+     * @param string|\DateTime $date
+     * @param string $type
      * @param int $formatQualifier
      *
-     * @see http://www.unece.org/trade/untdid/d96a/trsd/trsddtm.htm
      * @return array
      * @throws EdifactException
+     * @see http://www.unece.org/trade/untdid/d96a/trsd/trsddtm.htm
      */
-    protected function addDTMSegment($dateString, $type, $formatQualifier = EdifactDate::DATE)
+    protected function addDTMSegment($date, $type, $formatQualifier = EdifactDate::DATE)
     {
         $data = [];
         $data[] = (string)$type;
-        if (!empty($dateString)) {
-            $data[] = EdifactDate::get($dateString, $formatQualifier);
+        if (!empty($date)) {
+            $data[] = EdifactDate::get($date, $formatQualifier);
             $data[] = (string)$formatQualifier;
         }
 
@@ -198,7 +198,7 @@ class Base
      *
      * @param      $value
      * @param      $array
-     *@param $errorMessage
+     * @param $errorMessage
      *
      * @throws EdifactException
      */
