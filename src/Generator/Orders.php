@@ -238,7 +238,7 @@ class Orders extends Message
     }
 
     /**
-     * @param array $orderDate
+     * @param string|\DateTime $orderDate
      * @return Orders
      * @throws EdifactException
      */
