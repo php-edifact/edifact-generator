@@ -93,7 +93,7 @@ class Movins extends Message
      */
     public function setEta($dtm)
     {
-        $this->eta = self::dtmSegment(132, $dtm);
+        $this->eta = self::dtmSegment(101, $dtm);
 
         return $this;
     }
