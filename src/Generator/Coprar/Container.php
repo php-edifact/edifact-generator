@@ -299,7 +299,7 @@ class Container
             $this->handling = [];
         }
 
-        $this->dangerous[] = ['HAN', $handlingCode]
+        $this->dangerous[] = ['HAN', $handlingCode];
 
         return $this;
     }
