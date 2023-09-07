@@ -24,6 +24,7 @@ class Container
     private $temperature;
     private $dimensions;
     private $containerOperator;
+    private $handling;
 
     public function __construct()
     {
@@ -289,6 +290,21 @@ class Container
     }
 
     /**
+     * @param $handlingCode
+     * @return $this
+     */
+    public function addHandling($handlingCode)
+    {
+        if ($this->handling === null) {
+            $this->handling = [];
+        }
+
+        $this->dangerous[] = ['HAN', $handlingCode]
+
+        return $this;
+    }
+
+    /**
      * @return array
      */
     public function compose()
@@ -336,6 +352,13 @@ class Container
         if ($this->dgsAac !== null) {
             $composed[] = $this->dgsAac;
         }
+
+        if ($this->handling !== null) {
+            foreach ($this->handling as $segment) {
+                $composed[] = $segment;
+            }
+        }
+
         $composed[] = $this->containerOperator;
 
         return $composed;
