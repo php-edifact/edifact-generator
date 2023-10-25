@@ -10,6 +10,7 @@ class Container
 {
     private $bayPosition;
     private $weight;
+    private $freeText;
     private $cntr;
     private $carrier;
     private $pol;
@@ -20,6 +21,7 @@ class Container
     private $humidity;
     private $dangerous;
     private $temperature;
+    private $range;
     private $dimensions;
     private $attachedEquipment;
 
@@ -44,9 +46,29 @@ class Container
      * @param $weight
      * @return \EDI\Generator\Movins\Container
      */
-    public function setWeight($weight, $qualifier = "WT")
+    public function addWeight($weight, $qualifier = "WT")
     {
-        $this->weight = ['MEA', $qualifier, '', ['KGM', $weight]];
+        if ($this->weight === null) {
+            $this->weight = [];
+        }
+
+        $this->weight[] = ['MEA', $qualifier, '', ['KGM', $weight]];
+
+        return $this;
+    }
+
+    /**
+     * Weight information
+     * @param $ftx
+     * @return \EDI\Generator\Movins\Container
+     */
+    public function addFreeText($freeText)
+    {
+        if ($this->freeText === null) {
+            $this->freeText = [];
+        }
+
+        $this->freeText[] = ['FTX', 'AAA', '', '', $freeText];
 
         return $this;
     }
@@ -169,6 +191,19 @@ class Container
     }
 
     /**
+     * @param $min
+     * @param $max
+     * @return $this
+     */
+    public function setRange($min, $max)
+    {
+        $this->range = ['RNG', '4', ['CEL', $min, $max]];
+
+        return $this;
+    }
+
+
+    /**
      * @param $ventilation
      * @return $this
      */
@@ -241,8 +276,17 @@ class Container
         $composed = [
             $this->bayPosition
         ];
+
+        if ($this->freeText !== null) {
+            foreach ($this->freeText as $segment) {
+                $composed[] = $segment;
+            }
+        }
+
         if ($this->weight !== null) {
-            $composed[] = $this->weight;
+            foreach ($this->weight as $segment) {
+                $composed[] = $segment;
+            }
         }
 
         if ($this->ventilation !== null) {
@@ -261,6 +305,10 @@ class Container
 
         if ($this->temperature !== null) {
             $composed[] = $this->temperature;
+        }
+
+        if ($this->range !== null) {
+            $composed[] = $this->range;
         }
 
         if ($this->pol !== null) {
