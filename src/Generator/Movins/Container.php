@@ -17,6 +17,7 @@ class Container
     private $pod;
     private $fl;
     private $fnd;
+    private $dsi;
     private $ventilation;
     private $humidity;
     private $dangerous;
@@ -146,6 +147,18 @@ class Container
     public function setFND($locode)
     {
         $this->fnd = \EDI\Generator\Message::locSegment(83, $locode);
+
+        return $this;
+    }
+
+    /**
+     * $type = ISO stowage location
+     * @param $position
+     * @return \EDI\Generator\Movins\Container
+     */
+    public function setDestinationStowageISO($position)
+    {
+        $this->dsi = \EDI\Generator\Message::rffSegment('DSI', $position);
 
         return $this;
     }
@@ -325,6 +338,10 @@ class Container
         }
 
         $composed[] = \EDI\Generator\Message::rffSegment('BM', '1');
+
+        if ($this->dsi !== null) {
+            $composed[] = $this->dsi;
+        }
 
         if ($this->cntr !== null) {
             $composed[] = $this->cntr;
