@@ -86,7 +86,7 @@ class Container
      */
     public function setContainer($number, $size, $statusCode, $fullEmptyIndicator)
     {
-        $this->cntr = \EDI\Generator\Message::eqdSegment('CN', $number, [$size, '6346', '306'], '', $statusCode, $fullEmptyIndicator);
+        $this->cntr = \EDI\Generator\Message::eqdSegment('CN', $number, $size, '', $statusCode, $fullEmptyIndicator);
 
         return $this;
     }
@@ -96,12 +96,16 @@ class Container
      * @param $line
      * @return \EDI\Generator\Movins\Container
      */
-    public function setCarrier($line)
+    public function setCarrier($line, $codeListQualifier = null, $codeListResponsibleAgencyCoded = null)
     {
         $this->carrier = ['NAD', 'CA', $line];
+        if ($codeListQualifier !== null) {
+            $this->carrier = ['NAD', 'CA', [$line, $codeListQualifier, $codeListResponsibleAgencyCoded] ];
+        }
 
         return $this;
     }
+
 
     /**
      * $type = 9 (place of load)
