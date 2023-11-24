@@ -14,6 +14,7 @@ class Interchange
     private $date;
     private $time;
     private $charset;
+    private $appref;
 
     private $messages;
     private $composed;
@@ -64,6 +65,14 @@ class Interchange
         return $this;
     }
 
+    public function setApplicationReference($appref)
+    {
+        $this->appref = $appref;
+
+        return $this;
+    }
+
+
     /**
      * Add a Message to the Interchange
      * @param $msg
@@ -83,7 +92,12 @@ class Interchange
     public function compose()
     {
         $temp = [];
-        $temp[] = ['UNB', $this->charset, $this->sender, $this->receiver, [$this->date, $this->time], $this->interchangeCode];
+        $unb = ['UNB', $this->charset, $this->sender, $this->receiver, [$this->date, $this->time], $this->interchangeCode];
+        if ($this->appref !== null) {
+            $unb[] = $this->appref;
+        }
+        d($this->appref);
+        $temp[] = $unb;
         foreach ($this->messages as $msg) {
             foreach ($msg->getComposed() as $i) {
                 $temp[] = $i;
