@@ -96,7 +96,7 @@ class Interchange
         if ($this->appref !== null) {
             $unb[] = $this->appref;
         }
-        d($this->appref);
+
         $temp[] = $unb;
         foreach ($this->messages as $msg) {
             foreach ($msg->getComposed() as $i) {
