@@ -20,7 +20,6 @@ class Base
 
     /** @var string */
     protected $receiver;
-    protected $composeKeys;
 
     /** @var string */
 //    protected $managingOrganisation = '89';
