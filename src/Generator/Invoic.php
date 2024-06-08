@@ -35,9 +35,6 @@ class Invoic extends Message
     /** @var array */
     protected $reductionOfFeesText;
     /** @var array */
-    protected $invoiceDescription;
-
-    /** @var array */
     protected $composeKeys = [
         'invoiceNumber',
         'invoiceDate',
@@ -46,16 +43,23 @@ class Invoic extends Message
         'excludingVatText',
         'invoiceDescription',
         'manufacturerAddress',
+        'vatNumber',
+        'buyerAddress',
+        'deliveryPartyAddress',
+        'invoiceAddress',
+        'vatNumberAmz',
         'wholesalerAddress',
         'deliveryAddress',
-        'invoiceAddress',
         'contactPerson',
         'mailAddress',
         'phoneNumber',
         'faxNumber',
-        'vatNumber',
         'currency',
+        'paymentTerms'
     ];
+
+    /** @var array */
+    protected $invoiceDescription;
 
     /** @var array */
     protected $positionSeparator;
@@ -72,6 +76,8 @@ class Invoic extends Message
     /** @var array */
     protected $taxAmount;
 
+    protected $itemsCount;
+
 
     /**
      * Invoic constructor.
@@ -86,7 +92,7 @@ class Invoic extends Message
         $messageId = null,
         $identifier = 'INVOIC',
         $version = 'D',
-        $release = '96B',
+        $release = '96A',
         $controllingAgency = 'UN',
         $association = 'ITEK35'
     ) {
@@ -100,7 +106,6 @@ class Invoic extends Message
         );
         $this->items = [];
     }
-
 
     /**
      * @param $item Item
@@ -127,17 +132,20 @@ class Invoic extends Message
         }
 
         $this->setPositionSeparator();
+        $this->setCountItems();
         $this->composeByKeys([
             'positionSeparator',
+            'itemsCount',
+            'payableAmount',
             'totalPositionsAmount',
             'basisAmount',
             'taxableAmount',
-            'payableAmount',
             'tax',
             'taxAmount',
         ]);
-
         parent::compose();
+        $this->setPositionSeparator();
+
         return $this;
     }
 
@@ -183,7 +191,7 @@ class Invoic extends Message
      */
     public function setInvoiceDate($invoiceDate)
     {
-        $this->invoiceDate = $this->addDTMSegment($invoiceDate, '3');
+        $this->invoiceDate = $this->addDTMSegment($invoiceDate, '137');
         return $this;
     }
 
@@ -254,6 +262,15 @@ class Invoic extends Message
     }
 
     /**
+     * @return Invoic
+     */
+    public function setCountItems()
+    {
+        $this->itemsCount = ['CNT', ['2', (string)count($this->items)]];
+        return $this;
+    }
+
+    /**
      * @return array
      */
     public function getTotalPositionsAmount()
@@ -267,7 +284,7 @@ class Invoic extends Message
      */
     public function setTotalPositionsAmount($totalPositionsAmount)
     {
-        $this->totalPositionsAmount = self::addMOASegment('79', $totalPositionsAmount);
+        $this->totalPositionsAmount = self::addMOASegment('125', $totalPositionsAmount);
         return $this;
     }
 
@@ -321,7 +338,7 @@ class Invoic extends Message
      */
     public function setPayableAmount($payableAmount)
     {
-        $this->payableAmount = self::addMOASegment('9', $payableAmount);
+        $this->payableAmount = self::addMOASegment('77', $payableAmount);
         return $this;
     }
 
@@ -345,7 +362,7 @@ class Invoic extends Message
                 EdiFactNumber::convert($value, 0)
             ],
         ];
-        $this->taxAmount = self::addMOASegment('150', $amount);
+        $this->taxAmount = self::addMOASegment('124', $amount);
         return $this;
     }
 }

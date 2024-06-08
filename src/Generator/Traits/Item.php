@@ -87,7 +87,7 @@ trait Item
      *
      * @return Item
      */
-    public function setPosition($position, $articleNumber, $numberType = 'MF')
+    public function setPosition($position, $articleNumber, $numberType = 'EN')
     {
         $this->position = [
             'LIN',
@@ -145,7 +145,7 @@ trait Item
      *
      * @return Item
      */
-    public function setQuantity($quantity, $unit = 'PCE', $qualifier = '21')
+    public function setQuantity($quantity, $qualifier = '21', $unit = 'PCE')
     {
         $this->isAllowed(
             $unit,
@@ -175,8 +175,7 @@ trait Item
             'QTY',
             [
                 (string)$qualifier,
-                (string)$quantity,
-                $unit,
+                (string)$quantity
             ],
         ];
 
@@ -320,7 +319,7 @@ trait Item
      */
     public function setOrderNumberWholesaler($orderNumberWholesaler)
     {
-        $this->orderNumberWholesaler = $this->addRFFSegment('VN', $orderNumberWholesaler);
+        $this->orderNumberWholesaler = $this->addRFFSegment('ON', $orderNumberWholesaler);
 
         return $this;
     }

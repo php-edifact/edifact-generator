@@ -17,12 +17,11 @@ class EdiFactNumber
      * @param string $format
      * @return string
      */
-    public static function convert($value, $decimals = 2, $format = self::DECIMAL_COMMA)
+    public static function convert($value, $decimals = 2, $format = self::DECIMAL_POINT)
     {
         if (!is_numeric($value)) {
             $value = floatval(str_replace(',', '.', $value));
         }
-
         return number_format($value, $decimals, $format, '');
     }
 }

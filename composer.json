@@ -1,5 +1,5 @@
 {
-    "name": "php-edifact/edifact-generator",
+    "name": "skiram/edifact-generator",
     "description": "EDIFACT message generators",
     "keywords": ["EDI", "EDIFACT", "message", "generator"],
     "homepage": "https://github.com/php-edifact/edifact-generator",

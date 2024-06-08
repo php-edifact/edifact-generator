@@ -75,9 +75,6 @@ class Message extends Base
             $aComposed[] = $i;
         }
 
-        // Message Trailer
-        $aComposed[] = ['UNT', (string)(2 + count($this->messageContent)), $this->messageID];
-
         $this->composed = $aComposed;
 
         return $this;

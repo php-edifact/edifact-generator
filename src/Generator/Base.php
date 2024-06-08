@@ -167,12 +167,8 @@ class Base
     {
         return [
             'BGM',
-            [
-                $type,
-                '',
-                '89',
-            ],
-            $documentNumber,
+            $type,
+            $documentNumber
         ];
     }
 
@@ -225,9 +221,10 @@ class Base
         return [
             'MOA',
             [
-                '',
                 (string)$qualifier,
                 EdiFactNumber::convert($value),
+                'EUR',
+                4
             ],
         ];
     }

@@ -176,12 +176,12 @@ trait NameAndAddress
             [
                 self::maxChars($sender),
                 '',
-                $managingOrganisation,
+                '9',
             ],
             '',
-            $name,
-            str_split($street, 35),
-            str_split($city, 35),
+            $managingOrganisation,
+            str_split($street, 300),
+            str_split($city, 100),
             [
                 '',
             ],
@@ -216,28 +216,19 @@ trait NameAndAddress
      * @return $this
      */
     public function setBuyerAddress(
-        $name1,
-        $name2 = '',
-        $name3 = '',
-        $street = '',
-        $zipCode = '',
-        $city = '',
-        $countryCode = 'DE',
-        $managingOrganisation = 'ZZZ',
-        $sender = null
+        $sender = null,
+        $numberType = 9
     ) {
-        $this->buyerAddress = $this->addNameAndAddress(
-            $name1,
-            $name2,
-            $name3,
-            $street,
-            $zipCode,
-            $city,
-            $countryCode,
-            $managingOrganisation,
+        $this->buyerAddress =         [
+            'NAD',
             'BY',
-            $sender ?? ''
-        );
+            [
+                self::maxChars($sender),
+                '',
+                $numberType
+            ],
+
+        ];
 
         return $this;
     }
@@ -271,7 +262,7 @@ trait NameAndAddress
         $zipCode = '',
         $city = '',
         $countryCode = 'DE',
-        $managingOrganisation = 'ZZZ',
+        $managingOrganisation = '',
         $sender = null
     ) {
         $this->consigneeAddress = $this->addNameAndAddress(
@@ -319,7 +310,7 @@ trait NameAndAddress
         $zipCode = '',
         $city = '',
         $countryCode = 'DE',
-        $managingOrganisation = 'ZZZ',
+        $managingOrganisation = '',
         $sender = null
     ) {
         $this->deliveryPartyAddress = $this->addNameAndAddress(
@@ -367,7 +358,7 @@ trait NameAndAddress
         $zipCode = '',
         $city = '',
         $countryCode = 'DE',
-        $managingOrganisation = 'ZZZ',
+        $managingOrganisation = '',
         $sender = null
     ) {
         $this->messageRecipientAddress = $this->addNameAndAddress(
@@ -415,7 +406,7 @@ trait NameAndAddress
         $zipCode = '',
         $city = '',
         $countryCode = 'DE',
-        $managingOrganisation = 'ZZZ',
+        $managingOrganisation = '',
         $sender = null
     ) {
         $this->documentMessageSenderAddress = $this->addNameAndAddress(
@@ -463,7 +454,7 @@ trait NameAndAddress
         $zipCode = '',
         $city = '',
         $countryCode = 'DE',
-        $managingOrganisation = 'ZZZ',
+        $managingOrganisation = '',
         $sender = null
     ) {
         $this->storeKeeperAddress = $this->addNameAndAddress(
@@ -511,7 +502,7 @@ trait NameAndAddress
         $zipCode = '',
         $city = '',
         $countryCode = 'DE',
-        $managingOrganisation = 'ZZZ',
+        $managingOrganisation = '',
         $sender = null
     ) {
         $this->supplierAddress = $this->addNameAndAddress(
@@ -552,14 +543,14 @@ trait NameAndAddress
      * @return $this
      */
     public function setManufacturerAddress(
-        $name1,
+        $name1 = '',
         $name2 = '',
         $name3 = '',
         $street = '',
         $zipCode = '',
         $city = '',
         $countryCode = 'DE',
-        $managingOrganisation = 'ZZZ',
+        $managingOrganisation = '',
         $sender = null
     ) {
         $this->manufacturerAddress = $this->addNameAndAddress(
@@ -602,28 +593,16 @@ trait NameAndAddress
      * @return $this
      */
     public function setWholesalerAddress(
-        $name1,
-        $name2 = '',
-        $name3 = '',
-        $street = '',
-        $zipCode = '',
-        $city = '',
-        $countryCode = 'DE',
-        $managingOrganisation = 'ZZZ',
         $sender = null
     ) {
-        $this->wholesalerAddress = $this->addNameAndAddress(
-            $name1,
-            $name2,
-            $name3,
-            $street,
-            $zipCode,
-            $city,
-            $countryCode,
-            $managingOrganisation,
-            'WS',
-            $sender
-        );
+        $this->wholesalerAddress =   [
+            'NAD',
+            'WH',
+            [
+                self::maxChars($sender),
+            ],
+
+        ];
         return $this;
     }
 
@@ -656,7 +635,7 @@ trait NameAndAddress
         $zipCode = '',
         $city = '',
         $countryCode = 'DE',
-        $managingOrganisation = 'ZZZ',
+        $managingOrganisation = '',
         $sender = null
     ) {
         $this->deliveryAddress = $this->addNameAndAddress(
@@ -668,7 +647,26 @@ trait NameAndAddress
             $city,
             $countryCode,
             $managingOrganisation,
-            'ST',
+            'DP',
+            $sender
+        );
+        return $this;
+    }
+
+    public function setBuginAddress(
+        $countryCode = 'DE',
+        $sender = null
+    ) {
+        $this->deliveryAddress = $this->addNameAndAddress(
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            $countryCode,
+            null,
+            'BY',
             $sender
         );
         return $this;
@@ -687,14 +685,15 @@ trait NameAndAddress
      * @return $this
      */
     public function setInvoiceAddress(
-        $name1,
+        $name1 = '',
         $name2 = '',
         $name3 = '',
         $street = '',
         $zipCode = '',
         $city = '',
         $countryCode = 'DE',
-        $managingOrganisation = 'ZZZ'
+        $managingOrganisation = '',
+        $sender
     ) {
         $this->invoiceAddress = $this->addNameAndAddress(
             $name1,
@@ -705,7 +704,8 @@ trait NameAndAddress
             $city,
             $countryCode,
             $managingOrganisation,
-            'IV'
+            'IV',
+            $sender
         );
         return $this;
     }

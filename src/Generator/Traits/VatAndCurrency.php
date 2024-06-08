@@ -14,6 +14,16 @@ trait VatAndCurrency
     /** @var array */
     protected $vatNumber;
 
+    /**
+     * @var string
+     */
+    protected $vatNumberAmz;
+
+    /**
+     * @var string
+     */
+    protected $paymentTerms;
+
     /** @var array */
     protected $currency;
 
@@ -29,6 +39,14 @@ trait VatAndCurrency
     }
 
     /**
+     * @return string
+     */
+    public function getVatNumberAmz()
+    {
+        return $this->vatNumberAmz;
+    }
+
+    /**
      * @param string $vatNumber
      *
      * @return $this
@@ -40,6 +58,17 @@ trait VatAndCurrency
         return $this;
     }
 
+    /**
+     * @param string $vatNumber
+     *
+     * @return $this
+     */
+    public function setVatNumberAmz($vatNumber)
+    {
+        $this->vatNumberAmz = self::addRFFSegment('VA', str_replace(' ', '', $vatNumber));
+
+        return $this;
+    }
     /**
      * @return array
      */
@@ -60,7 +89,7 @@ trait VatAndCurrency
             [
                 '2',
                 $currency,
-                $qualifier
+                '4'
             ]
         ];
 
@@ -138,6 +167,34 @@ trait VatAndCurrency
     public function setExcludingVatText($excludingVatText)
     {
         $this->excludingVatText = self::addFTXSegment($excludingVatText, 'OSI', 'ROU');
+
+        return $this;
+    }
+
+
+    public function getPaymentTerms()
+    {
+        return $this->paymentTerms;
+    }
+
+    /**
+     * @param string $vatNumber
+     *
+     * @return $this
+     */
+    public function setPaymentTerms($type, $day = 60)
+    {
+        $this->paymentTerms = [
+            'PAT',
+            $type,
+            '',
+            [
+                '5',
+                '',
+                'D',
+                $day
+            ]
+        ];
 
         return $this;
     }

@@ -103,7 +103,9 @@ class Interchange
                 $temp[] = $i;
             }
         }
-        $temp[] = ['UNZ', (string)count($this->messages), $this->interchangeCode];
+        $code = explode('+', $this->interchangeCode);
+        $temp[] = ['UNT', (string)count($temp), 1];
+        $temp[] = ['UNZ', (string)count($this->messages), $code[0] ?? 2];
         $this->composed = $temp;
 
         return $this;

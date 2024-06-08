@@ -27,6 +27,20 @@ class Item extends Base
     /** @var int */
     protected $discountIndex = 0;
 
+    /**
+     * @var string
+     */
+    protected $rowTotal;
+
+    /**
+     * @var string
+     */
+    protected $rowTax;
+
+    /**
+     * @var string
+     */
+    protected $rowPO;
 
     /**
      * @return array
@@ -63,9 +77,7 @@ class Item extends Base
             [
                 $qualifier,
                 EdiFactNumber::convert($value),
-                '',
-                '',
-                (string)$priceBase,
+                $priceBase,
                 $priceBaseUnit
             ]
         ];
@@ -104,7 +116,7 @@ class Item extends Base
      */
     public function setNetPrice($netPrice)
     {
-        $this->netPrice = self::addPRISegment('NTP', $netPrice);
+        $this->netPrice = self::addPRISegment('AAA', $netPrice, 'CT','NTP');
         $this->addKeyToCompose('netPrice');
         return $this;
     }
@@ -116,18 +128,6 @@ class Item extends Base
      */
     public function addDiscount($value, $discountType = self::DISCOUNT_TYPE_PERCENT)
     {
-        $index = 'discount' . $this->discountIndex++;
-        $this->{$index} = [
-            'ALC',
-            '',
-            floatval($value) > 0 ? 'C' : 'A',
-            '',
-            '',
-            '',
-            'SF',
-        ];
-        $this->addKeyToCompose($index);
-
         if ($discountType == self::DISCOUNT_TYPE_PERCENT) {
             $index = 'discount' . $this->discountIndex++;
             $this->{$index} = [
@@ -146,5 +146,70 @@ class Item extends Base
         $this->addKeyToCompose($index);
 
         return $this;
+    }
+
+
+    public function setRowTotal($qualifier, $price) {
+        $this->rowTotal = [
+            'MOA',
+            [
+                $qualifier,
+                EdiFactNumber::convert($price),
+                'EUR',
+                '4'
+            ]
+        ];
+        $this->addKeyToCompose('rowTotal');
+
+        return $this;
+    }
+
+    public function getRowTotal()
+    {
+        return $this->rowTotal;
+    }
+
+    public function setRowTax($price) {
+        $this->rowTax = [
+            'TAX',
+            7,
+            'VAT',
+            '',
+            '',
+            [
+                '',
+                '',
+                '',
+                EdiFactNumber::convert($price, 0)
+            ],
+        ];
+
+        $this->addKeyToCompose('rowTax');
+
+        return $this;
+    }
+
+    public function getRowTax()
+    {
+        return $this->rowTax;
+    }
+
+    public function setRowPO($po) {
+        $this->rowPO = [
+            'RFF',
+            [
+                'ON',
+                self::maxChars($po, 35),
+            ],
+        ];
+
+        $this->addKeyToCompose('rowPO');
+
+        return $this;
+    }
+
+    public function getRowPO()
+    {
+        return $this->rowPO;
     }
 }
