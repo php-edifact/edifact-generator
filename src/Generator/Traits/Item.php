@@ -9,6 +9,7 @@ use EDI\Generator\EdifactDate;
  *
  * @package EDI\Generator\Traits
  */
+#[\AllowDynamicProperties]
 trait Item
 {
     /** @var array */
