@@ -11,6 +11,7 @@ use EDI\Generator\Traits\Item as ItemTrait;
  * Class Item
  * @package EDI\Generator\Invoic
  */
+#[\AllowDynamicProperties]
 class Item extends Base
 {
     use ItemTrait;

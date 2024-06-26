@@ -694,7 +694,8 @@ trait NameAndAddress
         $zipCode = '',
         $city = '',
         $countryCode = 'DE',
-        $managingOrganisation = 'ZZZ'
+        $managingOrganisation = 'ZZZ',
+        $sender = null
     ) {
         $this->invoiceAddress = $this->addNameAndAddress(
             $name1,
@@ -705,7 +706,8 @@ trait NameAndAddress
             $city,
             $countryCode,
             $managingOrganisation,
-            'IV'
+            'IV',
+            $sender ?? ''
         );
         return $this;
     }
