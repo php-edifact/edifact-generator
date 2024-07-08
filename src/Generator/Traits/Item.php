@@ -55,13 +55,14 @@ trait Item
         = [
             'position',
             'additionalProductId',
+            'additionalText',
             'quantity',
             'deliveryNoteDate',
             'orderNumberWholesaler',
-            'orderDate',
             'orderPosition',
             'deliveryNoteNumber',
             'deliveryNotePosition',
+            'orderDate',
         ];
 
     /**
