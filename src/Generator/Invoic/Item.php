@@ -120,7 +120,6 @@ class Item extends Base
         $index = 'discount' . $this->discountIndex++;
         $this->{$index} = [
             'ALC',
-            '',
             floatval($value) > 0 ? 'C' : 'A',
             '',
             '',
