@@ -78,6 +78,16 @@ class Iftmin extends Message
     }
 
     /**
+     * @param $date
+     * @return $this
+     */
+    public function setDeliveryDate($date)
+    {
+        $this->deliveryDate = self::dtmSegment(2, $date);
+        return $this;
+    }
+
+    /**
      * $currency ISO 4217-3
      * @param $price
      * @param $currency
@@ -202,23 +212,46 @@ class Iftmin extends Message
         $this->messageContent[] = $this->messageSender;
         $this->messageContent[] = $this->messageSenderInformation;
         $this->messageContent[] = $this->dtmSend;
-        $this->messageContent[] = $this->pickupDate[0];
-        $this->messageContent[] = $this->pickupDate[1];
-        $this->messageContent[] = $this->deliveryDate[0];
-        $this->messageContent[] = $this->deliveryDate[1];
-        $this->messageContent[] = $this->agreedAmount;
-        $this->messageContent[] = $this->freeTextInstructions;
-        $this->messageContent[] = $this->weight;
-        $this->messageContent[] = $this->cargoNature;
-        $this->messageContent[] = $this->transportOrderNumber;
-        $this->messageContent[] = $this->booking;
+        if (isset($this->pickupDate)) {
+            $this->messageContent[] = $this->pickupDate[0];
+            $this->messageContent[] = $this->pickupDate[1];
+        }
+        if (isset($this->deliveryDate)) {
+            if (count($this->deliveryDate) > 2) {
+                $this->messageContent[] = $this->deliveryDate[0];
+                $this->messageContent[] = $this->deliveryDate[1];
+            } else {
+                $this->messageContent[] = $this->deliveryDate;
+            }
+        }
+        if ($this->agreedAmount !== null) {
+            $this->messageContent[] = $this->agreedAmount;
+        }
+        if ($this->freeTextInstructions !== null) {
+            $this->messageContent[] = $this->freeTextInstructions;
+        }
+        if ($this->weight !== null) {
+            $this->messageContent[] = $this->weight;
+        }
+        if ($this->cargoNature !== null) {
+            $this->messageContent[] = $this->cargoNature;
+        }
+        if ($this->transportOrderNumber !== null) {
+            $this->messageContent[] = $this->transportOrderNumber;
+        }
+        if ($this->booking !== null) {
+            $this->messageContent[] = $this->booking;
+        }
         if ($this->bookingSequence !== null) {
             $this->messageContent[] = $this->bookingSequence;
         }
-        $this->messageContent[] = $this->vessel;
+        if ($this->vessel !== null) {
+            $this->messageContent[] = $this->vessel;
 
-        $this->messageContent[] = $this->weightKg;
-
+        }
+        if ($this->weightKg !== null) {
+            $this->messageContent[] = $this->weightKg;
+        }
         return parent::compose();
     }
 }
