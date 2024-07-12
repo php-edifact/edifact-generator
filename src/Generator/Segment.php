@@ -30,4 +30,14 @@ class Segment
     {
         $this->aComposed = $aComposed;
     }
+
+        /**
+     * Compose.
+     *
+     * @return self
+     */
+    public function compose(): self
+    {
+        return $this;
+    }
 }

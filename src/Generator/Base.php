@@ -22,7 +22,7 @@ class Base
     protected $receiver;
 
     /** @var string */
-//    protected $managingOrganisation = '89';
+    //    protected $managingOrganisation = '89';
 
     /**
      * @param $keyName
@@ -114,68 +114,6 @@ class Base
         return $this;
     }
 
-
-    /**
-     * @param string, $functionCode
-     * @param $identifier
-     *
-     * @return array|bool
-     */
-    protected function addRFFSegment($functionCode, $identifier)
-    {
-        if (empty($identifier)) {
-            return false;
-        }
-
-        return [
-            'RFF',
-            [
-                $functionCode,
-                self::maxChars($identifier, 35),
-            ],
-        ];
-    }
-
-    /**
-     * @param string|\DateTime $date
-     * @param string $type
-     * @param int $formatQualifier
-     *
-     * @return array
-     * @throws EdifactException
-     * @see http://www.unece.org/trade/untdid/d96a/trsd/trsddtm.htm
-     */
-    protected function addDTMSegment($date, $type, $formatQualifier = EdifactDate::DATE)
-    {
-        $data = [];
-        $data[] = (string)$type;
-        if (!empty($date)) {
-            $data[] = EdifactDate::get($date, $formatQualifier);
-            $data[] = (string)$formatQualifier;
-        }
-
-        return ['DTM', $data];
-    }
-
-    /**
-     * @param $documentNumber
-     * @param $type
-     *
-     * @return array
-     */
-    public static function addBGMSegment($documentNumber, $type)
-    {
-        return [
-            'BGM',
-            [
-                $type,
-                '',
-                '89',
-            ],
-            $documentNumber,
-        ];
-    }
-
     /**
      * Crop String to max char length
      *
@@ -213,6 +151,70 @@ class Base
         }
     }
 
+    /**
+     * SEGMENT UTILITIES
+     */
+
+    /**
+     * @param string, $functionCode
+     * @param $identifier
+     *
+     * @return array|bool
+     */
+    protected function addRFFSegment($functionCode, $identifier)
+    {
+        if (empty($identifier)) {
+            return false;
+        }
+
+        return [
+            'RFF',
+            [
+                $functionCode,
+                self::maxChars($identifier, 35),
+            ],
+        ];
+    }
+
+    /**
+     * @param string|\DateTime $date
+     * @param string $type
+     * @param int $formatQualifier
+     *
+     * @return array
+     * @throws EdifactException
+     * @see http://www.unece.org/trade/untdid/d96a/trsd/trsddtm.htm
+     */
+    protected function addDTMSegment($date, $type, $formatQualifier = EdifactDate::DATE)
+    {
+        $data = [];
+        $data[] = (string) $type;
+        if (!empty($date)) {
+            $data[] = EdifactDate::get($date, $formatQualifier);
+            $data[] = (string) $formatQualifier;
+        }
+
+        return ['DTM', $data];
+    }
+
+    /**
+     * @param $documentNumber
+     * @param $type
+     *
+     * @return array
+     */
+    public static function addBGMSegment($documentNumber, $type)
+    {
+        return [
+            'BGM',
+            [
+                $type,
+                '',
+                '89',
+            ],
+            $documentNumber,
+        ];
+    }
 
     /**
      * @param $qualifier
@@ -226,7 +228,7 @@ class Base
             'MOA',
             [
                 '',
-                (string)$qualifier,
+                (string) $qualifier,
                 EdiFactNumber::convert($value),
             ],
         ];

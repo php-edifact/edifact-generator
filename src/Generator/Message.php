@@ -43,11 +43,23 @@ class Message extends Base
         } else {
             $this->messageID = $messageID;
         }
+
+        $this->messageContent = [];
     }
 
     public function setMessageContent($messageContent)
     {
         $this->messageContent = $messageContent;
+        return $this;
+    }
+
+    public function addSegment($segment)
+    {
+        if ($segment instanceof \EDI\Generator\Segment) {
+            $segment = $segment->compose()->getComposed();
+        }
+        $this->messageContent[] = $segment;
+        return $this;
     }
 
     public function getMessageID()
@@ -94,7 +106,7 @@ class Message extends Base
      */
     public static function dtmSegment($type, $dtmString, $format = 203)
     {
-        return ['DTM', [$type, $dtmString, $format]];
+        return self::addDTMSegment($dtmString, $type, $format);
     }
 
     /**
@@ -107,7 +119,7 @@ class Message extends Base
      */
     public static function rffSegment($functionCode, $identifier)
     {
-        return ['RFF', [$functionCode, $identifier]];
+        return self::addRFFSegment($functionCode, $identifier);
     }
 
     /**
@@ -117,7 +129,7 @@ class Message extends Base
      * $secondaryLoc = preferred [locode, 139, 6] (if needed)
      * @param $qualifier
      * @param $firstLoc
-     *@param $secondaryLoc
+     * @param $secondaryLoc
      * @return array
      */
     public static function locSegment($qualifier, $firstLoc, $secondaryLoc = null)
