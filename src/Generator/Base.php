@@ -161,7 +161,7 @@ class Base
      *
      * @return array|bool
      */
-    protected function addRFFSegment($functionCode, $identifier)
+    protected static function addRFFSegment($functionCode, $identifier)
     {
         if (empty($identifier)) {
             return false;
@@ -185,7 +185,7 @@ class Base
      * @throws EdifactException
      * @see http://www.unece.org/trade/untdid/d96a/trsd/trsddtm.htm
      */
-    protected function addDTMSegment($date, $type, $formatQualifier = EdifactDate::DATE)
+    protected static function addDTMSegment($date, $type, $formatQualifier = EdifactDate::DATE)
     {
         $data = [];
         $data[] = (string) $type;
