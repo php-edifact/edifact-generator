@@ -157,10 +157,6 @@ trait NameAndAddress
         $type,
         $sender = ''
     ) {
-        if ($sender === null) {
-            $sender = $this->sender;
-        }
-
         $name = [
             self::maxChars($name1),
         ];
@@ -174,7 +170,7 @@ trait NameAndAddress
             'NAD',
             $type,
             [
-                self::maxChars($sender),
+                self::maxChars($sender ?? ''),
                 '',
                 $managingOrganisation,
             ],

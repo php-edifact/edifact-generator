@@ -15,8 +15,8 @@
         "codestyle:lint": "vendor/bin/php-cs-fixer fix --dry-run"
     },
     "require-dev": {
-        "sabas/edifact": "^0.4.1",
-        "phpunit/phpunit": "~8.0",
+        "sabas/edifact": "^1.0",
+        "phpunit/phpunit": "~11.0",
         "friendsofphp/php-cs-fixer": "^3.9.5"
     }
 }

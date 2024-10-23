@@ -11,3 +11,4 @@
 /phpunit.gitlab.xml   export-ignore
 /gitlab-test-mysql.sh  export-ignore
 /.gitlab-ci.yml        export-ignore
+codeCoverage/

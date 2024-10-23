@@ -65,13 +65,18 @@ class Interchange
         return $this;
     }
 
+    /**
+     * Set the application reference
+     * $appref Application reference
+     * @param $appref
+     * @return $this
+     */
     public function setApplicationReference($appref)
     {
         $this->appref = $appref;
 
         return $this;
     }
-
 
     /**
      * Add a Message to the Interchange
@@ -86,6 +91,15 @@ class Interchange
     }
 
     /**
+     * Return the messages array
+     * @return array
+     */
+    public function getMessages()
+    {
+        return $this->messages;
+    }
+
+    /**
      * Format the Interchange segments
      * @return $this
      */
@@ -94,12 +108,17 @@ class Interchange
         $temp = [];
         $unb = ['UNB', $this->charset, $this->sender, $this->receiver, [$this->date, $this->time], $this->interchangeCode];
         if ($this->appref !== null) {
+            $unb[] = '';
             $unb[] = $this->appref;
         }
 
         $temp[] = $unb;
         foreach ($this->messages as $msg) {
-            foreach ($msg->getComposed() as $i) {
+            $msgContent = $msg->getComposed();
+            if ($msgContent === null) {
+                $msgContent = $msg->compose()->getComposed();
+            }
+            foreach ($msgContent as $i) {
                 $temp[] = $i;
             }
         }

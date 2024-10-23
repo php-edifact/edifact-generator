@@ -2,6 +2,8 @@
 
 namespace EDI\Generator;
 
+use EDI\Generator\Traits\Segments;
+
 /**
  * Class Base
  *
@@ -9,17 +11,13 @@ namespace EDI\Generator;
  */
 class Base
 {
+    use Segments;
+
     /** @var array */
     protected $messageContent = [];
 
     /** @var array */
     protected $composed;
-
-    /** @var string */
-    protected $sender;
-
-    /** @var string */
-    protected $receiver;
 
     /** @var string */
     //    protected $managingOrganisation = '89';
@@ -33,7 +31,7 @@ class Base
     }
 
     /**
-     * compose message by keys givven in an ordered array
+     * compose message by keys given in an ordered array
      *
      * @param array $keys
      *
@@ -75,46 +73,6 @@ class Base
     }
 
     /**
-     * @return string
-     */
-    public function getSender()
-    {
-        return $this->sender;
-    }
-
-    /**
-     * @param string $sender
-     *
-     * @return $this
-     */
-    public function setSender($sender)
-    {
-        $this->sender = $sender;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getReceiver()
-    {
-        return $this->receiver;
-    }
-
-    /**
-     * @param string $receiver
-     *
-     * @return $this
-     */
-    public function setReceiver($receiver)
-    {
-        $this->receiver = $receiver;
-
-        return $this;
-    }
-
-    /**
      * Crop String to max char length
      *
      * @param string $string
@@ -151,86 +109,4 @@ class Base
         }
     }
 
-    /**
-     * SEGMENT UTILITIES
-     */
-
-    /**
-     * @param string, $functionCode
-     * @param $identifier
-     *
-     * @return array|bool
-     */
-    protected static function addRFFSegment($functionCode, $identifier)
-    {
-        if (empty($identifier)) {
-            return false;
-        }
-
-        return [
-            'RFF',
-            [
-                $functionCode,
-                self::maxChars($identifier, 35),
-            ],
-        ];
-    }
-
-    /**
-     * @param string|\DateTime $date
-     * @param string $type
-     * @param int $formatQualifier
-     *
-     * @return array
-     * @throws EdifactException
-     * @see http://www.unece.org/trade/untdid/d96a/trsd/trsddtm.htm
-     */
-    protected static function addDTMSegment($date, $type, $formatQualifier = EdifactDate::DATE)
-    {
-        $data = [];
-        $data[] = (string) $type;
-        if (!empty($date)) {
-            $data[] = EdifactDate::get($date, $formatQualifier);
-            $data[] = (string) $formatQualifier;
-        }
-
-        return ['DTM', $data];
-    }
-
-    /**
-     * @param $documentNumber
-     * @param $type
-     *
-     * @return array
-     */
-    public static function addBGMSegment($documentNumber, $type)
-    {
-        return [
-            'BGM',
-            [
-                $type,
-                '',
-                '89',
-            ],
-            $documentNumber,
-        ];
-    }
-
-    /**
-     * @param $qualifier
-     * @param $value
-     *
-     * @return array
-     */
-    public static function addMOASegment($qualifier, $value)
-    {
-        return [
-            'MOA',
-            [
-                '',
-                (string) $qualifier,
-                EdiFactNumber::convert($value),
-            ],
-        ];
-    }
 }

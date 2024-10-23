@@ -126,8 +126,6 @@ final class DesadvTest extends TestCase
 
         try {
             $desadv = (new Desadv())
-                ->setSender('UNB-Identifier-Sender')
-                ->setReceiver('GC-Gruppe')
                 ->setDeliveryNoteNumber(Desadv::DELIVER_NOTE, 'LS123456789')
                 ->setDeliveryNoteDate($this->getDateTime())
                 ->setDeliveryDate($this->getDateTime())
