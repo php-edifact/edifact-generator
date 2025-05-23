@@ -2,7 +2,7 @@
 namespace EDI\Generator\Traits;
 
 use EDI\Generator\EdiFactNumber;
-use EDI\Generator\EdiFactDate;
+use EDI\Generator\EdifactDate;
 
 trait Segments
 {
