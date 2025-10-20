@@ -199,8 +199,8 @@ class Container
     /**
      * @param $hazardClass
      * @param $hazardCode
-     *@param $flashpoint
-     *@param $packingGroup
+     * @param $flashpoint
+     * @param $packingGroup
      * @return $this
      */
     public function addDangerous($hazardClass, $hazardCode, $flashpoint = null, $packingGroup = null)
@@ -257,7 +257,7 @@ class Container
      */
     public function setOverDimensions($front = '', $back = '', $right = '', $left = '', $height = '')
     {
-        $this->dim = [];
+        $this->dimensions = [];
         if ($front !== '') {
             $this->dimensions[] = ['DIM', '5', ['CMT', $front]];
         }
