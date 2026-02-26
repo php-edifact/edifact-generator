@@ -166,7 +166,8 @@ trait NameAndAddress
         if ($name3) {
             $name[] = self::maxChars($name3);
         }
-        return [
+
+        $segment = [
             'NAD',
             $type,
             [
@@ -188,6 +189,44 @@ trait NameAndAddress
                 self::maxChars($countryCode, 2),
             ],
         ];
+
+        return $this->trimTrailingEmptyValues($segment);
+    }
+
+    /**
+     * @param array $segment
+     * @return array
+     */
+    private function trimTrailingEmptyValues($segment)
+    {
+        while (!empty($segment)) {
+            $last = end($segment);
+            if (!$this->isEmptyValue($last)) {
+                break;
+            }
+            array_pop($segment);
+        }
+
+        return $segment;
+    }
+
+    /**
+     * @param mixed $value
+     * @return bool
+     */
+    private function isEmptyValue($value)
+    {
+        if (is_array($value)) {
+            foreach ($value as $entry) {
+                if (!$this->isEmptyValue($entry)) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        return $value === '' || $value === null;
     }
 
     /**
