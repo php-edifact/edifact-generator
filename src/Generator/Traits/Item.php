@@ -42,8 +42,9 @@ trait Item
     /** @var array */
     protected $qli;
 
-    /** @var int */
-    protected $dynamicSegmentCounter = 0;
+    /** @var array */
+    protected $appendedSegments = [];
+
     /** @var array IMD ZU */
     protected $additionalText;
 
@@ -76,7 +77,13 @@ trait Item
      */
     public function compose()
     {
-        return $this->composeByKeys($this->composeKeys);
+        $content = $this->composeByKeys($this->composeKeys);
+
+        foreach ($this->appendedSegments as $segment) {
+            $content[] = $segment;
+        }
+
+        return $content;
     }
 
     /**
@@ -259,10 +266,7 @@ trait Item
      */
     private function addDynamicSegment($segment)
     {
-        $key = 'dynamicSegment' . (++$this->dynamicSegmentCounter);
-
-        $this->{$key} = $segment;
-        $this->addKeyToCompose($key);
+        $this->appendedSegments[] = $segment;
 
         return $this;
     }
@@ -378,11 +382,9 @@ trait Item
     private function splitTexts($varName, $text, $maxLength, $lineLength, $type = 'ZU')
     {
         $this->{$varName} = str_split(mb_substr($text, 0, $maxLength), $lineLength);
-        $nr = 0;
+
         foreach ($this->{$varName} as $line) {
-            $property = $varName . $nr++;
-            $this->{$property} = self::addIMDSegment($line, $type);
-            $this->addKeyToCompose($property);
+            $this->addDynamicSegment(self::addIMDSegment($line, $type));
         }
 
         return $this;
