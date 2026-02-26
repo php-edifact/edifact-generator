@@ -38,6 +38,12 @@ trait Item
     /** @var array */
     protected $deliveryNotePosition;
 
+
+    /** @var array */
+    protected $qli;
+
+    /** @var int */
+    protected $dynamicSegmentCounter = 0;
     /** @var array IMD ZU */
     protected $additionalText;
 
@@ -62,6 +68,7 @@ trait Item
             'orderPosition',
             'deliveryNoteNumber',
             'deliveryNotePosition',
+            'qli',
         ];
 
     /**
@@ -171,14 +178,91 @@ trait Item
             ]
         );
 
+        $qty = [
+            (string) $qualifier,
+            (string) $quantity,
+        ];
+
+        if ((string) $qualifier !== '1') {
+            $qty[] = $unit;
+        }
+
         $this->quantity = [
             'QTY',
-            [
-                (string)$qualifier,
-                (string)$quantity,
-                $unit,
-            ],
+            $qty,
         ];
+
+        return $this;
+    }
+
+    /**
+     * Add item information line (IMD).
+     *
+     * @param string $code
+     * @param string $information
+     * @return $this
+     */
+    public function addInformation($code, $information)
+    {
+        return $this->addDynamicSegment([
+            'IMD',
+            'L',
+            (string) $code,
+            [
+                '',
+                '',
+                '',
+                (string) $information,
+            ],
+        ]);
+    }
+
+    /**
+     * Add item details line (GIR).
+     *
+     * @param int $index
+     * @param string $lloLocationCode
+     * @param string $lfnPurchaseFundCode
+     * @param string $lcvDecimalPrice
+     * @param string|null $lsqFundCode
+     * @return $this
+     */
+    public function addGir($index, $lloLocationCode, $lfnPurchaseFundCode, $lcvDecimalPrice, $lsqFundCode = '')
+    {
+        return $this->addDynamicSegment([
+            'GIR',
+            str_pad((string) $index, 3, '0', STR_PAD_LEFT),
+            [
+                (string) $lloLocationCode,
+                'LLO',
+            ],
+            [
+                (string) ($lsqFundCode ?? ''),
+                'LSQ',
+            ],
+            [
+                (string) $lfnPurchaseFundCode,
+                'LFN',
+            ],
+            [
+                (string) $lcvDecimalPrice,
+                'LCV',
+            ],
+        ]);
+    }
+
+    /**
+     * Register a dynamic segment key while preserving insertion order.
+     *
+     * @param array $segment
+     * @return $this
+     */
+    private function addDynamicSegment($segment)
+    {
+        $key = 'dynamicSegment' . (++$this->dynamicSegmentCounter);
+
+        $this->{$key} = $segment;
+        $this->addKeyToCompose($key);
 
         return $this;
     }
@@ -365,6 +449,19 @@ trait Item
         return $this;
     }
 
+
+    /**
+     * Set quote/order line identifier.
+     *
+     * @param string $orderPosition
+     * @return $this
+     */
+    public function setQli($orderPosition)
+    {
+        $this->qli = $this->addRFFSegment('QLI', $orderPosition);
+
+        return $this;
+    }
     /**
      * @return array
      */

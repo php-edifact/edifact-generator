@@ -60,6 +60,9 @@ class Orders extends Message
     protected $objectDescription1;
 
     /** @var array */
+    protected $customIdentifier;
+
+    /** @var array */
     protected $objectDescription2;
 
     /** @var array */
@@ -99,6 +102,7 @@ class Orders extends Message
         'objectNumber',
         'objectDescription1',
         'objectDescription2',
+        'customIdentifier',
         'vatNumber',
         'currency',
         'manufacturerAddress',
@@ -219,13 +223,33 @@ class Orders extends Message
 
     /**
      * Order number without documentType validation
-     * @param $orderNumber
+     *
+     * If the document type is non-numeric (e.g. EANCOM style), use code-list agency 28.
+     *
+     * @param string $orderNumber
      * @param string $documentType
+     * @param string|null $documentTypeCodeListAgency
      * @return $this
      */
-    public function setCustomOrderNumber($orderNumber, $documentType = '220')
+    public function setCustomOrderNumber($orderNumber, $documentType = '220', $documentTypeCodeListAgency = null)
     {
+        if ($documentTypeCodeListAgency !== null || preg_match('/[A-Za-z]/', (string) $documentType) === 1) {
+            $this->orderNumber = [
+                'BGM',
+                [
+                    (string) $documentType,
+                    '',
+                    (string) ($documentTypeCodeListAgency ?? '28'),
+                ],
+                (string) $orderNumber,
+                '9',
+            ];
+
+            return $this;
+        }
+
         $this->orderNumber = ['BGM', $documentType, $orderNumber, '9'];
+
         return $this;
     }
 
@@ -439,6 +463,18 @@ class Orders extends Message
     public function setObjectNumber($objectNumber)
     {
         $this->objectNumber = $this->addRFFSegment('AEP', $objectNumber);
+        return $this;
+    }
+
+    /**
+     * set a custom identifier reference for qualifier ON
+     * @param string $customOrderIdentifier
+     * @return $this
+     */
+    public function setCustomIdentifier($customOrderIdentifier)
+    {
+        $this->customIdentifier = $this->addRFFSegment('ON', $customOrderIdentifier);
+
         return $this;
     }
 
