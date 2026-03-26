@@ -117,9 +117,8 @@ class Interchange
             $composedMessages[] = $msgContent;
         }
 
-        $applicationReference = $this->appref;
-        if ($applicationReference === null && isset($composedMessages[0][0][2][0])) {
-            $applicationReference = (string) $composedMessages[0][0][2][0];
+        if ($this->appref === null && isset($composedMessages[0][0][2][0])) {
+            $this->appref = (string) $composedMessages[0][0][2][0];
         }
 
         $unb = [
@@ -131,12 +130,8 @@ class Interchange
             $this->interchangeCode,
         ];
 
-        if ($applicationReference !== null && $applicationReference !== '') {
-            $unb[] = $applicationReference;
-            $unb[] = [];
-            $unb[] = [];
-            $unb[] = [];
-            $unb[] = [];
+        if ($this->appref !== null && $this->appref !== '') {
+            $unb[] = $this->appref;
         }
 
         $temp[] = $unb;

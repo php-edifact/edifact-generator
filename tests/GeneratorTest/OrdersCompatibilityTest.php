@@ -90,7 +90,7 @@ class OrdersCompatibilityTest extends TestCase
 
         $message = $this->encodeOrders($orders);
 
-        self::assertStringContainsString('+QUOTES++++\'UNH+', $message);
+        self::assertStringContainsString('+QUOTES\'UNH+', $message);
     }
 
     public function test_nad_segments_trim_trailing_empty_components_when_only_identifier_is_provided(): void
