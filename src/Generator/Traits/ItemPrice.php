@@ -17,6 +17,9 @@ trait ItemPrice
     /** @var array */
     protected $netPrice;
 
+    /** @var array */
+    protected $ourPrice;
+
     /**
      * @param $qualifier
      * @param $value
@@ -35,9 +38,9 @@ trait ItemPrice
                 EdiFactNumber::convert($value, $decimals, $format),
                 '',
                 '',
-                (string)$priceBase,
-                $priceBaseUnit
-            ]
+                (string) $priceBase,
+                $priceBaseUnit,
+            ],
         ];
     }
 
@@ -81,6 +84,27 @@ trait ItemPrice
     {
         $this->netPrice = self::addPRISegment('AAA', $netPrice, 1, 'PCE', $decimals, $format);
         $this->addKeyToCompose('netPrice');
+
+        return $this;
+    }
+
+    /**
+     * @param string $ourPrice
+     * @param string $format
+     * @param int $decimals
+     * @return $this
+     */
+    public function setOurPrice($ourPrice, $format = EdiFactNumber::DECIMAL_POINT, $decimals = 2)
+    {
+        $this->ourPrice = [
+            'PRI',
+            [
+                'AAE',
+                EdiFactNumber::convert($ourPrice, $decimals, $format),
+            ],
+        ];
+
+        $this->addKeyToCompose('ourPrice');
 
         return $this;
     }

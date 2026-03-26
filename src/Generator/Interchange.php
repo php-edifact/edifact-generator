@@ -106,23 +106,48 @@ class Interchange
     public function compose()
     {
         $temp = [];
-        $unb = ['UNB', $this->charset, $this->sender, $this->receiver, [$this->date, $this->time], $this->interchangeCode];
-        if ($this->appref !== null) {
-            $unb[] = '';
-            $unb[] = $this->appref;
-        }
+        $composedMessages = [];
 
-        $temp[] = $unb;
         foreach ($this->messages as $msg) {
             $msgContent = $msg->getComposed();
             if ($msgContent === null) {
                 $msgContent = $msg->compose()->getComposed();
             }
-            foreach ($msgContent as $i) {
-                $temp[] = $i;
+
+            $composedMessages[] = $msgContent;
+        }
+
+        $applicationReference = $this->appref;
+        if ($applicationReference === null && isset($composedMessages[0][0][2][0])) {
+            $applicationReference = (string) $composedMessages[0][0][2][0];
+        }
+
+        $unb = [
+            'UNB',
+            $this->charset,
+            $this->sender,
+            $this->receiver,
+            [$this->date, $this->time],
+            $this->interchangeCode,
+        ];
+
+        if ($applicationReference !== null && $applicationReference !== '') {
+            $unb[] = $applicationReference;
+            $unb[] = [];
+            $unb[] = [];
+            $unb[] = [];
+            $unb[] = [];
+        }
+
+        $temp[] = $unb;
+
+        foreach ($composedMessages as $msgContent) {
+            foreach ($msgContent as $entry) {
+                $temp[] = $entry;
             }
         }
-        $temp[] = ['UNZ', (string)count($this->messages), $this->interchangeCode];
+
+        $temp[] = ['UNZ', (string) count($this->messages), $this->interchangeCode];
         $this->composed = $temp;
 
         return $this;
