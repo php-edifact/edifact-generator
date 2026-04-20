@@ -116,12 +116,12 @@ class OrdrspTest extends TestCase {
                 'name three that is longer than 35 c',
             ],
             [
-                'street that is longer than 35 chara',
-                'cters'
+                'street that is longer than 35',
+                'characters'
             ],
             [
-                'city that is longer than 35 charact',
-                'ers'
+                'city that is longer than 35',
+                'characters'
             ],
             [
                 ''

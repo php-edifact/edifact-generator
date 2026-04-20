@@ -2,6 +2,8 @@
 
 namespace EDI\Generator\Traits;
 
+use EDI\Generator\Message;
+
 /**
  * Trait NameAndAddress
  *
@@ -131,8 +133,8 @@ trait NameAndAddress {
       $partyId,
       '',
       $name,
-      str_split(trim($street), 35),
-      str_split(trim($city), 35),
+      Message::splitTextOnWordBoundary(trim((string) $street), 35, 5),
+      Message::splitTextOnWordBoundary(trim((string) $city), 35, 5),
       [
         '',
       ],

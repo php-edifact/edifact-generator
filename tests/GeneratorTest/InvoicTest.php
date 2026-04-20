@@ -346,7 +346,7 @@ final class InvoicTest extends TestCase {
       $this->assertStringContainsString("TAX+7+VAT+++:::19,00'\nMOA+150:19,11", $message);
       $this->assertStringContainsString('ALC+C++++DL', $message);
       $this->assertStringContainsString('MOA+8:149,00', $message);
-      $this->assertStringContainsString('UNT+45', $message);
+      $this->assertStringContainsString('UNT+46', $message);
     } catch (EdifactException $e) {
       fwrite(STDOUT, "\n\nINVOICE\n" . $e->getMessage());
     }

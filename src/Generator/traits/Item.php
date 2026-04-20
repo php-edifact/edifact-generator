@@ -4,6 +4,7 @@ namespace EDI\Generator\Traits;
 
 use EDI\Generator\Base;
 use EDI\Generator\EdifactDate;
+use EDI\Generator\Message;
 
 
 /**
@@ -171,6 +172,7 @@ trait Item {
    * @return array
    */
   public static function addIMDSegment($description, $type = 'ZU', $organization = '') {
+    $components = Message::splitTextOnWordBoundary(trim((string) $description), 35, 2);
     $data =  [
       'IMD',
       '',
@@ -179,12 +181,11 @@ trait Item {
         $type,
         '',
         $organization,
-        substr(trim($description), 0, 35),
+        $components[0] ?? '',
       ],
     ];
-
-    if (strlen($description) > 35) {
-      $data[3][] = substr(trim($description), 35, 35);
+    if (isset($components[1])) {
+      $data[3][] = $components[1];
     }
 
     return $data;
@@ -266,7 +267,11 @@ trait Item {
    * @return $this
    */
   private function splitTexts($varName, $text, $maxLength, $lineLength, $type = 'ZU') {
-    $data = str_split(mb_substr($this->clearUTF8chars($text), 0, $maxLength), $lineLength);
+    $data = Message::splitTextOnWordBoundary(
+      $this->clearUTF8chars($text),
+      $lineLength,
+      (int) floor($maxLength / max($lineLength, 1))
+    );
     $prop = &$this->{$varName};
     foreach ($data as $line) {
       $segmentData = self::addIMDSegment($line, $type);

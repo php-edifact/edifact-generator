@@ -235,10 +235,7 @@ class Message extends Base {
    * @return array
    */
   public static function addFTXSegment($text, $qualifier, $reference = '') {
-    $textLines = str_split($text, 70);
-    if (count($textLines) > 5) {
-      $textLines = array_slice($textLines, 0, 5);
-    }
+    $textLines = self::splitTextOnWordBoundary($text, 70, 5);
     return [
       'FTX',
       $qualifier,
@@ -250,5 +247,55 @@ class Message extends Base {
       ],
       $textLines,
     ];
+  }
+
+  /**
+   * Split text into lines no longer than $lineLength characters,
+   * preferring whitespace boundaries. Single tokens longer than
+   * $lineLength are hard-cut so no text is silently dropped.
+   *
+   * UTF-8 safe: counts characters, not bytes, so multibyte characters
+   * (umlauts etc.) stay intact across line boundaries.
+   *
+   * @param string|null $text
+   * @param int         $lineLength  max characters per line (>0)
+   * @param int|null    $maxLines    optional cap on number of lines
+   *
+   * @return string[]
+   */
+  public static function splitTextOnWordBoundary($text, $lineLength, $maxLines = null) {
+    if ($text === null || $text === '' || $lineLength < 1) {
+      return [];
+    }
+    $lines  = [];
+    $buffer = '';
+    $tokens = preg_split('/(\s+)/u', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
+    foreach ($tokens as $token) {
+      if ($token === '') {
+        continue;
+      }
+      if (mb_strlen($buffer . $token) <= $lineLength) {
+        $buffer .= $token;
+        continue;
+      }
+      $flushed = rtrim($buffer);
+      if ($flushed !== '') {
+        $lines[] = $flushed;
+      }
+      $buffer = '';
+      while (mb_strlen($token) > $lineLength) {
+        $lines[] = mb_substr($token, 0, $lineLength);
+        $token   = mb_substr($token, $lineLength);
+      }
+      $buffer = ltrim($token);
+    }
+    $flushed = rtrim($buffer);
+    if ($flushed !== '') {
+      $lines[] = $flushed;
+    }
+    if ($maxLines !== null && count($lines) > $maxLines) {
+      $lines = array_slice($lines, 0, $maxLines);
+    }
+    return $lines;
   }
 }
