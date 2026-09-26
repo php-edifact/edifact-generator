@@ -61,4 +61,17 @@ class EdifactDateTest extends TestCase
             EdifactDate::parseFormat('2018-01-23 10:00', EdifactDate::DATETIME)
         );
     }
+
+    public function testShippingWeekUsesTheWeekYear()
+    {
+        // 30 December 2024 is a Monday in ISO week 1 of 2025.
+        $this->assertEquals(
+            '202501',
+            EdifactDate::get('2024-12-30', EdifactDate::SHIPPING_WEEK)
+        );
+        $this->assertEquals(
+            '202001',
+            EdifactDate::get('2020-01-01', EdifactDate::SHIPPING_WEEK)
+        );
+    }
 }
