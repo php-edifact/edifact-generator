@@ -16,7 +16,7 @@ class EdifactDate
     public const DATETIME_FORMAT = 'YmdHi';
 
     public const SHIPPING_WEEK = 616;
-    public const SHIPPING_WEEK_FORMAT = 'YW';
+    public const SHIPPING_WEEK_FORMAT = 'oW';
 
     public const SHIPPING_UNDEFINED = 999;
     public const SHIPPING_UNDEFINED_FORMAT = "";
